@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobsToPR — GTA Warehouse Jobs That Lead to Permanent Residency</title>
+<meta name="description" content="Punjabi and Hindi help for international students, work permit holders, and PGWP holders in the GTA. Find warehouse, forklift, and trades jobs that lead to PR.">
+<meta name="keywords" content="PR jobs Canada, warehouse jobs Toronto, forklift PR pathway, OINP, Express Entry, PGWP jobs, Punjabi immigration help, GTA warehouse">
+<meta property="og:title" content="JobsToPR — GTA Warehouse Jobs That Lead to PR">
+<meta property="og:description" content="Punjabi and Hindi help to turn your warehouse job into Permanent Residency.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jobstopr.me">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --navy: #0A1F44;
+  --navy-light: #142A55;
+  --navy-dark: #061533;
+  --gold: #D4AF37;
+  --gold-bright: #E5C158;
+  --gold-dark: #B8961F;
+  --white: #FFFFFF;
+  --cream: #FAF7F0;
+  --gray-light: #F4F4F4;
+  --gray-mid: #999999;
+  --gray-dark: #444444;
+  --text: #1A1A1A;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.serif { font-family: 'Playfair Display', serif; }
+
+/* ===== NAVIGATION ===== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10, 31, 68, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 100;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+.logo span { color: var(--white); }
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--white);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+.nav-cta {
+  background: var(--gold);
+  color: var(--navy);
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.nav-cta:hover {
+  background: var(--gold-bright);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+}
+
+/* ===== HERO ===== */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  color: var(--white);
+  padding: 8rem 1.5rem 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.hero h1 .accent {
+  color: var(--gold);
+  font-style: italic;
+  font-weight: 700;
+}
+
+.hero-tagline {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  max-width: 650px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.btn-primary {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.2s;
+  border: 2px solid var(--gold);
+}
+
+.btn-primary:hover {
+  background: var(--gold-bright);
+  border-color: var(--gold-bright);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+}
+
+.btn-secondary {
+  display: inline-block;
+  background: transparent;
+  color: var(--white);
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 700px;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  padding-top: 2rem;
+}
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 600px) {
+  .hero-stats { grid-template-columns: 1fr; gap: 1rem; }
+  .stat-num { font-size: 1.5rem; }
+}
+
+/* ===== SECTION SHARED ===== */
+.section {
+  padding: 5rem 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  color: var(--navy);
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--gray-dark);
+  max-width: 700px;
+  margin-bottom: 3rem;
+  line-height: 1.7;
+}
+
+/* ===== FREE GUIDE SECTION ===== */
+.guide-section {
+  background: var(--white);
+  padding: 5rem 1.5rem;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.guide-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.guide-cover {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-dark) 100%);
+  border: 2px solid var(--gold);
+  padding: 3rem 2rem;
+  text-align: center;
+  border-radius: 4px;
+  position: relative;
+  aspect-ratio: 8.5 / 11;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 20px 60px rgba(10, 31, 68, 0.2);
+  transform: rotate(-2deg);
+  transition: transform 0.3s;
+}
+
+.guide-cover:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+.guide-monogram {
+  width: 80px;
+  height: 80px;
+  border: 2px solid var(--gold);
+  border-radius: 4px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-weight: 900;
+  font-size: 1.8rem;
+  color: var(--gold);
+}
+
+.guide-cover-label {
+  color: var(--white);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  margin-bottom: 2rem;
+}
+
+.guide-cover-title {
+  font-family: 'Playfair Display', serif;
+  color: var(--white);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.guide-cover-sub {
+  color: var(--gold);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.guide-info h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  color: var(--navy);
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.guide-info ul {
+  list-style: none;
+  margin: 1.5rem 0 2rem;
+}
+
+.guide-info li {
+  padding: 0.6rem 0 0.6rem 1.8rem;
+  position: relative;
+  font-size: 1rem;
+  color: var(--gray-dark);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.guide-info li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.guide-info li:last-child { border-bottom: none; }
+
+@media (max-width: 768px) {
+  .guide-inner { grid-template-columns: 1fr; }
+  .guide-cover { transform: rotate(0deg); max-width: 320px; margin: 0 auto; }
+}
+
+/* ===== PRODUCTS SECTION ===== */
+.products-section {
+  background: var(--cream);
+  padding: 5rem 1.5rem;
+}
+
+.products-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.products-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: var(--white);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  padding: 2rem;
+  transition: all 0.3s;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(10, 31, 68, 0.1);
+  border-color: var(--gold);
+}
+
+.product-card.featured {
+  border: 2px solid var(--gold);
+  background: linear-gradient(180deg, var(--white) 0%, #FFFAEC 100%);
+}
+
+.product-badge {
+  position: absolute;
+  top: -10px;
+  right: 1.5rem;
+  background: var(--gold);
+  color: var(--navy);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+}
+
+.product-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.product-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: var(--gold-dark);
+  font-weight: 900;
+  margin: 0.5rem 0 1rem;
+  line-height: 1;
+}
+
+.product-price small {
+  font-size: 1rem;
+  color: var(--gray-mid);
+  font-weight: 400;
+}
+
+.product-desc {
+  color: var(--gray-dark);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  flex-grow: 1;
+}
+
+.product-features {
+  list-style: none;
+  margin-bottom: 1.5rem;
+}
+
+.product-features li {
+  font-size: 0.85rem;
+  color: var(--gray-dark);
+  padding: 0.3rem 0 0.3rem 1.2rem;
+  position: relative;
+}
+
+.product-features li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.product-btn {
+  display: block;
+  text-align: center;
+  background: var(--navy);
+  color: var(--white);
+  padding: 0.9rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  margin-top: auto;
+}
+
+.product-btn:hover {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.product-card.featured .product-btn {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.product-card.featured .product-btn:hover {
+  background: var(--gold-dark);
+  color: var(--white);
+}
+
+/* ===== ABOUT SECTION ===== */
+.about-section {
+  background: var(--navy);
+  color: var(--white);
+  padding: 5rem 1.5rem;
+}
+
+.about-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-section .section-eyebrow { color: var(--gold); }
+
+.about-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.about-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1.5rem;
+}
+
+.about-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  margin: 2.5rem auto;
+}
+
+.about-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.about-feature h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.about-feature p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+/* ===== FAQ SECTION ===== */
+.faq-section {
+  background: var(--white);
+  padding: 5rem 1.5rem;
+}
+
+.faq-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.faq-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 1.5rem 0;
+}
+
+.faq-question {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--navy);
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.faq-question::after {
+  content: '+';
+  color: var(--gold);
+  font-size: 1.5rem;
+  font-weight: 400;
+  transition: transform 0.3s;
+}
+
+.faq-item.open .faq-question::after {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  color: var(--gray-dark);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 500px;
+  padding-top: 1rem;
+}
+
+/* ===== CTA SECTION ===== */
+.final-cta {
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+  color: var(--white);
+  padding: 5rem 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.final-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(212, 175, 55, 0.03) 35px, rgba(212, 175, 55, 0.03) 70px);
+  pointer-events: none;
+}
+
+.final-cta-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.final-cta h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.final-cta h2 .accent { color: var(--gold); font-style: italic; }
+
+.final-cta p {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 2.5rem;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--navy-dark);
+  color: rgba(255, 255, 255, 0.7);
+  padding: 3rem 1.5rem 2rem;
+  font-size: 0.9rem;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.footer-brand h3 {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  font-weight: 900;
+}
+
+.footer-brand p {
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.footer-col h4 {
+  color: var(--white);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.footer-col ul { list-style: none; }
+
+.footer-col a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.85rem;
+  display: block;
+  padding: 0.3rem 0;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover { color: var(--gold); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+  padding-top: 1.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (max-width: 700px) {
+  .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-eyebrow, .hero h1, .hero-tagline, .hero-buttons, .hero-stats {
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+.hero h1 { animation-delay: 0.1s; opacity: 0; animation-fill-mode: forwards; }
+.hero-tagline { animation-delay: 0.2s; opacity: 0; animation-fill-mode: forwards; }
+.hero-buttons { animation-delay: 0.3s; opacity: 0; animation-fill-mode: forwards; }
+.hero-stats { animation-delay: 0.4s; opacity: 0; animation-fill-mode: forwards; }
+
+</style>
+</head>
+<body>
+
+<!-- ===== NAVIGATION ===== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo">JTP<span> · JobsToPR</span></div>
+    <ul class="nav-links">
+      <li><a href="#guide">Free Guide</a></li>
+      <li><a href="#products">Products</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#guide" class="nav-cta">Get Free Guide</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">For GTA Workers · Punjabi + Hindi Support</span>
+    <h1>From the Warehouse Floor<br>to <span class="accent">Permanent Residency.</span></h1>
+    <p class="hero-tagline">Real, practical guidance for international students, work permit holders, and PGWP holders working blue-collar jobs in the Greater Toronto Area. Find PR-eligible jobs. Tailor your resume. Understand your pathway.</p>
+    <div class="hero-buttons">
+      <a href="#guide" class="btn-primary">Get the Free PR Guide →</a>
+      <a href="#products" class="btn-secondary">See Paid Tools</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <span class="stat-num">3</span>
+        <span class="stat-label">PR Pathways Covered</span>
+      </div>
+      <div>
+        <span class="stat-num">10+</span>
+        <span class="stat-label">NOC Codes Mapped</span>
+      </div>
+      <div>
+        <span class="stat-num">30</span>
+        <span class="stat-label">Day Action Plan</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FREE GUIDE ===== -->
+<section class="guide-section" id="guide">
+  <div class="guide-inner">
+    <div class="guide-cover">
+      <div class="guide-monogram">JTP</div>
+      <div class="guide-cover-label">J O B S   T O   P R</div>
+      <div class="guide-cover-title">GTA Warehouse Worker's PR Pathway Guide</div>
+      <div class="guide-cover-sub">How to Turn Your Warehouse Job Into PR</div>
+    </div>
+    <div class="guide-info">
+      <div class="section-eyebrow">Free Download</div>
+      <h2>The Complete PR Pathway Guide for GTA Workers</h2>
+      <p style="color: var(--gray-dark); margin-bottom: 1rem;">A 7-page guide that gives you exactly what most workers don't know — which jobs actually qualify for PR, what your NOC code is, and a 30-day plan to start.</p>
+      <ul>
+        <li>3 PR pathways that work for blue-collar workers</li>
+        <li>NOC code lookup with TEER level breakdown</li>
+        <li>10 common warehouse and trades NOC codes</li>
+        <li>30-day action plan, week by week</li>
+        <li>7 mistakes that kill PR applications</li>
+      </ul>
+      <a href="#" class="btn-primary" id="getGuideBtn" onclick="openForm(); return false;">Download Free Guide →</a>
+      <p style="font-size: 0.8rem; color: var(--gray-mid); margin-top: 1rem;">No spam. Unsubscribe anytime. We never share your email.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRODUCTS ===== -->
+<section class="products-section" id="products">
+  <div class="products-inner">
+    <div class="products-header">
+      <div class="section-eyebrow">Paid Tools</div>
+      <h2 class="section-title">When You're Ready for More.</h2>
+      <p class="section-subtitle" style="margin: 0 auto 3rem;">Four tiers of help, from quick-start templates to full personalized strategy. Pick the one that fits your situation.</p>
+    </div>
+
+    <div class="products-grid">
+
+      <div class="product-card">
+        <div class="product-name">Mini Kit</div>
+        <div class="product-price">$9 <small>CAD</small></div>
+        <p class="product-desc">Quick-start essentials for self-starters who just need solid templates.</p>
+        <ul class="product-features">
+          <li>5 ATS-friendly resume templates</li>
+          <li>15 warehouse interview questions + answers</li>
+          <li>Instant download</li>
+        </ul>
+        <a href="#" class="product-btn">Get Mini Kit</a>
+      </div>
+
+      <div class="product-card featured">
+        <div class="product-badge">MOST POPULAR</div>
+        <div class="product-name">Starter Kit</div>
+        <div class="product-price">$29 <small>CAD</small></div>
+        <p class="product-desc">Everything you need to land a PR-eligible job in the GTA.</p>
+        <ul class="product-features">
+          <li>Everything in Mini Kit</li>
+          <li>Cover letter templates</li>
+          <li>Follow-up message scripts</li>
+          <li>NOC code matcher</li>
+          <li>30-day application plan</li>
+        </ul>
+        <a href="#" class="product-btn">Get Starter Kit</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-name">Premium Kit</div>
+        <div class="product-price">$49 <small>CAD</small></div>
+        <p class="product-desc">Starter Kit plus a resume personally tailored to your target NOC.</p>
+        <ul class="product-features">
+          <li>Everything in Starter Kit</li>
+          <li>1 resume tailored by us</li>
+          <li>NOC-specific keyword optimization</li>
+          <li>48-hour turnaround</li>
+        </ul>
+        <a href="#" class="product-btn">Get Premium Kit</a>
+      </div>
+
+      <div class="product-card">
+        <div class="product-name">1-on-1 Strategy</div>
+        <div class="product-price">$150 <small>CAD</small></div>
+        <p class="product-desc">90-minute call with a custom job-to-PR pathway plan for your situation.</p>
+        <ul class="product-features">
+          <li>90-minute Zoom session</li>
+          <li>Punjabi or Hindi or English</li>
+          <li>Custom 90-day action plan</li>
+          <li>Follow-up email summary</li>
+        </ul>
+        <a href="#" class="product-btn">Book a Call</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="about-section" id="about">
+  <div class="about-inner">
+    <div class="section-eyebrow">Who We Are</div>
+    <h2>Built by someone living the journey.</h2>
+    <p class="about-text">JobsToPR was started by a Humber College graduate working warehouse jobs in Brampton, going through the same OINP and Express Entry maze you're going through right now. Not a consultant in a downtown office. Not an overseas content farm. Real, on-the-ground guidance from someone who actually understands what it's like.</p>
+    <div class="about-divider"></div>
+    <div class="about-features">
+      <div class="about-feature">
+        <h3>Real Experience</h3>
+        <p>Warehouse, dispatch, and trades work in the GTA — not theory.</p>
+      </div>
+      <div class="about-feature">
+        <h3>Punjabi + Hindi</h3>
+        <p>Content and support in your language, not just English.</p>
+      </div>
+      <div class="about-feature">
+        <h3>Honest Help</h3>
+        <p>We tell you when a pathway won't work. We don't sell false hope.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="faq-section" id="faq">
+  <div class="faq-inner">
+    <div class="faq-header">
+      <div class="section-eyebrow">Common Questions</div>
+      <h2 class="section-title" style="text-align: center;">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Are you a licensed immigration consultant?</div>
+      <div class="faq-answer">No. We are not licensed RCICs or immigration lawyers. We share publicly available information from IRCC and provincial government websites, and we help with job search, resume tailoring, and interview prep. For legal advice on your specific case, you must consult a Regulated Canadian Immigration Consultant (RCIC) registered with CICC, or a Canadian immigration lawyer.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Can my warehouse job lead to PR?</div>
+      <div class="faq-answer">It depends on the NOC code and TEER level. Most general warehouse jobs are TEER 5 and do not qualify directly for Express Entry CEC. However, you can move into TEER 3 or 2 supervisor roles, or use specific OINP streams. Our free guide walks through this in detail.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Do you guarantee a job or PR?</div>
+      <div class="faq-answer">No. Anyone who guarantees you a job or PR is lying or scamming you. We provide tools, templates, and strategy. The work is yours. Outcomes depend on your effort, qualifications, and current immigration policies — none of which we control.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Is your support really in Punjabi and Hindi?</div>
+      <div class="faq-answer">Yes. Our social content (Instagram, TikTok) is primarily Punjabi and Hindi voiceover with English text. 1-on-1 calls can be in Punjabi, Hindi, or English. PDF guides are written in clear English so you can save them or share them with family.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">What if I'm not in the GTA?</div>
+      <div class="faq-answer">Our content is GTA-focused but most of the principles (NOC codes, federal Express Entry, language testing) apply anywhere in Canada. Provincial program guidance specifically covers Ontario. If you're in BC, Alberta, or other provinces, the federal pathways still apply.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">Can I get a refund?</div>
+      <div class="faq-answer">Digital products (Mini Kit, Starter Kit) are non-refundable once downloaded due to the nature of digital goods. Premium Kit refunds are available before the personalized resume work begins. 1-on-1 calls are refundable if cancelled 24+ hours in advance.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <h2>Stop reading.<br><span class="accent">Start moving.</span></h2>
+    <p>Get the free PR pathway guide. Read it tonight. Take one action tomorrow.</p>
+    <a href="#" class="btn-primary" onclick="openForm(); return false;">Download Free Guide →</a>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>JobsToPR</h3>
+      <p>GTA warehouse, forklift, and trades jobs that lead to Permanent Residency. Punjabi and Hindi help for the journey.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="#guide">Free Guide</a></li>
+        <li><a href="#products">Products</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="https://instagram.com/jobstopr_" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="https://tiktok.com/@jobstopr_" target="_blank" rel="noopener">TikTok</a></li>
+        <li><a href="#" target="_blank" rel="noopener">YouTube</a></li>
+        <li><a href="mailto:jobstopr@gmail.com">Email</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 JobsToPR. All rights reserved.</p>
+    <p style="margin-top: 0.5rem;">JobsToPR is not a licensed immigration consultancy or law firm. We provide educational information based on publicly available sources from IRCC and provincial governments. We do not provide legal immigration advice. For advice on your specific case, consult a Regulated Canadian Immigration Consultant (RCIC) registered with CICC or a licensed Canadian immigration lawyer.</p>
+  </div>
+</footer>
+
+<script>
+// FAQ toggle
+document.querySelectorAll('.faq-question').forEach(q => {
+  q.addEventListener('click', () => {
+    q.parentElement.classList.toggle('open');
+  });
+});
+
+// Form opener — placeholder, will be replaced with Tally embed
+function openForm() {
+  // Placeholder — replace with: window.open('YOUR_TALLY_FORM_URL', '_blank');
+  alert('The Tally form will be connected here. Replace this with your Tally form link in the openForm() function.');
+}
+
+// Smooth scroll already handled by CSS scroll-behavior
+
+// Reveal animations on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.product-card, .faq-item, .about-feature').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
