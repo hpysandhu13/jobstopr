@@ -64,6 +64,7 @@ main{flex:1;overflow-y:auto;padding:1rem 1rem calc(var(--tabbar-h) + 1.2rem);-we
 .tag.pay{background:var(--amber-soft);color:var(--amber-deep)}
 .tag.pr{background:var(--amber);color:#3A2503}
 .tag.employer{background:#EDE9FE;color:#5B21B6}
+.tag.sample{background:#F1F5F9;color:#64748B}
 .job-desc{font-size:.82rem;color:var(--muted);margin-bottom:.7rem}
 .job-actions{display:flex;gap:.5rem}
 .job-actions .btn{flex:1}
@@ -185,6 +186,7 @@ main{flex:1;overflow-y:auto;padding:1rem 1rem calc(var(--tabbar-h) + 1.2rem);-we
     <section class="tab active" id="tab-jobs">
       <h2 class="section-title" data-i18n="jobsTitle">Find Jobs</h2>
       <p class="section-sub" data-i18n="jobsSub">GTA warehouse, forklift &amp; trades openings. Amber tag = PR-relevant role.</p>
+      <p class="hint" data-i18n="sampleNote" style="margin-bottom:.6rem">Listings below are illustrative samples — real openings appear here when employers post.</p>
       <p class="wisdom" data-wisdom></p>
       <div class="trust-strip"><span data-i18n="trust1">✓ Free during launch</span><span data-i18n="trust2">✓ No account needed</span><span data-i18n="trust3">✓ Your data stays on your phone</span></div>
       <div class="card">
@@ -483,7 +485,7 @@ const QUICK=["CRS score?","OINP for warehouse?","Interview tips","Talk to an age
 /* ================= I18N ================= */
 const T={
 en:{headerTag:"GTA jobs that lead to permanent residency",tabJobs:"Jobs",tabPR:"PR Score",tabKits:"Kits",tabProfile:"Profile",
-jobsTitle:"Find Jobs",jobsSub:"GTA warehouse, forklift & trades openings. Amber tag = PR-relevant role.",postJob:"+ Post a Job (Employers)",postJobHint:"Hiring? List your opening here — free during launch.",searchPh:"Search jobs, companies, cities...",allShifts:"All shifts",day:"Day",afternoon:"Afternoon",night:"Night",prOnly:"PR pathway only",apply:"Apply",applied:"Applied ✓",save:"Save",savedBtn:"Saved",prTag:"PR PATHWAY",empTag:"EMPLOYER POST",
+jobsTitle:"Find Jobs",jobsSub:"GTA warehouse, forklift & trades openings. Amber tag = PR-relevant role.",postJob:"+ Post a Job (Employers)",postJobHint:"Hiring? List your opening here — free during launch.",searchPh:"Search jobs, companies, cities...",allShifts:"All shifts",day:"Day",afternoon:"Afternoon",night:"Night",prOnly:"PR pathway only",apply:"Apply",applied:"Applied ✓",save:"Save",savedBtn:"Saved",prTag:"PR PATHWAY",empTag:"EMPLOYER POST",sampleTag:"SAMPLE",sampleNote:"Listings below are illustrative samples — real openings appear here when employers post.",
 prTitle:"PR Score",prSub:"Estimate your Express Entry CRS score. Honest math, no guarantees.",yourScore:"Your estimated CRS score",expTitle:"Your work experience",expJob:"Job title",expYears:"Years",expWhere:"Where",inCanada:"In Canada",outside:"Outside Canada",addExp:"+ Add experience",crsTitle:"CRS calculator",age:"Age",marital:"Status",single:"Single",married:"Married / common-law",edu:"Highest education",lang1:"First language — CLB per ability",listening:"Listening",speaking:"Speaking",reading:"Reading",writing:"Writing",lang2:"Second language CLB 5+ in all 4 abilities",spEdu:"Spouse education",spLang:"Spouse first language CLB 5+ (all 4)",spWork:"Spouse has 1+ year Canadian work",addPts:"Additional points",pnp:"Provincial nomination (+600)",jobOffer:"Valid job offer",none:"None",offer200:"Senior management (NOC 00) +200",offer50:"TEER 0–3 skilled offer +50",cdnStudy:"Study in Canada",study15:"1–2 year credential +15",study30:"3+ year credential +30",sibling:"Sibling in Canada (PR/citizen 18+) +15",french:"French",fr25:"NCLC 7+ & English CLB 4 +25",fr50:"NCLC 7+ & English CLB 5+ +50",calc:"Calculate my score",crsDisclaimer:'Estimate only — not legal advice. Rules change; confirm with the official <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/become-candidate/eligibility/comprehensive-ranking-system.html" target="_blank" rel="noopener">IRCC CRS criteria</a> and consider consulting an RCIC.',
 kitsTitle:"Kits & 1-on-1",kitsSub:"Tools that speed up your job hunt — from templates to expert guidance.",agentsTitle:"Talk to an IRCC agent",agentsSub:"Book a 1-on-1 with an independent immigration consultant.",agentsNote:"Agents are independent RCICs, not JobsToPR employees. JobsToPR takes a service fee on bookings. Always verify an agent's RCIC licence.",getKit:"Get",bookNow:"Book",
 profileTitle:"Profile",profileSub:"Your saved jobs, applications, posts and bookings.",yourInfo:"Your info",namePh:"Your name",language:"Language",savedCount:"Saved jobs",appliedCount:"Applications",postedCount:"Jobs you posted",bookedCount:"Sessions booked",crsSaved:"Saved CRS score",savedJobs:"Saved jobs",noSaved:"Nothing saved yet — your future starts with one tap.",myApps:"My applications",noApps:"No applications yet — every journey begins with the first one.",myPosts:"My job posts",noPosts:"No posts yet — when you're hiring, this is where it starts.",myBookings:"My bookings",noBookings:"No sessions booked yet — expert guidance is one tap away.",
@@ -493,10 +495,10 @@ impactTeerOk:"Good news: TEER {n} counts as skilled work — 1 year here earns C
 impactTeerBad:"Honest note: TEER {n} work does not count as skilled Canadian work experience for Express Entry. The pay can fund your IELTS/French prep — and moving up to lead or supervisor (TEER 3/2) changes everything.",
 impactWork:"Canadian work (1 yr)",impactLang:"Your IELTS bands",impactFr:"French level (NCLC)",frNone:"None",fr56:"CLB 5–6",fr7:"CLB 7+",
 impactTr:"Skill transferability (possible*)",impactTrNote:"assumes post-secondary education — confirm in the PR Score tab",
-impactTotal:"Estimated CRS boost",impactVerdict:"This path could add ~{n} CRS points.",
+impactTotal:"This job can add",impactVerdict:"This job could add ~{n} CRS points to your score.",impactLangNote:"Your language ({n} pts) is yours already — counted separately in the full calculator.",impactFrNote:"French bonus (+{n}) also counts separately.",
 fullScore:"Calculate my full score →",impactHint:"Rough estimate — fine-tune everything in the PR Score tab."},
 pa:{headerTag:"GTA ਨੌਕਰੀਆਂ ਜੋ ਪੱਕੀ ਰਿਹਾਇਸ਼ ਵੱਲ ਲੈ ਜਾਂਦੀਆਂ ਹਨ",tabJobs:"ਨੌਕਰੀਆਂ",tabPR:"PR ਸਕੋਰ",tabKits:"ਕਿੱਟਾਂ",tabProfile:"ਪ੍ਰੋਫ਼ਾਈਲ",
-jobsTitle:"ਨੌਕਰੀਆਂ ਲੱਭੋ",jobsSub:"GTA ਵੇਅਰਹਾਊਸ, ਫੋਰਕਲਿਫਟ ਅਤੇ ਟ੍ਰੇਡਜ਼। ਅੰਬਰ ਟੈਗ = PR-ਯੋਗ ਭੂਮਿਕਾ।",postJob:"+ ਨੌਕਰੀ ਪੋਸਟ ਕਰੋ (ਮਾਲਕ)",postJobHint:"ਭਰਤੀ ਕਰ ਰਹੇ ਹੋ? ਆਪਣੀ ਨੌਕਰੀ ਇੱਥੇ ਸੂਚੀਬੱਧ ਕਰੋ — ਸ਼ੁਰੂਆਤ ਵਿੱਚ ਮੁਫ਼ਤ।",searchPh:"ਨੌਕਰੀਆਂ, ਕੰਪਨੀਆਂ, ਸ਼ਹਿਰ ਖੋਜੋ...",allShifts:"ਸਾਰੀਆਂ ਸ਼ਿਫਟਾਂ",day:"ਦਿਨ",afternoon:"ਦੁਪਹਿਰ",night:"ਰਾਤ",prOnly:"ਸਿਰਫ਼ PR ਰਸਤਾ",apply:"ਅਪਲਾਈ ਕਰੋ",applied:"ਅਪਲਾਈ ਹੋ ਗਿਆ ✓",save:"ਸੇਵ ਕਰੋ",savedBtn:"ਸੇਵ ਕੀਤਾ",prTag:"PR PATHWAY",empTag:"ਮਾਲਕ ਪੋਸਟ",
+jobsTitle:"ਨੌਕਰੀਆਂ ਲੱਭੋ",jobsSub:"GTA ਵੇਅਰਹਾਊਸ, ਫੋਰਕਲਿਫਟ ਅਤੇ ਟ੍ਰੇਡਜ਼। ਅੰਬਰ ਟੈਗ = PR-ਯੋਗ ਭੂਮਿਕਾ।",postJob:"+ ਨੌਕਰੀ ਪੋਸਟ ਕਰੋ (ਮਾਲਕ)",postJobHint:"ਭਰਤੀ ਕਰ ਰਹੇ ਹੋ? ਆਪਣੀ ਨੌਕਰੀ ਇੱਥੇ ਸੂਚੀਬੱਧ ਕਰੋ — ਸ਼ੁਰੂਆਤ ਵਿੱਚ ਮੁਫ਼ਤ।",searchPh:"ਨੌਕਰੀਆਂ, ਕੰਪਨੀਆਂ, ਸ਼ਹਿਰ ਖੋਜੋ...",allShifts:"ਸਾਰੀਆਂ ਸ਼ਿਫਟਾਂ",day:"ਦਿਨ",afternoon:"ਦੁਪਹਿਰ",night:"ਰਾਤ",prOnly:"ਸਿਰਫ਼ PR ਰਸਤਾ",apply:"ਅਪਲਾਈ ਕਰੋ",applied:"ਅਪਲਾਈ ਹੋ ਗਿਆ ✓",save:"ਸੇਵ ਕਰੋ",savedBtn:"ਸੇਵ ਕੀਤਾ",prTag:"PR PATHWAY",empTag:"ਮਾਲਕ ਪੋਸਟ",sampleTag:"ਨਮੂਨਾ",sampleNote:"ਹੇਠਾਂ ਦਿੱਤੀਆਂ ਸੂਚੀਆਂ ਨਮੂਨੇ ਹਨ — ਮਾਲਕਾਂ ਦੇ ਪੋਸਟ ਕਰਨ 'ਤੇ ਅਸਲ ਨੌਕਰੀਆਂ ਇੱਥੇ ਦਿਖਣਗੀਆਂ।",
 prTitle:"PR ਸਕੋਰ",prSub:"ਆਪਣੇ Express Entry CRS ਸਕੋਰ ਦਾ ਅੰਦਾਜ਼ਾ ਲਗਾਓ। ਇਮਾਨਦਾਰ ਗਣਨਾ।",yourScore:"ਤੁਹਾਡਾ ਅਨੁਮਾਨਿਤ CRS ਸਕੋਰ",expTitle:"ਤੁਹਾਡਾ ਕੰਮ ਦਾ ਤਜਰਬਾ",expJob:"ਨੌਕਰੀ ਦਾ ਨਾਮ",expYears:"ਸਾਲ",expWhere:"ਕਿੱਥੇ",inCanada:"ਕੈਨੇਡਾ ਵਿੱਚ",outside:"ਕੈਨੇਡਾ ਤੋਂ ਬਾਹਰ",addExp:"+ ਤਜਰਬਾ ਸ਼ਾਮਲ ਕਰੋ",crsTitle:"CRS ਕੈਲਕੁਲੇਟਰ",age:"ਉਮਰ",marital:"ਸਥਿਤੀ",single:"ਇਕੱਲਾ",married:"ਵਿਆਹਿਆ / ਕਾਮਨ-ਲਾਅ",edu:"ਉੱਚ ਸਿੱਖਿਆ",lang1:"ਪਹਿਲੀ ਭਾਸ਼ਾ — CLB",listening:"ਸੁਣਨਾ",speaking:"ਬੋਲਣਾ",reading:"ਪੜ੍ਹਨਾ",writing:"ਲਿਖਣਾ",lang2:"ਦੂਜੀ ਭਾਸ਼ਾ CLB 5+",spEdu:"ਜੀਵਨ ਸਾਥੀ ਦੀ ਸਿੱਖਿਆ",spLang:"ਜੀਵਨ ਸਾਥੀ ਦੀ ਭਾਸ਼ਾ CLB 5+",spWork:"ਜੀਵਨ ਸਾਥੀ ਦਾ 1+ ਸਾਲ ਕੈਨੇਡਾ ਕੰਮ",addPts:"ਵਾਧੂ ਅੰਕ",pnp:"ਸੂਬਾਈ ਨਾਮਜ਼ਦਗੀ (+600)",jobOffer:"ਜਾਇਜ਼ ਨੌਕਰੀ ਦੀ ਪੇਸ਼ਕਸ਼",none:"ਕੋਈ ਨਹੀਂ",offer200:"ਸੀਨੀਅਰ ਪ੍ਰਬੰਧਨ +200",offer50:"TEER 0–3 ਪੇਸ਼ਕਸ਼ +50",cdnStudy:"ਕੈਨੇਡਾ ਵਿੱਚ ਪੜ੍ਹਾਈ",study15:"1–2 ਸਾਲ +15",study30:"3+ ਸਾਲ +30",sibling:"ਕੈਨੇਡਾ ਵਿੱਚ ਭੈਣ-ਭਰਾ +15",french:"ਫ਼ਰੈਂਚ",fr25:"NCLC 7+ +25",fr50:"NCLC 7+ +50",calc:"ਮੇਰਾ ਸਕੋਰ ਗਿਣੋ",crsDisclaimer:"ਸਿਰਫ਼ ਅੰਦਾਜ਼ਾ — ਕਾਨੂੰਨੀ ਸਲਾਹ ਨਹੀਂ। ਅਧਿਕਾਰਤ IRCC ਮਾਪਦੰਡ ਦੇਖੋ ਅਤੇ RCIC ਨਾਲ ਸਲਾਹ ਕਰੋ।",
 kitsTitle:"ਕਿੱਟਾਂ ਅਤੇ 1-on-1",kitsSub:"ਤੁਹਾਡੀ ਨੌਕਰੀ ਦੀ ਭਾਲ ਤੇਜ਼ ਕਰਨ ਵਾਲੇ ਟੂਲ।",agentsTitle:"IRCC ਏਜੰਟ ਨਾਲ ਗੱਲ ਕਰੋ",agentsSub:"ਸੁਤੰਤਰ ਇਮੀਗ੍ਰੇਸ਼ਨ ਸਲਾਹਕਾਰ ਨਾਲ 1-on-1 ਬੁੱਕ ਕਰੋ।",agentsNote:"ਏਜੰਟ ਸੁਤੰਤਰ RCIC ਹਨ। ਬੁਕਿੰਗ 'ਤੇ JobsToPR ਸੇਵਾ ਫ਼ੀਸ ਲੈਂਦਾ ਹੈ।",getKit:"ਲਓ",bookNow:"ਬੁੱਕ ਕਰੋ",
 profileTitle:"ਪ੍ਰੋਫ਼ਾਈਲ",profileSub:"ਤੁਹਾਡੀਆਂ ਸੇਵ ਕੀਤੀਆਂ ਨੌਕਰੀਆਂ, ਅਰਜ਼ੀਆਂ ਅਤੇ ਬੁਕਿੰਗਾਂ।",yourInfo:"ਤੁਹਾਡੀ ਜਾਣਕਾਰੀ",namePh:"ਤੁਹਾਡਾ ਨਾਮ",language:"ਭਾਸ਼ਾ",savedCount:"ਸੇਵ ਕੀਤੀਆਂ ਨੌਕਰੀਆਂ",appliedCount:"ਅਰਜ਼ੀਆਂ",postedCount:"ਪੋਸਟ ਕੀਤੀਆਂ ਨੌਕਰੀਆਂ",bookedCount:"ਬੁੱਕ ਕੀਤੇ ਸੈਸ਼ਨ",crsSaved:"ਸੇਵ ਕੀਤਾ CRS ਸਕੋਰ",savedJobs:"ਸੇਵ ਕੀਤੀਆਂ ਨੌਕਰੀਆਂ",noSaved:"ਅਜੇ ਕੁਝ ਸੇਵ ਨਹੀਂ ਕੀਤਾ — ਤੁਹਾਡਾ ਭਵਿੱਖ ਇੱਕ ਟੈਪ ਨਾਲ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ।",myApps:"ਮੇਰੀਆਂ ਅਰਜ਼ੀਆਂ",noApps:"ਅਜੇ ਕੋਈ ਅਰਜ਼ੀ ਨਹੀਂ — ਹਰ ਸਫ਼ਰ ਪਹਿਲੇ ਕਦਮ ਨਾਲ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ।",myPosts:"ਮੇਰੀਆਂ ਪੋਸਟਾਂ",noPosts:"ਅਜੇ ਕੋਈ ਪੋਸਟ ਨਹੀਂ — ਭਰਤੀ ਵੇਲੇ ਇੱਥੋਂ ਸ਼ੁਰੂ ਕਰੋ।",myBookings:"ਮੇਰੀਆਂ ਬੁਕਿੰਗਾਂ",noBookings:"ਅਜੇ ਕੋਈ ਸੈਸ਼ਨ ਬੁੱਕ ਨਹੀਂ ਕੀਤਾ — ਮਾਹਰ ਸਲਾਹ ਇੱਕ ਟੈਪ ਦੂਰ ਹੈ।",
@@ -506,10 +508,10 @@ impactTeerOk:"ਚੰਗੀ ਖ਼ਬਰ: TEER {n} ਹੁਨਰਮੰਦ ਕੰ�
 impactTeerBad:"ਇਮਾਨਦਾਰ ਨੋਟ: TEER {n} ਦਾ ਕੰਮ Express Entry ਲਈ ਹੁਨਰਮੰਦ ਕੈਨੇਡਾ ਤਜਰਬੇ ਵਜੋਂ ਨਹੀਂ ਗਿਣਿਆ ਜਾਂਦਾ। ਤਨਖਾਹ IELTS/ਫ਼ਰੈਂਚ ਦੀ ਤਿਆਰੀ ਵਿੱਚ ਮਦਦ ਕਰ ਸਕਦੀ ਹੈ — ਅਤੇ ਲੀਡ/ਸੁਪਰਵਾਈਜ਼ਰ (TEER 3/2) ਬਣਨਾ ਸਭ ਬਦਲ ਦਿੰਦਾ ਹੈ।",
 impactWork:"ਕੈਨੇਡਾ ਕੰਮ (1 ਸਾਲ)",impactLang:"ਤੁਹਾਡੇ IELTS ਬੈਂਡ",impactFr:"ਫ਼ਰੈਂਚ ਪੱਧਰ (NCLC)",frNone:"ਕੋਈ ਨਹੀਂ",fr56:"CLB 5–6",fr7:"CLB 7+",
 impactTr:"ਹੁਨਰ ਤਬਾਦਲਾ (ਸੰਭਵ*)",impactTrNote:"ਪੋਸਟ-ਸੈਕੰਡਰੀ ਸਿੱਖਿਆ ਮੰਨ ਕੇ — PR Score ਟੈਬ ਵਿੱਚ ਪੱਕਾ ਕਰੋ",
-impactTotal:"ਅਨੁਮਾਨਿਤ CRS ਵਾਧਾ",impactVerdict:"ਇਹ ਰਸਤਾ ਲਗਭਗ {n} CRS ਅੰਕ ਵਧਾ ਸਕਦਾ ਹੈ।",
+impactTotal:"ਇਹ ਨੌਕਰੀ ਵਧਾ ਸਕਦੀ ਹੈ",impactVerdict:"ਇਹ ਨੌਕਰੀ ਤੁਹਾਡੇ ਸਕੋਰ ਵਿੱਚ ਲਗਭਗ {n} CRS ਅੰਕ ਵਧਾ ਸਕਦੀ ਹੈ।",impactLangNote:"ਤੁਹਾਡੀ ਭਾਸ਼ਾ ({n} ਅੰਕ) ਪਹਿਲਾਂ ਤੋਂ ਤੁਹਾਡੀ ਹੈ — ਪੂਰੇ ਕੈਲਕੁਲੇਟਰ ਵਿੱਚ ਵੱਖਰੀ ਗਿਣੀ ਜਾਂਦੀ ਹੈ।",impactFrNote:"ਫ਼ਰੈਂਚ ਬੋਨਸ (+{n}) ਵੀ ਵੱਖਰਾ ਗਿਣਿਆ ਜਾਂਦਾ ਹੈ।",
 fullScore:"ਮੇਰਾ ਪੂਰਾ ਸਕੋਰ ਗਿਣੋ →",impactHint:"ਮੋਟਾ ਅੰਦਾਜ਼ਾ — PR Score ਟੈਬ ਵਿੱਚ ਸਭ ਸਹੀ ਕਰੋ।"},
 hi:{headerTag:"GTA नौकरियां जो स्थायी निवास की ओर ले जाती हैं",tabJobs:"नौकरियां",tabPR:"PR स्कोर",tabKits:"किट",tabProfile:"प्रोफ़ाइल",
-jobsTitle:"नौकरियां खोजें",jobsSub:"GTA वेयरहाउस, फोर्कलिफ्ट और ट्रेड। अंबर टैग = PR-योग्य भूमिका।",postJob:"+ नौकरी पोस्ट करें (नियोक्ता)",postJobHint:"भर्ती कर रहे हैं? अपनी नौकरी यहाँ सूचीबद्ध करें — शुरुआत में मुफ़्त।",searchPh:"नौकरियां, कंपनियां, शहर खोजें...",allShifts:"सभी शिफ्ट",day:"दिन",afternoon:"दोपहर",night:"रात",prOnly:"सिर्फ PR रास्ता",apply:"आवेदन करें",applied:"आवेदन हो गया ✓",save:"सेव करें",savedBtn:"सेव किया",prTag:"PR PATHWAY",empTag:"नियोक्ता पोस्ट",
+jobsTitle:"नौकरियां खोजें",jobsSub:"GTA वेयरहाउस, फोर्कलिफ्ट और ट्रेड। अंबर टैग = PR-योग्य भूमिका।",postJob:"+ नौकरी पोस्ट करें (नियोक्ता)",postJobHint:"भर्ती कर रहे हैं? अपनी नौकरी यहाँ सूचीबद्ध करें — शुरुआत में मुफ़्त।",searchPh:"नौकरियां, कंपनियां, शहर खोजें...",allShifts:"सभी शिफ्ट",day:"दिन",afternoon:"दोपहर",night:"रात",prOnly:"सिर्फ PR रास्ता",apply:"आवेदन करें",applied:"आवेदन हो गया ✓",save:"सेव करें",savedBtn:"सेव किया",prTag:"PR PATHWAY",empTag:"नियोक्ता पोस्ट",sampleTag:"नमूना",sampleNote:"नीचे दी गई सूचियां नमूने हैं — नियोक्ताओं के पोस्ट करने पर असली नौकरियां यहां दिखेंगी।",
 prTitle:"PR स्कोर",prSub:"अपने Express Entry CRS स्कोर का अनुमान लगाएँ। ईमानदार गणना।",yourScore:"आपका अनुमानित CRS स्कोर",expTitle:"आपका कार्य अनुभव",expJob:"नौकरी का नाम",expYears:"वर्ष",expWhere:"कहाँ",inCanada:"कनाडा में",outside:"कनाडा के बाहर",addExp:"+ अनुभव जोड़ें",crsTitle:"CRS कैलकुलेटर",age:"उम्र",marital:"स्थिति",single:"अकेला",married:"विवाहित / कॉमन-लॉ",edu:"उच्च शिक्षा",lang1:"पहली भाषा — CLB",listening:"सुनना",speaking:"बोलना",reading:"पढ़ना",writing:"लिखना",lang2:"दूसरी भाषा CLB 5+",spEdu:"जीवनसाथी की शिक्षा",spLang:"जीवनसाथी की भाषा CLB 5+",spWork:"जीवनसाथी का 1+ वर्ष कनाडा कार्य",addPts:"अतिरिक्त अंक",pnp:"प्रांतीय नामांकन (+600)",jobOffer:"वैध नौकरी प्रस्ताव",none:"कोई नहीं",offer200:"वरिष्ठ प्रबंधन +200",offer50:"TEER 0–3 प्रस्ताव +50",cdnStudy:"कनाडा में पढ़ाई",study15:"1–2 वर्ष +15",study30:"3+ वर्ष +30",sibling:"कनाडा में भाई-बहन +15",french:"फ़्रेंच",fr25:"NCLC 7+ +25",fr50:"NCLC 7+ +50",calc:"मेरा स्कोर निकालें",crsDisclaimer:"सिर्फ अनुमान — कानूनी सलाह नहीं। आधिकारिक IRCC मानदंड देखें और RCIC से सलाह लें।",
 kitsTitle:"किट और 1-on-1",kitsSub:"आपकी नौकरी की खोज तेज़ करने वाले टूल।",agentsTitle:"IRCC एजेंट से बात करें",agentsSub:"स्वतंत्र इमिग्रेशन सलाहकार के साथ 1-on-1 बुक करें।",agentsNote:"एजेंट स्वतंत्र RCIC हैं। बुकिंग पर JobsToPR सेवा शुल्क लेता है।",getKit:"लें",bookNow:"बुक करें",
 profileTitle:"प्रोफ़ाइल",profileSub:"आपकी सेव की गई नौकरियां, आवेदन और बुकिंग।",yourInfo:"आपकी जानकारी",namePh:"आपका नाम",language:"भाषा",savedCount:"सेव की गई नौकरियां",appliedCount:"आवेदन",postedCount:"पोस्ट की गई नौकरियां",bookedCount:"बुक किए गए सेशन",crsSaved:"सेव किया CRS स्कोर",savedJobs:"सेव की गई नौकरियां",noSaved:"अभी कुछ सेव नहीं किया — आपका भविष्य एक टैप से शुरू होता है।",myApps:"मेरे आवेदन",noApps:"अभी कोई आवेदन नहीं — हर सफ़र पहले कदम से शुरू होता है।",myPosts:"मेरी पोस्ट",noPosts:"अभी कोई पोस्ट नहीं — भर्ती के समय यहीं से शुरू करें।",myBookings:"मेरी बुकिंग",noBookings:"अभी कोई सेशन बुक नहीं किया — विशेषज्ञ सलाह एक टैप दूर है।",
@@ -519,7 +521,7 @@ impactTeerOk:"अच्छी खबर: TEER {n} कुशल कार्य �
 impactTeerBad:"ईमानदार नोट: TEER {n} का काम Express Entry के लिए कुशल कनाडाई अनुभव नहीं गिना जाता। वेतन IELTS/फ़्रेंच की तैयारी में मदद कर सकता है — और लीड/सुपरवाइज़र (TEER 3/2) बनना सब बदल देता है।",
 impactWork:"कनाडा कार्य (1 वर्ष)",impactLang:"आपके IELTS बैंड",impactFr:"फ़्रेंच स्तर (NCLC)",frNone:"कोई नहीं",fr56:"CLB 5–6",fr7:"CLB 7+",
 impactTr:"कौशल हस्तांतरण (संभव*)",impactTrNote:"पोस्ट-सेकेंडरी शिक्षा मानकर — PR Score टैब में पक्का करें",
-impactTotal:"अनुमानित CRS बढ़त",impactVerdict:"यह रास्ता लगभग {n} CRS अंक बढ़ा सकता है।",
+impactTotal:"यह नौकरी बढ़ा सकती है",impactVerdict:"यह नौकरी आपके स्कोर में लगभग {n} CRS अंक बढ़ा सकती है।",impactLangNote:"आपकी भाषा ({n} अंक) पहले से आपकी है — पूरे कैलकुलेटर में अलग गिनी जाती है।",impactFrNote:"फ़्रेंच बोनस (+{n}) भी अलग गिना जाता है।",
 fullScore:"मेरा पूरा स्कोर निकालें →",impactHint:"मोटा अनुमान — PR Score टैब में सब ठीक करें"}
 };
 /* ================= STATE ================= */
@@ -572,7 +574,7 @@ function renderJobs(){
   <div class="card job">
    <div class="job-top"><div class="job-title">${esc(j.title)}</div></div>
    <div class="job-meta">${esc(j.company)} · ${esc(j.location)} · ${esc(j.posted||'')}</div>
-   <div class="job-tags"><span class="tag pay">${esc(j.pay)}</span><span class="tag">${esc(j.shift)}</span><span class="tag">TEER ${j.teer}</span>${j.pr?`<span class="tag pr">${t('prTag')}</span>`:''}${j.employer?`<span class="tag employer">${t('empTag')}</span>`:''}</div>
+   <div class="job-tags"><span class="tag pay">${esc(j.pay)}</span><span class="tag">${esc(j.shift)}</span><span class="tag">TEER ${j.teer}</span>${j.pr?`<span class="tag pr">${t('prTag')}</span>`:''}${j.employer?`<span class="tag employer">${t('empTag')}</span>`:`<span class="tag sample">${t('sampleTag')}</span>`}</div>
    <div class="job-desc">${esc(j.desc||'')}</div>
    <div class="job-actions">
     <button class="btn ${S.saved.includes(j.id)?'btn-ghost':'btn-outline'} btn-sm" onclick="toggleSave(${JSON.stringify(j.id)})">${S.saved.includes(j.id)?t('savedBtn'):t('save')}</button>
@@ -607,20 +609,20 @@ function impactCalc(j,id){
  const work=ok?cdnPts(1,false):0;
  const lang=[cL,cR,cW,cS].reduce((a,c)=>a+clbPts(c,false),0);
  const all7=[cL,cR,cW,cS].every(c=>c>=7);
- const tr=all7?25:0;
+ const tr=(ok&&all7)?25:0;
  let fr=0;
  if(st.fr==='7'){const m=Math.min(cL,cR,cW,cS);fr=m>=5?50:(m>=4?25:0)}
- return{cL,cR,cW,cS,ok,work,lang,tr,fr,all7,total:work+lang+tr+fr};
+ return{cL,cR,cW,cS,ok,work,lang,tr,fr,all7,total:work+tr};
 }
 function impactResHTML(j,id){
  const c=impactCalc(j,id);
  return `
   <div class="break-row"><span>${t('impactWork')}</span><b>+${c.work}</b></div>
-  <div class="break-row"><span>${t('impactLang')}</span><b>+${c.lang}</b></div>
   <div class="break-row"><span>${t('impactTr')}</span><b>+${c.tr}</b></div>
-  <div class="break-row"><span>${t('impactFr')}</span><b>+${c.fr}</b></div>
   <div class="impact-total"><span>${t('impactTotal')}</span><span class="num">~${c.total}</span></div>
   ${c.tr?`<p class="hint">*${t('impactTrNote')}</p>`:''}
+  <p class="hint">${t('impactLangNote').replace('{n}',c.lang)}</p>
+  ${c.fr?`<p class="hint">${t('impactFrNote').replace('{n}',c.fr)}</p>`:''}
   <p class="hint" style="margin-top:.4rem">${t('impactVerdict').replace('{n}',c.total)}</p>`;
 }
 function impactHTML(j){
@@ -703,13 +705,24 @@ $('calcBtn').onclick=()=>{
  const lang2=$('crsLang2').checked?22:0;
  const core=agePts(age,sp)+eduPts(edu,sp)+lang1+lang2+cdnPts(cdn,sp);
  let spp=0;
- if(sp){const se={0:0,1:2,4:8,6:10,7:10}[+$('crsSpEdu').value]||0;spp=se+($('crsSpLang').checked?5:0)+($('crsSpWork').checked?10:0)}
+ if(sp){const se={0:0,1:2,2:6,3:7,4:8,5:9,6:10,7:10}[+$('crsSpEdu').value]||0;spp=se+($('crsSpLang').checked?5:0)+($('crsSpWork').checked?10:0)}
  const all7=clbs.every(c=>c>=7),all9=clbs.every(c=>c>=9);
- let tr=0;
- if(all7&&edu>=3)tr+=25;else if(all9&&edu>=4)tr+=50;
- if(fr>=3){if(all9)tr+=50;else if(all7)tr+=25}
- if(cdn>=1&&fr>=3)tr+= (cdn>=3?50:25);
- tr=Math.min(100,tr);
+ const cdnY=Math.floor(cdn),frY=Math.floor(fr),p1=edu>=2,p3=edu>=4;
+ /* Education subsection (max 50): language+education, Canadian work+education */
+ let eduTr=0;
+ if(p3){eduTr=all9?50:all7?25:0}
+ else if(p1){eduTr=all9?25:all7?13:0}
+ if(cdnY>=1){let w=0;if(p3){w=cdnY>=2?50:25}else if(p1){w=cdnY>=2?25:13}eduTr=Math.max(eduTr,w)}
+ eduTr=Math.min(50,eduTr);
+ /* Foreign-work subsection (max 50): foreign+language, foreign+Canadian work */
+ let workTr=0;
+ if(frY>=3){workTr=all9?50:all7?25:0}
+ else if(frY>=1){workTr=all9?25:all7?13:0}
+ let fw=0;
+ if(frY>=3){fw=cdnY>=2?50:cdnY>=1?25:0}
+ else if(frY>=1){fw=cdnY>=2?25:cdnY>=1?13:0}
+ workTr=Math.max(workTr,fw);workTr=Math.min(50,workTr);
+ const tr=Math.min(100,eduTr+workTr);
  const add=($('crsPnp').checked?600:0)+ +$('crsOffer').value+ +$('crsStudy').value+($('crsSibling').checked?15:0)+ +$('crsFrench').value;
  const total=core+spp+tr+add;
  S.crs=total;save();
