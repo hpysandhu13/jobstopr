@@ -8,7 +8,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 
-<meta name="description" content="JobsToPR mobile app: GTA jobs, CRS score calculator and 1-on-1 guidance in English, Punjabi and Hindi.">
+<meta name="description" content="JobsToPR mobile app: GTA jobs, CRS score calculator and 1-on-1 guidance in English and French.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -173,6 +173,9 @@ main{flex:1;overflow-y:auto;padding:1rem 1rem calc(var(--tabbar-h) + env(safe-ar
 .modal .sub{font-size:.8rem;color:var(--muted);margin-bottom:1rem}
 .modal-actions{display:flex;gap:.6rem;margin-top:1rem}
 .success-box{text-align:center;padding:1.2rem .5rem}
+.pay-box{margin:1rem 0;padding:.9rem;border:1px dashed var(--teal-700);border-radius:12px;background:#f4faf8;text-align:left;font-size:.9rem}
+.pay-box p{margin:.4rem 0}
+.pay-box .hint{font-size:.78rem}
 .success-check{font-size:2.5rem;color:var(--ok)}
 .backdrop{position:absolute;inset:0;background:rgba(6,48,44,.4);z-index:30;display:none}
 .backdrop.open{display:block}
@@ -283,15 +286,15 @@ main{flex:1;overflow-y:auto;padding:1rem 1rem calc(var(--tabbar-h) + env(safe-ar
         <div class="field"><label><input type="checkbox" id="crsLang2" style="width:auto;margin-right:.4rem"><span data-i18n="lang2">Second language CLB 5+ in all 4 abilities</span></label></div>
         <div id="spouseBox" style="display:none">
           <div class="field"><label data-i18n="spEdu">Spouse education</label>
-            <select id="crsSpEdu"><option value="0" data-i18n="edu0">Less than secondary school</option><option value="1" data-i18n="edu1">Secondary school diploma</option><option value="4" selected data-i18n="edu4">3-year+ degree / diploma</option><option value="6" data-i18n="edu6">Master's degree</option><option value="7">PhD</option></select></div>
-          <div class="field"><label><input type="checkbox" id="crsSpLang" style="width:auto;margin-right:.4rem"><span data-i18n="spLang">Spouse first language CLB 5+ (all 4)</span></label></div>
-          <div class="field"><label><input type="checkbox" id="crsSpWork" style="width:auto;margin-right:.4rem"><span data-i18n="spWork">Spouse has 1+ year Canadian work</span></label></div>
+            <select id="crsSpEdu"><option value="0" data-i18n="edu0">Less than secondary school</option><option value="1" data-i18n="edu1">Secondary school diploma</option><option value="2" data-i18n="edu2">1-year post-secondary</option><option value="3" data-i18n="edu3">2-year post-secondary</option><option value="4" selected data-i18n="edu4">3-year+ degree / diploma</option><option value="5" data-i18n="edu5">Two or more credentials (one 3yr+)</option><option value="6" data-i18n="edu6">Master's degree</option><option value="7">PhD</option></select></div>
+          <div class="field"><label data-i18n="spLangQ">Spouse language — abilities at CLB 5+</label>
+            <select id="crsSpLang"><option value="0" data-i18n="none">None</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+          <div class="field"><label data-i18n="spWorkQ">Spouse Canadian work experience</label>
+            <select id="crsSpWork"><option value="0" data-i18n="none">None</option><option value="1">1 year</option><option value="2">2 years</option><option value="3">3 years</option><option value="4">4 years</option><option value="5">5+ years</option></select></div>
         </div>
         <div class="field"><label data-i18n="addPts">Additional points</label></div>
         <div class="field"><label><input type="checkbox" id="crsPnp" style="width:auto;margin-right:.4rem"><span data-i18n="pnp">Provincial nomination (+600)</span></label></div>
         <div class="form-row">
-          <div class="field"><label data-i18n="jobOffer">Valid job offer</label>
-            <select id="crsOffer"><option value="0" data-i18n="none">None</option><option value="200" data-i18n="offer200">Senior management (NOC 00) +200</option><option value="50" data-i18n="offer50">TEER 0–3 skilled offer +50</option></select></div>
           <div class="field"><label data-i18n="cdnStudy">Study in Canada</label>
             <select id="crsStudy"><option value="0" data-i18n="none">None</option><option value="15" data-i18n="study15">1–2 year credential +15</option><option value="30" data-i18n="study30">3+ year credential +30</option></select></div>
         </div>
@@ -392,7 +395,7 @@ main{flex:1;overflow-y:auto;padding:1rem 1rem calc(var(--tabbar-h) + env(safe-ar
   <!-- Post-a-job modal -->
   <div class="modal-backdrop" id="postModal"><div class="modal">
     <h3 data-i18n="postJobTitle">Post a job</h3>
-    <p class="sub" data-i18n="postJobSub">Your listing appears in the Jobs tab instantly.</p>
+    <p class="sub" data-i18n="postJobSub">Your listing is saved on this device and appears in the Jobs tab instantly.</p>
     <div class="field"><label data-i18n="company">Company</label><input id="pjCompany" placeholder="e.g. Brampton Logistics"></div>
     <div class="field"><label data-i18n="jobTitleF">Job title</label><input id="pjTitle" placeholder="e.g. Forklift Operator"></div>
     <div class="form-row">
@@ -423,14 +426,20 @@ main{flex:1;overflow-y:auto;padding:1rem 1rem calc(var(--tabbar-h) + env(safe-ar
     </div>
     <div id="bookSuccess" style="display:none"><div class="success-box"><div class="success-check">✓</div>
       <h3 data-i18n="bookReceived">Booking requested!</h3>
-      <p class="sub" data-i18n="bookReceivedSub">The agent will contact you to confirm your session time.</p>
+      <p class="sub" data-i18n="bookReceivedSub">We've received your request and will confirm your session time within 24 hours.</p>
+      <div class="pay-box">
+        <b data-i18n="payTitle">Complete your payment</b>
+        <p><span data-i18n="payEtransfer">Send via Interac e-transfer to</span> <b>jobstopr@gmail.com</b></p>
+        <p><span data-i18n="payAmount">Amount</span>: <b id="payAmtBook"></b> · <span data-i18n="payRef">Reference</span>: <b id="payRefBook"></b></p>
+        <p class="hint" data-i18n="payNote">Include the reference in your transfer message. Your session is confirmed once payment arrives.</p>
+      </div>
       <button class="btn btn-primary" id="bookDone" data-i18n="done">Done</button>
     </div></div>
   </div></div>
   <!-- ===== Premium Kit order modal (WhatsApp flow) ===== -->
   <div class="modal-backdrop" id="orderModal"><div class="modal">
     <div id="orderForm">
-      <h3 data-i18n="orderTitle">Order Premium Kit — $49</h3>
+      <h3 id="orderTitleDyn">Order Premium Kit — $49</h3>
       <p class="sub" data-i18n="orderSub">Fill this in — we receive your order instantly and start within 24 hours.</p>
       <div class="field"><label data-i18n="fullName">Full name</label><input id="orderName" data-i18n-ph="namePh" placeholder="Your name"></div>
       <div class="field"><label>Email</label><input id="orderEmail" placeholder="you@example.com" inputmode="email"></div>
@@ -446,6 +455,12 @@ main{flex:1;overflow-y:auto;padding:1rem 1rem calc(var(--tabbar-h) + env(safe-ar
     <div id="orderSuccess" style="display:none"><div class="success-box"><div class="success-check">✓</div>
       <h3 data-i18n="orderSent">Order sent!</h3>
       <p class="sub" data-i18n="orderSentSub">We've got your order! We'll be in touch within 24 hours.</p>
+      <div class="pay-box">
+        <b data-i18n="payTitle">Complete your payment</b>
+        <p><span data-i18n="payEtransfer">Send via Interac e-transfer to</span> <b>jobstopr@gmail.com</b></p>
+        <p><span data-i18n="payAmount">Amount</span>: <b id="payAmtOrder">$49</b> · <span data-i18n="payRef">Reference</span>: <b id="payRefOrder"></b></p>
+        <p class="hint" data-i18n="payNote">Include the reference in your transfer message. We start work once payment arrives.</p>
+      </div>
       <button class="btn btn-primary" id="orderDone" data-i18n="done">Done</button>
     </div></div>
   </div></div>
@@ -470,10 +485,10 @@ const CONFIG={
 /* ================= DATA ================= */
 /* JOBS loaded from jobs.js */
 const KITS=[
- {id:"mini",name:"Mini Kit",price:9,featured:false,badge:null,desc:"Quick-start essentials for self-starters.",features:["5 ATS-friendly resume templates","15 warehouse interview Q&A","Instant download"]},
- {id:"starter",name:"Starter Kit",price:29,featured:true,badge:"MOST POPULAR",desc:"Everything you need to land a PR-eligible job in the GTA.",features:["Everything in Mini Kit","Cover letter templates","Follow-up message scripts","NOC code matcher","30-day application plan"]},
- {id:"premium",name:"Premium Kit",price:49,featured:false,badge:null,desc:"Starter Kit plus a resume personally tailored to your target NOC.",features:["Everything in Starter Kit","1 resume tailored by us","NOC-specific keyword optimization","48-hour turnaround"]},
- {id:"call",name:"1-on-1 Strategy",price:150,featured:false,badge:null,desc:"90-minute call with a custom job-to-PR pathway plan.",features:["90-minute session","Punjabi, Hindi or English","Custom 90-day action plan","Follow-up email summary"]}
+ {id:"mini",name:"Mini Kit",name_fr:"Trousse Mini",price:9,featured:false,badge:null,badge_fr:null,desc:"Quick-start essentials for self-starters.",desc_fr:"L'essentiel pour démarrer en autonomie.",features:["5 ATS-friendly resume templates","15 warehouse interview Q&A","Instant download"],features_fr:["5 modèles de CV compatibles ATS","15 questions-réponses d'entrevue d'entrepôt","Téléchargement instantané"]},
+ {id:"starter",name:"Starter Kit",name_fr:"Trousse de démarrage",price:29,featured:true,badge:"MOST POPULAR",badge_fr:"LA PLUS POPULAIRE",desc:"Everything you need to land a PR-eligible job in the GTA.",desc_fr:"Tout ce qu'il faut pour décrocher un emploi admissible à la RP dans la RGT.",features:["Everything in Mini Kit","Cover letter templates","Follow-up message scripts","NOC code matcher","30-day application plan"],features_fr:["Tout de la Trousse Mini","Modèles de lettres de présentation","Scripts de messages de suivi","Outil de correspondance des codes CNP","Plan de candidatures de 30 jours"]},
+ {id:"premium",name:"Premium Kit",name_fr:"Trousse Premium",price:49,featured:false,badge:null,badge_fr:null,desc:"Starter Kit plus a resume personally tailored to your target NOC.",desc_fr:"Trousse de démarrage plus un CV adapté par nos soins à votre CNP cible.",features:["Everything in Starter Kit","1 resume tailored by us","NOC-specific keyword optimization","48-hour turnaround"],features_fr:["Tout de la Trousse de démarrage","1 CV adapté par notre équipe","Optimisation des mots-clés par CNP","Livraison en 48 heures"]},
+ {id:"call",name:"1-on-1 Strategy",name_fr:"Stratégie individuelle",price:150,featured:false,badge:null,badge_fr:null,desc:"90-minute call with a custom job-to-PR pathway plan.",desc_fr:"Appel de 90 minutes avec un plan d'action personnalisé emploi → RP.",features:["90-minute session","English or French","Custom 90-day action plan","Follow-up email summary"],features_fr:["Séance de 90 minutes","En français ou en anglais","Plan d'action personnalisé de 90 jours","Résumé par courriel"]}
 ];
 const AGENTS=[
  {id:"a1",name:"Simran Kaur",langs:"Punjabi · English",price:80,rating:"4.9",tag:"RCIC",bio:"8 yrs helping students & workers with OINP and Express Entry."},
@@ -483,28 +498,28 @@ const AGENTS=[
 
 /* Chat brain (rule-based v1) */
 const BRAIN=[
- {k:["hello","hi","hey","sat sri","namaste","bonjour","salut"],a:{en:"Sat Sri Akal! I'm Muse, your JobsToPR assistant. Ask me about jobs, CRS scores, OINP, Express Entry, resumes, or mindset."}},
- {k:["crs","score","points","cutoff","draw"],a:{en:"Try the PR Score tab — enter your age, education, language CLB and work experience for an honest CRS estimate. Recent cutoffs move around, so always check the latest IRCC draws."}},
- {k:["oinp","ontario","pnp","provincial"],a:{en:"OINP's Employer Job Offer streams can work for some roles. General warehouse work (TEER 5) rarely qualifies directly — moving into a TEER 3 supervisor or TEER 2 role changes the picture."}},
- {k:["express entry","cec","federal"],a:{en:"Express Entry's Canadian Experience Class needs TEER 0–3 skilled work. Most general warehouse jobs are TEER 5, which doesn't count. Target lead-hand, supervisor or trades roles and keep language scores high."}},
- {k:["pgwp","work permit","study permit"],a:{en:"PGWP lets you work for any employer after graduating from a designated institution — up to 3 years. Use it strategically: target TEER 2/3 roles, not just any job."}},
- {k:["noc","teer"],a:{en:"NOC codes classify jobs by TEER 0–5. For PR, TEER 0–3 counts. A warehouse supervisor is often TEER 2; a general labourer is TEER 5. Check your actual duties against the NOC."}},
- {k:["resume","cv","cover letter"],a:{en:"Keep it to 1 page, use numbers ('300+ orders/shift'), and match keywords from the posting — many employers use ATS filters. The Starter Kit ($29) has 5 templates built for this."}},
- {k:["interview"],a:{en:"Arrive 15 min early with steel-toes, bring ID and SIN. Prepare 3 stories: a challenge, teamwork, reliability. Slow down, breathe — confidence is a practice, not a trait."}},
- {k:["mindset","stress","motivat","depress","sad","tired"],a:{en:"The journey is hard, and that's normal — not a sign you're failing. Set applying hours, protect your sleep, and talk to someone you trust. Rest is part of the work."}},
- {k:["agent","rcic","consultant","1-on-1","one on one"],a:{en:"The Kits tab lists independent RCIC agents you can book for a 1-on-1 — check their languages, prices and ratings there."}},
- {k:["pay","salary","wage","per hour"],a:{en:"Typical GTA warehouse pay: general labour $19–22/hr, forklift $23–26/hr, leads $25–28/hr, supervisors $28–32/hr. Nights often add $1–2/hr."}},
- {k:["job","hiring","vacancy","work"],a:{en:"Check the Jobs tab — current GTA openings with pay, shift and TEER. The amber PR PATHWAY tag marks TEER 2–3 roles. Employers can post too!"}}
+ {k:["hello","hi","hey","sat sri","namaste","bonjour","salut"],a:{en:"Sat Sri Akal! I'm Muse, your JobsToPR assistant. Ask me about jobs, CRS scores, OINP, Express Entry, resumes, or mindset.",fr:"Sat Sri Akal! Je suis Muse, votre assistant JobsToPR. Posez vos questions sur les emplois, les scores CRS, le POCI, Entrée express, les CV ou l'état d'esprit."}},
+ {k:["crs","score","points","cutoff","draw","seuil","tirage"],a:{en:"Try the PR Score tab — enter your age, education, language CLB and work experience for an honest CRS estimate. Recent cutoffs move around, so always check the latest IRCC draws.",fr:"Essayez l'onglet Score PR — entrez votre âge, vos diplômes, votre CLB linguistique et votre expérience pour une estimation CRS honnête. Les seuils bougent, alors vérifiez toujours les derniers tirages d'IRCC."}},
+ {k:["oinp","ontario","pnp","provincial","poci"],a:{en:"OINP's Employer Job Offer streams can work for some roles. General warehouse work (TEER 5) rarely qualifies directly — moving into a TEER 3 supervisor or TEER 2 role changes the picture.",fr:"Les volets Offre d'emploi de l'employeur du POCI peuvent convenir à certains postes. Le travail d'entrepôt général (FEER 5) est rarement admissible directement — passer à un poste de superviseur FEER 3 ou de métier FEER 2 change tout."}},
+ {k:["express entry","cec","federal","entrée express","fédéral"],a:{en:"Express Entry's Canadian Experience Class needs TEER 0–3 skilled work. Most general warehouse jobs are TEER 5, which doesn't count. Target lead-hand, supervisor or trades roles and keep language scores high.",fr:"La catégorie de l'expérience canadienne d'Entrée express exige un travail qualifié FEER 0–3. La plupart des emplois d'entrepôt généraux sont FEER 5, ce qui ne compte pas. Visez les postes de chef d'équipe, superviseur ou de métiers, et gardez de bons scores de langue."}},
+ {k:["pgwp","work permit","study permit","permis de travail","permis d'études"],a:{en:"PGWP lets you work for any employer after graduating from a designated institution — up to 3 years. Use it strategically: target TEER 2/3 roles, not just any job.",fr:"Le PGWP permet de travailler pour n'importe quel employeur après l'obtention d'un diplôme d'un établissement désigné — jusqu'à 3 ans. Utilisez-le stratégiquement : visez les postes FEER 2/3, pas n'importe quel emploi."}},
+ {k:["noc","teer","cnp","feer"],a:{en:"NOC codes classify jobs by TEER 0–5. For PR, TEER 0–3 counts. A warehouse supervisor is often TEER 2; a general labourer is TEER 5. Check your actual duties against the NOC.",fr:"Les codes CNP classent les emplois par FEER 0–5. Pour la RP, les FEER 0–3 comptent. Un superviseur d'entrepôt est souvent FEER 2; un manœuvre général est FEER 5. Comparez vos tâches réelles au CNP."}},
+ {k:["resume","cv","cover letter","lettre de présentation"],a:{en:"Keep it to 1 page, use numbers ('300+ orders/shift'), and match keywords from the posting — many employers use ATS filters. The Starter Kit ($29) has 5 templates built for this.",fr:"Gardez-le à 1 page, utilisez des chiffres (« 300+ commandes/quart ») et reprenez les mots-clés de l'offre — beaucoup d'employeurs utilisent des filtres ATS. La Trousse de démarrage (29 $) contient 5 modèles conçus pour ça."}},
+ {k:["interview","entrevue","entretien"],a:{en:"Arrive 15 min early with steel-toes, bring ID and SIN. Prepare 3 stories: a challenge, teamwork, reliability. Slow down, breathe — confidence is a practice, not a trait.",fr:"Arrivez 15 min en avance avec vos bottes à embout d'acier, apportez pièce d'identité et NAS. Préparez 3 histoires : un défi, le travail d'équipe, la fiabilité. Ralentissez, respirez — la confiance se pratique."}},
+ {k:["mindset","stress","motivat","depress","sad","tired","décourag","fatigué","triste"],a:{en:"The journey is hard, and that's normal — not a sign you're failing. Set applying hours, protect your sleep, and talk to someone you trust. Rest is part of the work.",fr:"Le parcours est difficile, et c'est normal — ce n'est pas un signe d'échec. Fixez des heures de candidature, protégez votre sommeil et parlez à quelqu'un de confiance. Le repos fait partie du travail."}},
+ {k:["agent","rcic","consultant","1-on-1","one on one","cric"],a:{en:"The Kits tab lists independent RCIC agents you can book for a 1-on-1 — check their languages, prices and ratings there.",fr:"L'onglet Trousses liste des consultants CRIC indépendants que vous pouvez réserver pour un appel individuel — vérifiez leurs langues, tarifs et notes."}},
+ {k:["pay","salary","wage","per hour","salaire","paie"],a:{en:"Typical GTA warehouse pay: general labour $19–22/hr, forklift $23–26/hr, leads $25–28/hr, supervisors $28–32/hr. Nights often add $1–2/hr.",fr:"Salaires typiques en entrepôt dans la RGT : manœuvre 19–22 $/h, cariste 23–26 $/h, chef d'équipe 25–28 $/h, superviseur 28–32 $/h. Les nuits ajoutent souvent 1–2 $/h."}},
+ {k:["job","hiring","vacancy","work","emploi","embauche"],a:{en:"Check the Jobs tab — current GTA openings with pay, shift and TEER. The amber PR PATHWAY tag marks TEER 2–3 roles. Employers can post too!",fr:"Consultez l'onglet Emplois — offres actuelles dans la RGT avec salaire, quart et FEER. L'étiquette ambre PARCOURS RP marque les postes FEER 2–3. Les employeurs peuvent aussi publier!"}}
 ];
-const QUICK=["CRS score?","OINP for warehouse?","Interview tips","Talk to an agent"];
+const QUICK=[{en:"CRS score?",fr:"Score CRS?"},{en:"OINP for warehouse?",fr:"POCI pour l'entrepôt?"},{en:"Interview tips",fr:"Conseils d'entrevue"},{en:"Talk to an agent",fr:"Parler à un consultant"}];
 /* ================= I18N ================= */
 const T={
 en:{headerTag:"GTA jobs that lead to permanent residency",tabJobs:"Jobs",tabPR:"PR Score",tabRoadmap:"Roadmap",tabKits:"Kits",tabProfile:"Profile",roadTitle:"Your Roadmap",roadSub:"Certifications that raise your pay, and the journey from survival job to PR.",certTitle:"Certification ladder",certSub:"Tick what you have — see what each unlocks.",journeyTitle:"Survival job → PR journey",
 jobsTitle:"Find Jobs",jobsSub:"GTA warehouse, forklift & trades openings. Amber tag = PR-relevant role.",postJob:"+ Post a Job (Employers)",postJobHint:"Hiring? List your opening here — free during launch.",searchPh:"Search jobs, companies, cities...",allShifts:"All shifts",day:"Day",afternoon:"Afternoon",night:"Night",prOnly:"PR pathway only",allProvinces:"All provinces",apply:"Apply",applied:"Applied ✓",save:"Save",savedBtn:"Saved",prTag:"PR PATHWAY",verifiedTag:"Verified",applyReal:"Apply now",viewOriginal:"View original posting",applyViaUs:"Get free application help — apply with JobsToPR",applyViaUsNote:"We\u2019ll forward your application to our team who will help you apply to this employer.",verifiedTag:"Verified",applyReal:"Apply now",viewOriginal:"View original posting",applyViaUs:"Get free application help — apply with JobsToPR",applyViaUsNote:"We\u2019ll forward your application to our team who will help you apply to this employer.",empTag:"EMPLOYER POST",sampleTag:"SAMPLE",sampleNote:"Live job listings across Canada — refreshed daily. Tap any job to view the original posting.",realJobs:"See real openings like this",
-prTitle:"PR Score",prSub:"Estimate your Express Entry CRS score. Honest math, no guarantees.",yourScore:"Your estimated CRS score",expTitle:"Your work experience",expJob:"Job title",expYears:"Years",expWhere:"Where",inCanada:"In Canada",outside:"Outside Canada",addExp:"+ Add experience",crsTitle:"CRS calculator",age:"Age",marital:"Status",single:"Single",married:"Married / common-law",edu:"Highest education",edu0:"Less than secondary school",edu1:"Secondary school diploma",edu2:"1-year post-secondary",edu3:"2-year post-secondary",edu4:"3-year+ degree / diploma",edu5:"Two or more credentials (one 3yr+)",edu6:"Master's degree",edu7:"PhD",lang1:"First language — CLB per ability",listening:"Listening",speaking:"Speaking",reading:"Reading",writing:"Writing",lang2:"Second language CLB 5+ in all 4 abilities",spEdu:"Spouse education",spLang:"Spouse first language CLB 5+ (all 4)",spWork:"Spouse has 1+ year Canadian work",addPts:"Additional points",pnp:"Provincial nomination (+600)",jobOffer:"Valid job offer",none:"None",offer200:"Senior management (NOC 00) +200",offer50:"TEER 0–3 skilled offer +50",cdnStudy:"Study in Canada",study15:"1–2 year credential +15",study30:"3+ year credential +30",sibling:"Sibling in Canada (PR/citizen 18+) +15",french:"French",fr25:"NCLC 7+ & English CLB 4 +25",fr50:"NCLC 7+ & English CLB 5+ +50",calc:"Calculate my score",crsDisclaimer:'Estimate only — not legal advice. Rules change; confirm with the official <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/become-candidate/eligibility/comprehensive-ranking-system.html" target="_blank" rel="noopener">IRCC CRS criteria</a> and consider consulting an RCIC.',
+prTitle:"PR Score",prSub:"Estimate your Express Entry CRS score. Honest math, no guarantees.",yourScore:"Your estimated CRS score",expTitle:"Your work experience",expJob:"Job title",expYears:"Years",expWhere:"Where",inCanada:"In Canada",outside:"Outside Canada",addExp:"+ Add experience",crsTitle:"CRS calculator",age:"Age",marital:"Status",single:"Single",married:"Married / common-law",edu:"Highest education",edu0:"Less than secondary school",edu1:"Secondary school diploma",edu2:"1-year post-secondary",edu3:"2-year post-secondary",edu4:"3-year+ degree / diploma",edu5:"Two or more credentials (one 3yr+)",edu6:"Master's degree",edu7:"PhD",lang1:"First language — CLB per ability",listening:"Listening",speaking:"Speaking",reading:"Reading",writing:"Writing",lang2:"Second language CLB 5+ in all 4 abilities",spEdu:"Spouse education",spLang:"Spouse first language CLB 5+ (all 4)",spWork:"Spouse has 1+ year Canadian work",spLangQ:"Spouse language — abilities at CLB 5+ (5 pts each)",spWorkQ:"Spouse Canadian work experience",addPts:"Additional points",pnp:"Provincial nomination (+600)",jobOffer:"Valid job offer",none:"None",offer200:"Senior management (NOC 00) +200",offer50:"TEER 0–3 skilled offer +50",cdnStudy:"Study in Canada",study15:"1–2 year credential +15",study30:"3+ year credential +30",sibling:"Sibling in Canada (PR/citizen 18+) +15",french:"French",fr25:"NCLC 7+ & English CLB 4 +25",fr50:"NCLC 7+ & English CLB 5+ +50",calc:"Calculate my score",crsDisclaimer:'Estimate only — not legal advice. Rules change; confirm with the official <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/become-candidate/eligibility/comprehensive-ranking-system.html" target="_blank" rel="noopener">IRCC CRS criteria</a> and consider consulting an RCIC.',
 kitsTitle:"Kits & 1-on-1",kitsSub:"Tools that speed up your job hunt — from templates to expert guidance.",agentsTitle:"Talk to an IRCC agent",agentsSub:"Book a 1-on-1 with an independent immigration consultant.",agentsNote:"Agents are independent RCICs, not JobsToPR employees. JobsToPR takes a service fee on bookings. Always verify an agent's RCIC licence.",getKit:"Get",bookNow:"Book",
 profileTitle:"Profile",profileSub:"Your saved jobs, applications, posts and bookings.",yourInfo:"Your info",namePh:"Your name",language:"Language",savedCount:"Saved jobs",appliedCount:"Applications",postedCount:"Jobs you posted",bookedCount:"Sessions booked",crsSaved:"Saved CRS score",savedJobs:"Saved jobs",noSaved:"Nothing saved yet — your future starts with one tap.",myApps:"My applications",noApps:"No applications yet — every journey begins with the first one.",myPosts:"My job posts",noPosts:"No posts yet — when you're hiring, this is where it starts.",myBookings:"My bookings",noBookings:"No sessions booked yet — expert guidance is one tap away.",
-askMuse:"Ask Muse",chatPh:"Ask about jobs, CRS, PR...",applyTitle:"Apply for this job",applyProNote:"Our team reviews every application and helps you submit the strongest possible one to the employer — free.",fullName:"Full name",phone:"Phone",cancel:"Cancel",submitApp:"Submit application",coverNote:"Why are you a good fit? (optional)",coverNotePh:"Brief intro...",appReceived:"Well done — application sent!",appReceivedSub:"Thank you. Our team will review your application and contact you within 24 hours with next steps.",done:"Done",noJobs:"No jobs match your filters.",postJobTitle:"Post a job",postJobSub:"Your listing appears in the Jobs tab instantly.",company:"Company",jobTitleF:"Job title",pay:"Pay",location:"Location",shift:"Shift",contact:"Contact",descF:"Short description",publish:"Publish job",bookTitle:"Book a 1-on-1",reqBook:"Request booking",bookReceived:"Booking requested!",bookReceivedSub:"The agent will contact you to confirm your session time.",orderTitle:"Order Premium Kit — $49",orderSub:"Fill this in — we receive your order instantly and start within 24 hours.",targetJob:"Target job title",targetJobPh:"e.g. Warehouse Supervisor",targetNoc:"Target NOC code (if known)",orderNotes:"Anything we should know?",orderNotesPh:"Optional",sendOrder:"Send order",orderSent:"Order sent!",orderSentSub:"We've got your order! We'll be in touch within 24 hours.",orderFail:"Couldn't send. Please check your connection and try again.",perSession:"/session",langName:"English",trust1:"✓ Free during launch",trust2:"✓ No account needed",trust3:"✓ Your data stays on your phone",
+askMuse:"Ask Muse",chatPh:"Ask about jobs, CRS, PR...",applyTitle:"Apply for this job",applyProNote:"Our team reviews every application and helps you submit the strongest possible one to the employer — free.",fullName:"Full name",phone:"Phone",cancel:"Cancel",submitApp:"Submit application",coverNote:"Why are you a good fit? (optional)",coverNotePh:"Brief intro...",appReceived:"Well done — application sent!",applyFail:"Couldn’t send your application. Check your connection and try again.",appReceivedSub:"Thank you. Our team will review your application and contact you within 24 hours with next steps.",done:"Done",noJobs:"No jobs match your filters.",postJobTitle:"Post a job",postJobSub:"Your listing is saved on this device and appears in the Jobs tab instantly.",company:"Company",jobTitleF:"Job title",pay:"Pay",location:"Location",shift:"Shift",contact:"Contact",descF:"Short description",publish:"Publish job",bookTitle:"Book a 1-on-1",reqBook:"Request booking",bookReceived:"Booking requested!",bookReceivedSub:"We've received your request and will confirm your session time within 24 hours.",orderTitle:"Order Premium Kit — $49",orderSub:"Fill this in — we receive your order instantly and start within 24 hours.",targetJob:"Target job title",targetJobPh:"e.g. Warehouse Supervisor",targetNoc:"Target NOC code (if known)",orderNotes:"Anything we should know?",orderNotesPh:"Optional",sendOrder:"Send order",orderSent:"Order sent!",orderSentSub:"We've got your order! We'll be in touch within 24 hours.",orderFail:"Couldn't send. Please check your connection and try again.",payTitle:"Complete your payment",payEtransfer:"Send via Interac e-transfer to",payAmount:"Amount",payRef:"Reference",payNote:"Include the reference in your transfer message. We start work once payment arrives.",bookFail:"Couldn't send your booking request. Check your connection and try again.",perSession:"/session",langName:"English",trust1:"✓ Free during launch",trust2:"✓ No account needed",trust3:"✓ Your data stays on your phone",
 prImpact:"See 1-year PR impact",impactTitle:"1 year in this role — PR outlook",
 impactTeerOk:"Good news: TEER {n} counts as skilled work — 1 year here earns Canadian work-experience points.",
 impactTeerBad:"Honest note: TEER {n} work does not count as skilled Canadian work experience for Express Entry. The pay can fund your IELTS/French prep — and moving up to lead or supervisor (TEER 3/2) changes everything.",
@@ -512,7 +527,7 @@ impactWork:"Canadian work (1 yr)",impactLang:"Your IELTS bands",impactFr:"French
 impactTr:"Skill transferability (possible*)",impactTrNote:"assumes post-secondary education — confirm in the PR Score tab",
 impactTotal:"This job can add",impactVerdict:"This job could add ~{n} CRS points to your score.",impactLangNote:"Your language ({n} pts) is yours already — counted separately in the full calculator.",impactFrNote:"French bonus (+{n}) also counts separately.",
 fullScore:"Calculate my full score →",impactHint:"Rough estimate — fine-tune everything in the PR Score tab.",cdnWork:"Canadian work (years)",forWork:"Foreign work (years)",crsDisclaimer:"Estimate only"},
-fr:{headerTag:"Emplois dans la RGT menant à la résidence permanente",tabJobs:"Emplois",tabPR:"Score PR",tabRoadmap:"Feuille de route",tabKits:"Trousses",tabProfile:"Profil",roadTitle:"Votre feuille de route",roadSub:"Certifications qui augmentent votre salaire, et le parcours de l'emploi de survie à la RP.",certTitle:"Échelle des certifications",certSub:"Cochez ce que vous avez — voyez ce que chacune débloque.",journeyTitle:"Parcours emploi de survie → RP",jobsTitle:"Trouver un emploi",jobsSub:"Offres d'entrepôt, de chariot élévateur et de métiers dans la RGT. Étiquette ambre = poste pertinent pour la RP.",postJob:"+ Publier une offre (Employeurs)",postJobHint:"Vous embauchez? Publiez votre offre ici — gratuit pendant le lancement.",searchPh:"Rechercher emplois, entreprises, villes...",allShifts:"Tous les quarts",day:"Jour",afternoon:"Après-midi",night:"Nuit",prOnly:"Parcours RP seulement",allProvinces:"Toutes les provinces",apply:"Postuler",applied:"Candidature envoyée ✓",save:"Sauvegarder",savedBtn:"Sauvegardé",prTag:"PARCOURS RP",verifiedTag:"Vérifié",applyReal:"Postuler",viewOriginal:"Voir l\u2019offre originale",applyViaUs:"Aide gratuite \u00e0 la candidature — postulez avec JobsToPR",applyViaUsNote:"Nous transmettrons votre candidature \u00e0 notre \u00e9quipe qui vous aidera \u00e0 postuler aupr\u00e8s de cet employeur.",empTag:"OFFRE D'EMPLOYEUR",sampleTag:"EXEMPLE",sampleNote:"Offres d\u2019emploi en direct partout au Canada — actualis\u00e9es quotidiennement. Touchez une offre pour voir l\u2019annonce originale.",realJobs:"Voir de vraies offres comme celle-ci",prTitle:"Score PR",prSub:"Estimez votre score CRS d'Entrée express. Calcul honnête, sans garanties.",yourScore:"Votre score CRS estimé",expTitle:"Votre expérience de travail",expJob:"Titre du poste",expYears:"Années",expWhere:"Où",inCanada:"Au Canada",outside:"Hors Canada",addExp:"+ Ajouter une expérience",crsTitle:"Calculateur CRS",age:"Âge",marital:"Statut",single:"Célibataire",married:"Marié(e) / conjoint(e) de fait",edu:"Plus haut diplôme",edu0:"Moins qu'un diplôme d'études secondaires",edu1:"Diplôme d'études secondaires",edu2:"Études postsecondaires d'un an",edu3:"Études postsecondaires de deux ans",edu4:"Diplôme de 3 ans ou plus",edu5:"Deux diplômes ou plus (dont un de 3 ans+)",edu6:"Maîtrise",edu7:"Doctorat",lang1:"Première langue — CLB par compétence",listening:"Compréhension orale",speaking:"Expression orale",reading:"Compréhension écrite",writing:"Expression écrite",lang2:"Deuxième langue NCLC 5+ dans les 4 compétences",spEdu:"Scolarité du conjoint",spLang:"Première langue du conjoint NCLC 5+ (les 4)",spWork:"Conjoint avec 1+ an de travail au Canada",addPts:"Points supplémentaires",pnp:"Désignation provinciale (+600)",jobOffer:"Offre d'emploi valide",none:"Aucune",offer200:"Haute direction (CNP 00) +200",offer50:"Offre qualifiée FEER 0–3 +50",cdnStudy:"Études au Canada",study15:"Diplôme de 1–2 ans +15",study30:"Diplôme de 3 ans+ +30",sibling:"Frère/sœur au Canada (RP/citoyen 18 ans+) +15",french:"Français",fr25:"NCLC 7+ et anglais CLB 4 +25",fr50:"NCLC 7+ et anglais CLB 5+ +50",calc:"Calculer mon score",kitsTitle:"Trousses et consultations",kitsSub:"Des outils pour accélérer votre recherche d'emploi — des modèles aux conseils d'experts.",agentsTitle:"Parler à un agent d'IRCC",agentsSub:"Réservez une consultation individuelle avec un consultant en immigration indépendant.",agentsNote:"Les agents sont des CRIC indépendants, pas des employés de JobsToPR. JobsToPR prélève des frais de service sur les réservations. Vérifiez toujours le permis CRIC d'un agent.",getKit:"Obtenir",bookNow:"Réserver",profileTitle:"Profil",profileSub:"Vos emplois sauvegardés, candidatures, publications et réservations.",yourInfo:"Vos informations",namePh:"Votre nom",language:"Langue",savedCount:"Emplois sauvegardés",appliedCount:"Candidatures",postedCount:"Offres publiées",bookedCount:"Séances réservées",crsSaved:"Score CRS sauvegardé",savedJobs:"Emplois sauvegardés",noSaved:"Rien de sauvegardé — votre avenir commence en un toucher.",myApps:"Mes candidatures",noApps:"Aucune candidature — tout parcours commence par la première.",myPosts:"Mes offres d'emploi",noPosts:"Aucune publication — lorsque vous embauchez, tout commence ici.",myBookings:"Mes réservations",noBookings:"Aucune séance réservée — les conseils d'experts sont à portée de main.",askMuse:"Demander à Muse",chatPh:"Posez vos questions sur emplois, CRS, RP...",applyTitle:"Postuler à cet emploi",applyProNote:"Notre \u00e9quipe examine chaque candidature et vous aide \u00e0 soumettre la meilleure possible \u00e0 l\u2019employeur — gratuitement.",fullName:"Nom complet",phone:"Téléphone",cancel:"Annuler",submitApp:"Envoyer la candidature",coverNote:"Pourquoi \u00eates-vous un bon candidat? (facultatif)",coverNotePh:"Br\u00e8ve pr\u00e9sentation...",appReceived:"Bravo — candidature envoyée!",appReceivedSub:"Cette démarche compte. L'employeur a vos coordonnées — nous vous informerons des prochaines étapes.",done:"Terminé",noJobs:"Aucun emploi ne correspond à vos filtres.",postJobTitle:"Publier une offre",postJobSub:"Votre offre apparaît instantanément dans l'onglet Emplois.",company:"Entreprise",jobTitleF:"Titre du poste",pay:"Salaire",location:"Lieu",shift:"Quart",contact:"Contact",descF:"Courte description",publish:"Publier l'offre",bookTitle:"Réserver une consultation",reqBook:"Demander une réservation",bookReceived:"Réservation demandée!",bookReceivedSub:"L'agent vous contactera pour confirmer l'heure de votre séance.",orderTitle:"Commander la trousse Premium — 49 $",orderSub:"Remplissez ceci — nous recevons votre commande instantanément et commençons dans les 24 heures.",targetJob:"Titre du poste visé",targetJobPh:"p. ex. Superviseur d'entrepôt",targetNoc:"Code CNP visé (si connu)",orderNotes:"Autre chose à nous dire?",orderNotesPh:"Facultatif",sendOrder:"Envoyer la commande",orderSent:"Commande envoyée!",orderSentSub:"Nous avons reçu votre commande! Nous vous contacterons dans les 24 heures.",orderFail:"Envoi impossible. Vérifiez votre connexion et réessayez.",perSession:"/séance",langName:"Français",trust1:"✓ Gratuit pendant le lancement",trust2:"✓ Aucun compte requis",trust3:"✓ Vos données restent sur votre téléphone",prImpact:"Voir l'impact RP sur 1 an",impactTitle:"1 an dans ce poste — perspectives RP",impactTeerOk:"Bonne nouvelle : FEER {n} compte comme travail qualifié — 1 an ici rapporte des points d'expérience canadienne.",impactTeerBad:"Note honnête : le travail FEER {n} ne compte pas comme expérience de travail canadienne qualifiée pour Entrée express. Le salaire peut financer votre préparation à l'IELTS ou au français — et passer chef d'équipe ou superviseur (FEER 3/2) change tout.",impactWork:"Travail canadien (1 an)",impactLang:"Vos résultats IELTS",impactFr:"Niveau de français (NCLC)",frNone:"Aucun",fr56:"CLB 5–6",fr7:"CLB 7+",impactTr:"Transférabilité des compétences (possible*)",impactTrNote:"suppose des études postsecondaires — confirmez dans l'onglet Score PR",impactTotal:"Cet emploi peut ajouter",impactVerdict:"Cet emploi pourrait ajouter ~{n} points CRS à votre score.",impactLangNote:"Votre langue ({n} pts) vous appartient déjà — comptée séparément dans le calculateur complet.",impactFrNote:"Le bonus français (+{n}) compte aussi séparément.",fullScore:"Calculer mon score complet →",impactHint:"Estimation approximative — ajustez tout dans l'onglet Score PR.",cdnWork:"Années de travail au Canada",forWork:"Années de travail à l'étranger",crsDisclaimer:"Estimation seulement"}
+fr:{headerTag:"Emplois dans la RGT menant à la résidence permanente",tabJobs:"Emplois",tabPR:"Score PR",tabRoadmap:"Feuille de route",tabKits:"Trousses",tabProfile:"Profil",roadTitle:"Votre feuille de route",roadSub:"Certifications qui augmentent votre salaire, et le parcours de l'emploi de survie à la RP.",certTitle:"Échelle des certifications",certSub:"Cochez ce que vous avez — voyez ce que chacune débloque.",journeyTitle:"Parcours emploi de survie → RP",jobsTitle:"Trouver un emploi",jobsSub:"Offres d'entrepôt, de chariot élévateur et de métiers dans la RGT. Étiquette ambre = poste pertinent pour la RP.",postJob:"+ Publier une offre (Employeurs)",postJobHint:"Vous embauchez? Publiez votre offre ici — gratuit pendant le lancement.",searchPh:"Rechercher emplois, entreprises, villes...",allShifts:"Tous les quarts",day:"Jour",afternoon:"Après-midi",night:"Nuit",prOnly:"Parcours RP seulement",allProvinces:"Toutes les provinces",apply:"Postuler",applied:"Candidature envoyée ✓",save:"Sauvegarder",savedBtn:"Sauvegardé",prTag:"PARCOURS RP",verifiedTag:"Vérifié",applyReal:"Postuler",viewOriginal:"Voir l\u2019offre originale",applyViaUs:"Aide gratuite \u00e0 la candidature — postulez avec JobsToPR",applyViaUsNote:"Nous transmettrons votre candidature \u00e0 notre \u00e9quipe qui vous aidera \u00e0 postuler aupr\u00e8s de cet employeur.",empTag:"OFFRE D'EMPLOYEUR",sampleTag:"EXEMPLE",sampleNote:"Offres d\u2019emploi en direct partout au Canada — actualis\u00e9es quotidiennement. Touchez une offre pour voir l\u2019annonce originale.",realJobs:"Voir de vraies offres comme celle-ci",prTitle:"Score PR",prSub:"Estimez votre score CRS d'Entrée express. Calcul honnête, sans garanties.",yourScore:"Votre score CRS estimé",expTitle:"Votre expérience de travail",expJob:"Titre du poste",expYears:"Années",expWhere:"Où",inCanada:"Au Canada",outside:"Hors Canada",addExp:"+ Ajouter une expérience",crsTitle:"Calculateur CRS",age:"Âge",marital:"Statut",single:"Célibataire",married:"Marié(e) / conjoint(e) de fait",edu:"Plus haut diplôme",edu0:"Moins qu'un diplôme d'études secondaires",edu1:"Diplôme d'études secondaires",edu2:"Études postsecondaires d'un an",edu3:"Études postsecondaires de deux ans",edu4:"Diplôme de 3 ans ou plus",edu5:"Deux diplômes ou plus (dont un de 3 ans+)",edu6:"Maîtrise",edu7:"Doctorat",lang1:"Première langue — CLB par compétence",listening:"Compréhension orale",speaking:"Expression orale",reading:"Compréhension écrite",writing:"Expression écrite",lang2:"Deuxième langue NCLC 5+ dans les 4 compétences",spEdu:"Scolarité du conjoint",spLang:"Première langue du conjoint NCLC 5+ (les 4)",spWork:"Conjoint avec 1+ an de travail au Canada",spLangQ:"Langue du conjoint — habiletés à NCLC 5+ (5 pts chacune)",spWorkQ:"Expérience de travail du conjoint au Canada",addPts:"Points supplémentaires",pnp:"Désignation provinciale (+600)",jobOffer:"Offre d'emploi valide",none:"Aucune",offer200:"Haute direction (CNP 00) +200",offer50:"Offre qualifiée FEER 0–3 +50",cdnStudy:"Études au Canada",study15:"Diplôme de 1–2 ans +15",study30:"Diplôme de 3 ans+ +30",sibling:"Frère/sœur au Canada (RP/citoyen 18 ans+) +15",french:"Français",fr25:"NCLC 7+ et anglais CLB 4 +25",fr50:"NCLC 7+ et anglais CLB 5+ +50",calc:"Calculer mon score",kitsTitle:"Trousses et consultations",kitsSub:"Des outils pour accélérer votre recherche d'emploi — des modèles aux conseils d'experts.",agentsTitle:"Parler à un agent d'IRCC",agentsSub:"Réservez une consultation individuelle avec un consultant en immigration indépendant.",agentsNote:"Les agents sont des CRIC indépendants, pas des employés de JobsToPR. JobsToPR prélève des frais de service sur les réservations. Vérifiez toujours le permis CRIC d'un agent.",getKit:"Obtenir",bookNow:"Réserver",profileTitle:"Profil",profileSub:"Vos emplois sauvegardés, candidatures, publications et réservations.",yourInfo:"Vos informations",namePh:"Votre nom",language:"Langue",savedCount:"Emplois sauvegardés",appliedCount:"Candidatures",postedCount:"Offres publiées",bookedCount:"Séances réservées",crsSaved:"Score CRS sauvegardé",savedJobs:"Emplois sauvegardés",noSaved:"Rien de sauvegardé — votre avenir commence en un toucher.",myApps:"Mes candidatures",noApps:"Aucune candidature — tout parcours commence par la première.",myPosts:"Mes offres d'emploi",noPosts:"Aucune publication — lorsque vous embauchez, tout commence ici.",myBookings:"Mes réservations",noBookings:"Aucune séance réservée — les conseils d'experts sont à portée de main.",askMuse:"Demander à Muse",chatPh:"Posez vos questions sur emplois, CRS, RP...",applyTitle:"Postuler à cet emploi",applyProNote:"Notre \u00e9quipe examine chaque candidature et vous aide \u00e0 soumettre la meilleure possible \u00e0 l\u2019employeur — gratuitement.",fullName:"Nom complet",phone:"Téléphone",cancel:"Annuler",submitApp:"Envoyer la candidature",coverNote:"Pourquoi \u00eates-vous un bon candidat? (facultatif)",coverNotePh:"Br\u00e8ve pr\u00e9sentation...",appReceived:"Bravo — candidature envoyée!",applyFail:"Envoi impossible. Vérifiez votre connexion et réessayez.",appReceivedSub:"Cette démarche compte. L'employeur a vos coordonnées — nous vous informerons des prochaines étapes.",done:"Terminé",noJobs:"Aucun emploi ne correspond à vos filtres.",postJobTitle:"Publier une offre",postJobSub:"Votre offre est enregistrée sur cet appareil et apparaît instantanément dans l'onglet Emplois.",company:"Entreprise",jobTitleF:"Titre du poste",pay:"Salaire",location:"Lieu",shift:"Quart",contact:"Contact",descF:"Courte description",publish:"Publier l'offre",bookTitle:"Réserver une consultation",reqBook:"Demander une réservation",bookReceived:"Réservation demandée!",bookReceivedSub:"Nous avons bien reçu votre demande et confirmerons l'heure de votre séance dans les 24 heures.",orderTitle:"Commander la trousse Premium — 49 $",orderSub:"Remplissez ceci — nous recevons votre commande instantanément et commençons dans les 24 heures.",targetJob:"Titre du poste visé",targetJobPh:"p. ex. Superviseur d'entrepôt",targetNoc:"Code CNP visé (si connu)",orderNotes:"Autre chose à nous dire?",orderNotesPh:"Facultatif",sendOrder:"Envoyer la commande",orderSent:"Commande envoyée!",orderSentSub:"Nous avons reçu votre commande! Nous vous contacterons dans les 24 heures.",orderFail:"Envoi impossible. Vérifiez votre connexion et réessayez.",payTitle:"Finalisez votre paiement",payEtransfer:"Envoyez par virement Interac à",payAmount:"Montant",payRef:"Référence",payNote:"Indiquez la référence dans votre message de virement. Nous commençons dès réception du paiement.",bookFail:"Envoi impossible. Vérifiez votre connexion et réessayez.",perSession:"/séance",langName:"Français",trust1:"✓ Gratuit pendant le lancement",trust2:"✓ Aucun compte requis",trust3:"✓ Vos données restent sur votre téléphone",prImpact:"Voir l'impact RP sur 1 an",impactTitle:"1 an dans ce poste — perspectives RP",impactTeerOk:"Bonne nouvelle : FEER {n} compte comme travail qualifié — 1 an ici rapporte des points d'expérience canadienne.",impactTeerBad:"Note honnête : le travail FEER {n} ne compte pas comme expérience de travail canadienne qualifiée pour Entrée express. Le salaire peut financer votre préparation à l'IELTS ou au français — et passer chef d'équipe ou superviseur (FEER 3/2) change tout.",impactWork:"Travail canadien (1 an)",impactLang:"Vos résultats IELTS",impactFr:"Niveau de français (NCLC)",frNone:"Aucun",fr56:"CLB 5–6",fr7:"CLB 7+",impactTr:"Transférabilité des compétences (possible*)",impactTrNote:"suppose des études postsecondaires — confirmez dans l'onglet Score PR",impactTotal:"Cet emploi peut ajouter",impactVerdict:"Cet emploi pourrait ajouter ~{n} points CRS à votre score.",impactLangNote:"Votre langue ({n} pts) vous appartient déjà — comptée séparément dans le calculateur complet.",impactFrNote:"Le bonus français (+{n}) compte aussi séparément.",fullScore:"Calculer mon score complet →",impactHint:"Estimation approximative — ajustez tout dans l'onglet Score PR.",cdnWork:"Années de travail au Canada",forWork:"Années de travail à l'étranger",crsDisclaimer:"Estimation seulement"}
 };
 /* ================= STATE ================= */
 const LS='jtp2';
@@ -660,8 +675,7 @@ $('applySubmit').onclick=async()=>{
  const j=allJobs().find(x=>x.id===applyId);
  const btn=$('applySubmit');btn.disabled=true;btn.textContent='...';
  const empEmail=j&&j.contact&&j.contact.includes('@')?j.contact.trim():'';
- try{
-  const payload={
+ const payload={
    _subject:'New Job Application: '+(j?j.title+' at '+j.company:'Unknown job'),
    _autoresponse:'Thank you for applying through JobsToPR. Our team has received your application for '+(j?j.title+' at '+j.company:'this position')+' and will review it shortly. We will contact you within 24 hours with next steps. — JobsToPR Team',
    'Job':j?j.title+' at '+j.company+' ('+j.location+')':'',
@@ -670,11 +684,19 @@ $('applySubmit').onclick=async()=>{
    'Job URL':j&&j.url?j.url:''
   };
   if(empEmail)payload._cc=empEmail;
-  await fetch('https://formsubmit.co/ajax/jobstopr@gmail.com',{
-   method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
-   body:JSON.stringify(payload)
-  });
- }catch(e){}
+  let sent=false;
+  try{
+   const res=await fetch('https://formsubmit.co/ajax/jobstopr@gmail.com',{
+    method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify(payload)
+   });
+   sent=res.ok;
+  }catch(e){sent=false}
+  if(!sent){
+   btn.disabled=false;btn.textContent=t('submitApp');
+   alert(t('applyFail'));
+   return;
+  }
  if(!S.applied.includes(applyId))S.applied.push(applyId);save();
  $('applyForm').style.display='none';$('applySuccess').style.display='block';
  btn.disabled=false;btn.textContent=t('submitApp');renderJobs();renderProfile()};
@@ -720,7 +742,7 @@ $('calcBtn').onclick=()=>{
  const lang2=$('crsLang2').checked?22:0;
  const core=agePts(age,sp)+eduPts(edu,sp)+lang1+lang2+cdnPts(cdn,sp);
  let spp=0;
- if(sp){const se={0:0,1:2,2:6,3:7,4:8,5:9,6:10,7:10}[+$('crsSpEdu').value]||0;spp=se+($('crsSpLang').checked?5:0)+($('crsSpWork').checked?10:0)}
+ if(sp){const se={0:0,1:2,2:6,3:7,4:8,5:9,6:10,7:10}[+$('crsSpEdu').value]||0;const sw={0:0,1:5,2:7,3:8,4:9,5:10}[+$('crsSpWork').value]||0;spp=se+(+$('crsSpLang').value*5)+sw}
  const all7=clbs.every(c=>c>=7),all9=clbs.every(c=>c>=9);
  const cdnY=Math.floor(cdn),frY=Math.floor(fr),p1=edu>=2,p3=edu>=4;
  /* Education subsection (max 50): language+education, Canadian work+education */
@@ -738,7 +760,7 @@ $('calcBtn').onclick=()=>{
  else if(frY>=1){fw=cdnY>=2?25:cdnY>=1?13:0}
  workTr=Math.max(workTr,fw);workTr=Math.min(50,workTr);
  const tr=Math.min(100,eduTr+workTr);
- const add=($('crsPnp').checked?600:0)+ +$('crsOffer').value+ +$('crsStudy').value+($('crsSibling').checked?15:0)+ +$('crsFrench').value;
+ const add=($('crsPnp').checked?600:0)+ +$('crsStudy').value+($('crsSibling').checked?15:0)+ +$('crsFrench').value;
  const total=core+spp+tr+add;
  S.crs=total;save();
  $('scoreHero').style.display='block';$('scoreNum').textContent=total;
@@ -760,16 +782,13 @@ $('calcBtn').onclick=()=>{
 function kitAction(id){
  const pay=CONFIG.PAYMENT_URLS[id];
  if(pay){window.open(pay,'_blank');return}
- if(id==="premium"){
-  if(CONFIG.WHATSAPP_NUMBER){openOrder();return}
-  if(CONFIG.PREMIUM_FORM_URL){window.open(CONFIG.PREMIUM_FORM_URL,'_blank');return}
- }
- alert('Online payments coming soon');
+ openOrder(id);
 }
 function renderKits(){
- $('kitList').innerHTML=KITS.map(k=>`<div class="card kit${k.featured?' featured':''}">${k.badge?`<div class="kit-badge">${k.badge}</div>`:''}
-  <div style="display:flex;justify-content:space-between;align-items:center"><b>${k.name}</b><span class="kit-price">$${k.price}</span></div>
-  <p class="section-sub" style="margin:.3rem 0">${k.desc}</p><ul>${k.features.map(f=>`<li>${f}</li>`).join('')}</ul>
+ const fr=S.lang==='fr';
+ $('kitList').innerHTML=KITS.map(k=>`<div class="card kit${k.featured?' featured':''}">${k.badge?`<div class="kit-badge">${fr?k.badge_fr:k.badge}</div>`:''}
+  <div style="display:flex;justify-content:space-between;align-items:center"><b>${fr?k.name_fr:k.name}</b><span class="kit-price">$${k.price}</span></div>
+  <p class="section-sub" style="margin:.3rem 0">${fr?k.desc_fr:k.desc}</p><ul>${(fr?k.features_fr:k.features).map(f=>`<li>${f}</li>`).join('')}</ul>
   <button class="btn ${k.featured?'btn-amber':'btn-outline'} btn-block btn-sm" onclick="kitAction('${k.id}')">${t('getKit')} — $${k.price}</button></div>`).join('');
  $('agentList').innerHTML=AGENTS.map(a=>`<div class="card"><div class="agent">
   <div class="avatar">${a.name.split(' ').map(w=>w[0]).join('')}</div>
@@ -783,24 +802,61 @@ function renderKits(){
 let bookId=null;
 window.openBook=id=>{bookId=id;const a=AGENTS.find(x=>x.id===id);$('bookAgentName').textContent=a.name+' — $'+a.price+t('perSession');$('bookForm').style.display='block';$('bookSuccess').style.display='none';openM('bookModal')};
 $('bookCancel').onclick=()=>$('bookModal').classList.remove('open');
-$('bookSubmit').onclick=()=>{if(!$('bookName').value.trim()){$('bookName').focus();return}
- const a=AGENTS.find(x=>x.id===bookId);S.bookings.unshift({agent:a.name,price:a.price,when:new Date().toLocaleDateString()});save();
+$('bookSubmit').onclick=async()=>{
+ const name=$('bookName').value.trim();
+ if(!name){$('bookName').focus();return}
+ const a=AGENTS.find(x=>x.id===bookId);
+ const btn=$('bookSubmit');btn.disabled=true;btn.textContent='...';
+ const ref='BK-'+Date.now().toString(36).toUpperCase();
+ let sent=false;
+ try{
+  const res=await fetch('https://formsubmit.co/ajax/jobstopr@gmail.com',{
+   method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+   body:JSON.stringify({
+    _subject:'New 1-on-1 Booking Request: '+a.name+' ($'+a.price+')',
+    _template:'table',
+    'Type':'1-on-1 booking request',
+    'Agent':a.name+' ('+a.tag+')',
+    'Price':'$'+a.price,
+    'Reference':ref,
+    'Name':name,
+    'Phone':$('bookPhone').value.trim(),
+    'Requested at':new Date().toISOString()
+   })
+  });
+  sent=res.ok;
+ }catch(e){sent=false}
+ btn.disabled=false;btn.textContent=t('reqBook');
+ if(!sent){alert(t('bookFail'));return}
+ S.bookings.unshift({agent:a.name,price:a.price,when:new Date().toLocaleDateString(),ref});save();
+ $('payRefBook').textContent=ref;$('payAmtBook').textContent='$'+a.price;
  $('bookForm').style.display='none';$('bookSuccess').style.display='block';renderProfile()};
 $('bookDone').onclick=()=>$('bookModal').classList.remove('open');
 /* ================= PREMIUM KIT ORDER (WhatsApp flow) ================= */
-function openOrder(){$('orderForm').style.display='block';$('orderSuccess').style.display='none';openM('orderModal')}
+let orderKitId='premium';
+function openOrder(id){
+ orderKitId=id||'premium';
+ const k=KITS.find(x=>x.id===orderKitId)||KITS[2];
+ const fr=S.lang==='fr',kn=fr?k.name_fr:k.name;
+ $('orderTitleDyn').textContent=(fr?'Commander ':'Order ')+kn+' — $'+k.price;
+ $('payAmtOrder').textContent='$'+k.price;
+ $('orderForm').style.display='block';$('orderSuccess').style.display='none';
+ const b=$('orderSubmit');b.disabled=false;b.textContent=t('sendOrder');openM('orderModal')}
 $('orderCancel').onclick=()=>$('orderModal').classList.remove('open');
 $('orderSubmit').onclick=async()=>{
  const name=$('orderName').value.trim(),phone=$('orderPhone').value.trim();
  if(!name){$('orderName').focus();return}
  const btn=$('orderSubmit');btn.disabled=true;
+ const ref='JK-'+Date.now().toString(36).toUpperCase();
+ const k=KITS.find(x=>x.id===orderKitId)||KITS[2];
  try{
   const res=await fetch("https://formsubmit.co/ajax/jobstopr@gmail.com",{
    method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},
    body:JSON.stringify({
-    _subject:"New JobsToPR Order: Premium Kit ($49)",
+    _subject:"New JobsToPR Order: "+k.name+" ($"+k.price+")",
     _template:"table",
-    "Kit":"Premium Kit ($49)",
+    "Kit":k.name+" ($"+k.price+")",
+    "Reference":ref,
     "Name":name,
     "Email":$('orderEmail').value.trim(),
     "Phone":phone,
@@ -811,6 +867,7 @@ $('orderSubmit').onclick=async()=>{
    })
   });
   if(!res.ok)throw new Error("send failed");
+  $('payRefOrder').textContent=ref;
   $('orderForm').style.display='none';$('orderSuccess').style.display='block';
  }catch(e){
   btn.disabled=false;
@@ -818,21 +875,20 @@ $('orderSubmit').onclick=async()=>{
  }
 };
 $('orderDone').onclick=()=>$('orderModal').classList.remove('open');
-$('orderDone').onclick=()=>$('orderModal').classList.remove('open');
 /* ============ ROADMAP — certs + PR journey ============ */
 const CERTS=[
- {id:"whmis",en:"WHMIS (Workplace Safety)",fr:"SIMDUT (Sécurité en milieu de travail)",cost:{en:"Free online · 1 day"},bump:{en:"Required for most warehouse jobs"}},
- {id:"forklift",en:"Forklift Operator Licence",fr:"Permis de cariste",cost:{en:"~$300–500 · 1–2 days"},bump:{en:"+$3–4/hr · unlocks forklift jobs"}},
- {id:"firstaid",en:"First Aid / CPR",fr:"Secourisme / RCR",cost:{en:"~$100 · 1 day"},bump:{en:"Often required · stands out"}},
- {id:"food",en:"Food Handler Certificate",fr:"Certificat de manipulateur d'aliments",cost:{en:"~$30 · online"},bump:{en:"Unlocks food production jobs"}},
- {id:"dz",en:"DZ Truck Licence",fr:"Permis de camion DZ",cost:{en:"~$5,000–8,000 · 4–6 weeks"},bump:{en:"+$5–7/hr · unlocks driving jobs"}}
+ {id:"whmis",en:"WHMIS (Workplace Safety)",fr:"SIMDUT (Sécurité en milieu de travail)",cost:{en:"Free online · 1 day",fr:"Gratuit en ligne · 1 jour"},bump:{en:"Required for most warehouse jobs",fr:"Exigé pour la plupart des emplois d'entrepôt"}},
+ {id:"forklift",en:"Forklift Operator Licence",fr:"Permis de cariste",cost:{en:"~$300–500 · 1–2 days",fr:"~300–500 $ · 1–2 jours"},bump:{en:"+$3–4/hr · unlocks forklift jobs",fr:"+3–4 $/h · débloque les emplois de cariste"}},
+ {id:"firstaid",en:"First Aid / CPR",fr:"Secourisme / RCR",cost:{en:"~$100 · 1 day",fr:"~100 $ · 1 jour"},bump:{en:"Often required · stands out",fr:"Souvent exigé · vous démarque"}},
+ {id:"food",en:"Food Handler Certificate",fr:"Certificat de manipulateur d'aliments",cost:{en:"~$30 · online",fr:"~30 $ · en ligne"},bump:{en:"Unlocks food production jobs",fr:"Débloque les emplois en production alimentaire"}},
+ {id:"dz",en:"DZ Truck Licence",fr:"Permis de camion DZ",cost:{en:"~$5,000–8,000 · 4–6 weeks",fr:"~5 000–8 000 $ · 4–6 semaines"},bump:{en:"+$5–7/hr · unlocks driving jobs",fr:"+5–7 $/h · débloque les emplois de camionneur"}}
 ];
 const JOURNEY=[
- {m:{en:"Month 0–1"},t:{en:"Land a survival job"},d:{en:"Get your SIN, open a bank account, take the first decent job. Cash flow first."}},
- {m:{en:"Month 1–3"},t:{en:"Settle + start IELTS prep"},d:{en:"Stabilize housing and shifts. 30 min/day of English — it compounds."}},
- {m:{en:"Month 3–6"},t:{en:"IELTS test + education assessment"},d:{en:"Book IELTS. Get your foreign credentials assessed (ECA)."}},
- {m:{en:"Month 6–12"},t:{en:"Build Canadian experience"},d:{en:"One year of skilled work (TEER 0–3) is the PR unlock. Track it in the PR Score tab."}},
- {m:{en:"Month 12+"},t:{en:"Enter the Express Entry pool"},d:{en:"Create your EE profile or explore PNP streams. Your CRS score is your ticket."}}
+ {m:{en:"Month 0–1",fr:"Mois 0–1"},t:{en:"Land a survival job",fr:"Décrochez un emploi de subsistance"},d:{en:"Get your SIN, open a bank account, take the first decent job. Cash flow first.",fr:"Obtenez votre NAS, ouvrez un compte bancaire, acceptez le premier bon emploi. D'abord, des revenus."}},
+ {m:{en:"Month 1–3",fr:"Mois 1–3"},t:{en:"Settle + start IELTS prep",fr:"Installez-vous + préparez l'IELTS"},d:{en:"Stabilize housing and shifts. 30 min/day of English — it compounds.",fr:"Stabilisez logement et quarts de travail. 30 min d'anglais par jour — ça s'accumule."}},
+ {m:{en:"Month 3–6",fr:"Mois 3–6"},t:{en:"IELTS test + education assessment",fr:"Test IELTS + évaluation des diplômes"},d:{en:"Book IELTS. Get your foreign credentials assessed (ECA).",fr:"Inscrivez-vous à l'IELTS. Faites évaluer vos diplômes étrangers (EDE)."}},
+ {m:{en:"Month 6–12",fr:"Mois 6–12"},t:{en:"Build Canadian experience",fr:"Accumulez de l'expérience canadienne"},d:{en:"One year of skilled work (TEER 0–3) is the PR unlock. Track it in the PR Score tab.",fr:"Un an de travail qualifié (FEER 0–3), c'est la clé de la RP. Suivez-le dans l'onglet Score PR."}},
+ {m:{en:"Month 12+",fr:"Mois 12+"},t:{en:"Enter the Express Entry pool",fr:"Entrez dans le bassin Entrée express"},d:{en:"Create your EE profile or explore PNP streams. Your CRS score is your ticket.",fr:"Créez votre profil EE ou explorez les volets PNP. Votre score CRS est votre billet."}}
 ];
 function renderRoadmap(){
  $('certList').innerHTML=CERTS.map(c=>{const has=S.certs[c.id];return `<label class="need-item${has?' done':''}" style="margin-bottom:.4rem"><input type="checkbox"${has?' checked':''} onchange="toggleCert('${c.id}',this.checked)"><span><b>${c[S.lang]||c.en}</b><br><span class="hint">${(c.cost[S.lang]||c.cost.en)} · ${(c.bump[S.lang]||c.bump.en)}</span></span></label>`}).join('');
@@ -861,7 +917,7 @@ function addMsg(txt,who){const d=document.createElement('div');d.className='msg 
 function brain(q0){
  const ql=q0.toLowerCase();
  for(const b of BRAIN){if(b.k.some(k=>ql.includes(k)))return b.a[S.lang]||b.a.en}
- return {en:"Good question — try the PR Score tab for CRS estimates or the Jobs tab for openings. Small steps every day move you forward. For legal advice, please consult an RCIC."}[S.lang];
+ return {en:"Good question — try the PR Score tab for CRS estimates or the Jobs tab for openings. Small steps every day move you forward. For legal advice, please consult an RCIC.",fr:"Bonne question — essayez l'onglet Score PR pour les estimations CRS ou l'onglet Emplois pour les offres. De petits pas chaque jour font avancer. Pour des conseils juridiques, consultez un CRIC."}[S.lang];
 }
 function sendChat(){
  const v=$('chatInput').value.trim();if(!v)return;
@@ -873,7 +929,7 @@ $('chatSend').onclick=sendChat;
 $('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
 /* ================= INIT ================= */
 function renderAll(){renderJobs();renderExp();renderKits();renderProfile();renderRoadmap();
- $('quickRow').innerHTML=QUICK.map(qq=>`<button class="chip" onclick="document.getElementById('chatInput').value='${qq}';sendChat()">${qq}</button>`).join('');
+ $('quickRow').innerHTML=QUICK.map(qq=>{const qt=qq[S.lang]||qq.en;return `<button class="chip" onclick="document.getElementById('chatInput').value='${qt}';sendChat()">${qt}</button>`}).join('');
  if(!$('chatLog').children.length)addMsg(brain('hello'),'bot');
 }
 document.querySelectorAll('.lang-pill').forEach(p=>p.classList.toggle('active',p.dataset.lang===S.lang));
