@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0B4F4A">
 <title>JobsToPR App — Jobs, PR Score & New Beginnings</title>
+<link rel="icon" type="image/png" href="favicon.png">
 <meta name="description" content="JobsToPR mobile app: GTA jobs, CRS score calculator and 1-on-1 guidance in English, Punjabi and Hindi.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +27,8 @@ body{font-family:'Inter',-apple-system,sans-serif;background:#E7DFCE;color:var(-
 /* Header */
 .app-header{background:linear-gradient(135deg,var(--teal-950),var(--teal-800) 60%,var(--teal));color:#fff;padding:1rem 1.1rem .9rem;flex-shrink:0}
 .header-row{display:flex;justify-content:space-between;align-items:center;gap:.6rem}
-.logo{font-family:'Fraunces',serif;font-weight:700;font-size:1.35rem;letter-spacing:.02em}
+.logo{font-family:'Fraunces',serif;font-weight:700;font-size:1.35rem;letter-spacing:.02em;display:flex;align-items:center;gap:.6rem}
+.logo-img{height:2.6rem;width:2.6rem;object-fit:contain}
 .logo small{font-family:'Inter';font-weight:500;font-size:.72rem;opacity:.85;display:block;letter-spacing:.14em}
 .lang-pills{display:flex;gap:.3rem;background:rgba(255,255,255,.14);border-radius:999px;padding:.2rem}
 .lang-pill{border:0;background:transparent;color:#fff;font-size:.68rem;font-weight:600;padding:.32rem .55rem;border-radius:999px;cursor:pointer}
@@ -177,7 +179,7 @@ main{flex:1;overflow-y:auto;padding:1rem 1rem calc(var(--tabbar-h) + env(safe-ar
   <header class="app-header">
     <div class="header-row">
       <div>
-        <div class="logo">JobsToPR<small>JOBS · PR · NEW BEGINNINGS</small></div>
+        <div class="logo"><img src="logo-main.png" alt="JobsToPR" class="logo-img"><span>JobsToPR<small>JOBS · PR · NEW BEGINNINGS</small></span></div>
         <div class="header-tag" data-i18n="headerTag">GTA jobs that lead to permanent residency</div>
       </div>
       <div class="lang-pills" role="group" aria-label="Language">
