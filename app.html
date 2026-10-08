@@ -531,17 +531,17 @@ const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 /* i18n extras */
 T.en.cdnWork="Canadian work (years)";T.fr.cdnWork="Années de travail au Canada";
 T.en.forWork="Foreign work (years)";T.fr.forWork="Années de travail à l'étranger";
-T.en.vStrong="Strong — well above typical cutoffs.";T.pa.vStrong="ਮਜ਼ਬੂਤ — ਆਮ ਕਟੌਫ਼ ਤੋਂ ਵੱਧ।";T.hi.vStrong="मज़बूत — सामान्य कटऑफ़ से ऊपर।";
-T.en.vMid="Competitive — near recent cutoff ranges.";T.pa.vMid="ਮੁਕਾਬਲੇਯੋਗ — ਹਾਲੀਆ ਕਟੌਫ਼ ਦੇ ਨੇੜੇ।";T.hi.vMid="प्रतिस्पर्धी — हालिया कटऑफ़ के पास।";
-T.en.vLow="Below typical cutoffs — consider PNP, better language scores, or more experience.";T.pa.vLow="ਆਮ ਕਟੌਫ਼ ਤੋਂ ਘੱਟ — PNP ਜਾਂ ਬਿਹਤਰ ਭਾਸ਼ਾ ਸਕੋਰ ਬਾਰੇ ਸੋਚੋ।";T.hi.vLow="सामान्य कटऑफ़ से नीचे — PNP या बेहतर भाषा स्कोर पर विचार करें।";
+T.en.vStrong="Strong — well above typical cutoffs.";T.fr.vStrong="Fort — bien au-dessus des seuils habituels.";
+T.en.vMid="Competitive — near recent cutoff ranges.";T.fr.vMid="Compétitif — près des seuils récents.";
+T.en.vLow="Below typical cutoffs — consider PNP, better language scores, or more experience.";T.fr.vLow="Sous les seuils habituels — envisagez le PCP, de meilleurs scores linguistiques ou plus d'expérience.";
 T.en.cutNote="Recent Express Entry cutoffs have roughly ranged 490–540 (approximate — check IRCC for latest draws).";
-T.pa.cutNote="ਹਾਲੀਆ Express Entry ਕਟੌਫ਼ ਲਗਭਗ 490–540 ਰਹੇ ਹਨ (ਅੰਦਾਜ਼ਾ — ਤਾਜ਼ਾ ਜਾਣਕਾਰੀ ਲਈ IRCC ਦੇਖੋ)।";
-T.hi.cutNote="हालिया Express Entry कटऑफ़ लगभग 490–540 रहे हैं (अनुमान — ताज़ा जानकारी के लिए IRCC देखें)।";
-T.en.corePts="Core (age, education, language, work)";T.pa.corePts="ਮੁੱਖ (ਉਮਰ, ਸਿੱਖਿਆ, ਭਾਸ਼ਾ, ਕੰਮ)";T.hi.corePts="मुख्य (उम्र, शिक्षा, भाषा, कार्य)";
-T.en.spPts="Spouse factors";T.pa.spPts="ਜੀਵਨ ਸਾਥੀ";T.hi.spPts="जीवनसाथी";
-T.en.trPts="Skill transferability";T.pa.trPts="ਹੁਨਰ ਤਬਾਦਲਾ";T.hi.trPts="कौशल हस्तांतरण";
-T.en.adPts="Additional points";T.pa.adPts="ਵਾਧੂ ਅੰਕ";T.hi.adPts="अतिरिक्त अंक";
-T.en.total="Total";T.pa.total="ਕੁੱਲ";T.hi.total="कुल";
+
+
+T.en.corePts="Core (age, education, language, work)";T.fr.corePts="Base (âge, éducation, langue, travail)";
+T.en.spPts="Spouse factors";T.fr.spPts="Facteurs du conjoint";
+T.en.trPts="Skill transferability";T.fr.trPts="Transférabilité des compétences";
+T.en.adPts="Additional points";T.fr.adPts="Points supplémentaires";
+T.en.total="Total";T.fr.total="Total";
 function t(k){return (T[S.lang]&&T[S.lang][k])||T.en[k]||k}
 function applyI18n(){
  document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n)});
