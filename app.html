@@ -906,13 +906,8 @@ function sendChat(){
 }
 $('chatSend').onclick=sendChat;
 $('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
-/* Wisdom woven into design — rotating daily quote, trilingual */
-function renderWisdom(){
- const day=Math.floor(Date.now()/864e5),w=QUOTES[day%QUOTES.length];
- document.querySelectorAll('[data-wisdom]').forEach(el=>{el.textContent='\u201C'+(w.q[S.lang]||w.q.en)+'\u201D \u2014 '+w.a});
-}
 /* ================= INIT ================= */
-function renderAll(){renderJobs();renderExp();renderKits();renderProfile();renderRoadmap();renderWisdom();
+function renderAll(){renderJobs();renderExp();renderKits();renderProfile();renderRoadmap();
  $('quickRow').innerHTML=QUICK.map(qq=>`<button class="chip" onclick="document.getElementById('chatInput').value='${qq}';sendChat()">${qq}</button>`).join('');
  if(!$('chatLog').children.length)addMsg(brain('hello'),'bot');
 }
