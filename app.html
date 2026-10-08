@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0B4F4A">
+<title>JobsToPR App — Jobs, PR Score & New Beginnings</title>
+<meta name="description" content="JobsToPR mobile app: GTA jobs, CRS score calculator and 1-on-1 guidance in English, Punjabi and Hindi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============ JobsToPR v2 — warm, human, trustworthy ============
+   Palette: deep teal #0B4F4A · warm amber #F59E0B · soft cream */
+:root{
+  --teal-950:#06302C; --teal-800:#0B4F4A; --teal:#0E7C72; --teal-soft:#DDF0EC;
+  --amber:#F59E0B; --amber-deep:#B45309; --amber-soft:#FEF3DC;
+  --cream:#FBF7EE; --card:#FFFFFF; --ink:#22312E; --muted:#687876;
+  --line:#EAE3D2; --radius:16px; --tabbar-h:70px; --danger:#B3402E; --ok:#1E7E46;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:'Inter',-apple-system,sans-serif;background:#E7DFCE;color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+.serif{font-family:'Fraunces',serif}
+#app{max-width:480px;margin:0 auto;height:100dvh;background:var(--cream);display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(0,0,0,.25)}
+/* Header */
+.app-header{background:linear-gradient(135deg,var(--teal-950),var(--teal-800) 60%,var(--teal));color:#fff;padding:1rem 1.1rem .9rem;flex-shrink:0}
+.header-row{display:flex;justify-content:space-between;align-items:center;gap:.6rem}
+.logo{font-family:'Fraunces',serif;font-weight:700;font-size:1.35rem;letter-spacing:.02em}
+.logo small{font-family:'Inter';font-weight:500;font-size:.72rem;opacity:.85;display:block;letter-spacing:.14em}
+.lang-pills{display:flex;gap:.3rem;background:rgba(255,255,255,.14);border-radius:999px;padding:.2rem}
+.lang-pill{border:0;background:transparent;color:#fff;font-size:.68rem;font-weight:600;padding:.32rem .55rem;border-radius:999px;cursor:pointer}
+.lang-pill.active{background:var(--amber);color:#3A2503}
+.header-tag{font-size:.72rem;opacity:.85;margin-top:.15rem}
+/* Main scroll */
+main{flex:1;overflow-y:auto;padding:1rem 1rem calc(var(--tabbar-h) + 1.2rem);-webkit-overflow-scrolling:touch}
+.tab{display:none;animation:fade .2s ease}
+.tab.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.section-title{font-family:'Fraunces',serif;font-size:1.35rem;color:var(--teal-950);margin-bottom:.15rem}
+.section-sub{font-size:.82rem;color:var(--muted);margin-bottom:.9rem}
+/* Cards & buttons */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1rem;margin-bottom:.8rem;box-shadow:0 2px 10px rgba(11,79,74,.06)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;border:0;border-radius:12px;font-weight:600;font-size:.85rem;padding:.65rem 1rem;cursor:pointer;font-family:inherit;text-decoration:none}
+.btn-primary{background:var(--teal-800);color:#fff}
+.btn-amber{background:var(--amber);color:#3A2503}
+.btn-ghost{background:var(--teal-soft);color:var(--teal-800)}
+.btn-outline{background:transparent;border:1.5px solid var(--teal-800);color:var(--teal-800)}
+.btn-block{width:100%}
+.btn-sm{padding:.45rem .7rem;font-size:.78rem;border-radius:10px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:.35rem .75rem;font-size:.75rem;font-weight:600;color:var(--ink);cursor:pointer;font-family:inherit}
+.chip.active{background:var(--teal-800);border-color:var(--teal-800);color:#fff}
+.chip.gold.active{background:var(--amber);border-color:var(--amber);color:#3A2503}
+/* Jobs */
+.search-row{margin-bottom:.6rem}
+.search-input{width:100%;padding:.7rem .9rem;border:1.5px solid var(--line);border-radius:12px;font-size:.88rem;font-family:inherit;background:#fff}
+.filter-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem}
+.job{padding:1rem}
+.job-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;margin-bottom:.3rem}
+.job-title{font-weight:700;font-size:1rem}
+.job-meta{font-size:.78rem;color:var(--muted);margin-bottom:.5rem}
+.job-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.6rem}
+.tag{font-size:.68rem;font-weight:700;padding:.22rem .55rem;border-radius:999px;background:var(--teal-soft);color:var(--teal-800)}
+.tag.pay{background:var(--amber-soft);color:var(--amber-deep)}
+.tag.pr{background:var(--amber);color:#3A2503}
+.tag.employer{background:#EDE9FE;color:#5B21B6}
+.job-desc{font-size:.82rem;color:var(--muted);margin-bottom:.7rem}
+.job-actions{display:flex;gap:.5rem}
+.job-actions .btn{flex:1}
+/* PR impact panel (per-job 1-year outlook) */
+.impact-toggle{width:100%;margin-top:.6rem;border:1.5px dashed var(--teal);background:transparent;color:var(--teal-800);border-radius:10px;padding:.5rem;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit}
+.impact{background:var(--teal-soft);border-radius:12px;padding:.85rem;margin-top:.6rem;font-size:.8rem}
+.impact h4{font-family:'Fraunces',serif;color:var(--teal-950);font-size:.95rem;margin-bottom:.35rem}
+.impact-note{font-size:.75rem;color:var(--muted);margin-bottom:.6rem;line-height:1.5}
+.impact-note.warn{background:#FDECEA;color:#8A2A1D;border-radius:8px;padding:.55rem .65rem}
+.ielts-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.6rem}
+.ielts-grid select{width:100%;padding:.5rem;border:1.5px solid var(--line);border-radius:8px;font-size:.82rem;font-family:inherit;background:#fff}
+.ielts-grid .hint{margin-bottom:.15rem}
+.fr-chips{display:flex;gap:.4rem;margin-bottom:.6rem}
+.fr-chip{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:.45rem .2rem;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+.fr-chip.active{background:var(--teal-800);border-color:var(--teal-800);color:#fff}
+.impact-total{display:flex;justify-content:space-between;align-items:center;background:var(--teal-800);color:#fff;border-radius:10px;padding:.6rem .8rem;margin-top:.5rem;font-weight:700}
+.impact-total .num{font-family:'Fraunces',serif;font-size:1.3rem}
+/* Forms */
+.field{margin-bottom:.7rem}
+.field label{display:block;font-size:.75rem;font-weight:600;color:var(--teal-950);margin-bottom:.25rem}
+.field input,.field select,.field textarea{width:100%;padding:.65rem .75rem;border:1.5px solid var(--line);border-radius:10px;font-size:.88rem;font-family:inherit;background:#fff}
+.field input:focus,.field select:focus{outline:2px solid var(--amber);border-color:var(--amber)}
+.form-row{display:flex;gap:.6rem}.form-row .field{flex:1}
+.hint{font-size:.72rem;color:var(--muted);margin-top:.2rem}
+/* CRS */
+.score-hero{background:linear-gradient(135deg,var(--teal-950),var(--teal));color:#fff;border-radius:var(--radius);padding:1.2rem;text-align:center;margin-bottom:.8rem}
+.score-num{font-family:'Fraunces',serif;font-size:2.6rem;font-weight:700}
+.score-sub{font-size:.78rem;opacity:.85}
+.break-row{display:flex;justify-content:space-between;font-size:.82rem;padding:.45rem 0;border-bottom:1px dashed var(--line)}
+.break-row:last-child{border-bottom:0}
+.break-row b{color:var(--teal-950)}
+.verdict{border-radius:12px;padding:.8rem;font-size:.82rem;margin-top:.7rem}
+.verdict.good{background:#E4F4E8;color:#14532D}
+.verdict.mid{background:var(--amber-soft);color:#7C4A03}
+.verdict.low{background:#FDECEA;color:#8A2A1D}
+.disclaimer{font-size:.72rem;color:var(--muted);background:#F4EFE2;border-radius:10px;padding:.6rem .75rem;margin-top:.8rem}
+.disclaimer a{color:var(--teal-800)}
+.exp-item{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;padding:.5rem 0;border-bottom:1px dashed var(--line)}
+.exp-item:last-child{border:0}
+.exp-del{border:0;background:none;color:var(--danger);font-size:1rem;cursor:pointer}
+/* ===== Psychology in design: warmth, trust, calm =====
+   Teal = stability & trust · Amber = optimism & energy · Cream = warmth */
+.wisdom{font-family:'Fraunces',serif;font-style:italic;font-size:.82rem;color:var(--amber-deep);margin:-.35rem 0 .9rem;line-height:1.5}
+.trust-strip{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.85rem}
+.trust-strip span{font-size:.68rem;font-weight:600;color:var(--teal-800);background:var(--teal-soft);border-radius:999px;padding:.32rem .65rem}
+.progress-track{height:8px;background:rgba(255,255,255,.25);border-radius:999px;margin-top:.7rem;overflow:hidden}
+.progress-fill{height:100%;background:var(--amber);border-radius:999px;width:0;transition:width .8s ease}
+.success-check{animation:pop .55s ease}
+@keyframes pop{0%{transform:scale(.35);opacity:0}60%{transform:scale(1.18)}100%{transform:scale(1);opacity:1}}
+/* Agents */
+.agent{display:flex;gap:.8rem;align-items:center}
+.avatar{width:52px;height:52px;border-radius:50%;background:var(--teal-soft);color:var(--teal-800);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;flex-shrink:0}
+.agent-info{flex:1}
+.agent-name{font-weight:700;font-size:.92rem}
+.agent-sub{font-size:.75rem;color:var(--muted)}
+.stars{color:var(--amber-deep);font-size:.78rem}
+/* Kits */
+.kit{border:2px solid var(--line)}
+.kit.featured{border-color:var(--amber);position:relative}
+.kit-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--amber);color:#3A2503;font-size:.65rem;font-weight:700;padding:.2rem .7rem;border-radius:999px;letter-spacing:.06em}
+.kit-price{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--teal-950)}
+.kit ul{margin:.5rem 0 .8rem 1.1rem;font-size:.82rem}
+/* Profile */
+.profile-row{display:flex;justify-content:space-between;font-size:.85rem;padding:.5rem 0;border-bottom:1px dashed var(--line)}
+.profile-row:last-child{border:0}
+.empty-state{font-size:.8rem;color:var(--muted);font-style:italic}
+/* Tab bar */
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:var(--tabbar-h);background:#fff;border-top:1px solid var(--line);display:flex;z-index:20;padding-bottom:env(safe-area-inset-bottom)}
+.tab-btn{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:.62rem;font-weight:600;color:var(--muted);cursor:pointer;font-family:inherit}
+.tab-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tab-btn.active{color:var(--teal-800)}
+/* FAB + chat sheet */
+.fab{position:absolute;right:1rem;bottom:calc(var(--tabbar-h) + 1rem);width:56px;height:56px;border-radius:50%;background:var(--amber);border:0;font-size:1.5rem;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:25}
+.sheet{position:absolute;left:0;right:0;bottom:0;height:82%;background:#fff;border-radius:20px 20px 0 0;z-index:40;display:none;flex-direction:column;box-shadow:0 -8px 30px rgba(0,0,0,.2);animation:slideUp .25s ease-out}
+.sheet.open{display:flex}
+@keyframes slideUp{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
+.sheet-head{background:var(--teal-800);color:#fff;padding:1rem 1.1rem;border-radius:20px 20px 0 0;display:flex;justify-content:space-between;align-items:center}
+.sheet-head b{font-family:'Fraunces',serif}
+.sheet-close{border:0;background:rgba(255,255,255,.15);color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem}
+.chat-log{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.6rem}
+.msg{max-width:85%;padding:.6rem .8rem;border-radius:14px;font-size:.83rem}
+.msg.bot{background:var(--teal-soft);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.user{background:var(--teal-800);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.quick-row{display:flex;gap:.4rem;flex-wrap:wrap;padding:.6rem 1rem 0}
+.chat-input-row{display:flex;gap:.5rem;padding:.7rem 1rem calc(.9rem + env(safe-area-inset-bottom));border-top:1px solid var(--line)}
+.chat-input{flex:1;padding:.65rem .8rem;border:1.5px solid var(--line);border-radius:999px;font-size:.85rem;font-family:inherit}
+.chat-send{width:44px;height:44px;border-radius:50%;border:0;background:var(--amber);font-size:1.1rem;cursor:pointer;flex-shrink:0}
+/* Modal */
+.modal-backdrop{position:absolute;inset:0;background:rgba(6,48,44,.5);z-index:50;display:none;align-items:flex-end;justify-content:center}
+.modal-backdrop.open{display:flex}
+.modal{background:#fff;width:100%;border-radius:18px 18px 0 0;padding:1.25rem 1.25rem calc(1.5rem + env(safe-area-inset-bottom));animation:slideUp .25s ease-out;max-height:88%;overflow-y:auto}
+.modal h3{font-family:'Fraunces',serif;color:var(--teal-950);margin-bottom:.3rem}
+.modal .sub{font-size:.8rem;color:var(--muted);margin-bottom:1rem}
+.modal-actions{display:flex;gap:.6rem;margin-top:1rem}
+.success-box{text-align:center;padding:1.2rem .5rem}
+.success-check{font-size:2.5rem;color:var(--ok)}
+.backdrop{position:absolute;inset:0;background:rgba(6,48,44,.4);z-index:30;display:none}
+.backdrop.open{display:block}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="app-header">
+    <div class="header-row">
+      <div>
+        <div class="logo">JobsToPR<small>JOBS · PR · NEW BEGINNINGS</small></div>
+        <div class="header-tag" data-i18n="headerTag">GTA jobs that lead to permanent residency</div>
+      </div>
+      <div class="lang-pills" role="group" aria-label="Language">
+        <button class="lang-pill active" data-lang="en">EN</button>
+        <button class="lang-pill" data-lang="pa">ਪੰਜਾਬੀ</button>
+        <button class="lang-pill" data-lang="hi">हिंदी</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ JOBS ============ -->
+    <section class="tab active" id="tab-jobs">
+      <h2 class="section-title" data-i18n="jobsTitle">Find Jobs</h2>
+      <p class="section-sub" data-i18n="jobsSub">GTA warehouse, forklift &amp; trades openings. Amber tag = PR-relevant role.</p>
+      <p class="wisdom" data-wisdom></p>
+      <div class="trust-strip"><span data-i18n="trust1">✓ Free during launch</span><span data-i18n="trust2">✓ No account needed</span><span data-i18n="trust3">✓ Your data stays on your phone</span></div>
+      <div class="card">
+        <button class="btn btn-amber btn-block" id="postJobBtn"><span data-i18n="postJob">+ Post a Job (Employers)</span></button>
+        <p class="hint" data-i18n="postJobHint" style="margin-top:.5rem">Hiring? List your opening here — free during launch.</p>
+      </div>
+      <div class="search-row"><input class="search-input" id="jobSearch" data-i18n-ph="searchPh" placeholder="Search jobs, companies, cities..."></div>
+      <div class="filter-row">
+        <button class="chip active" data-shift="all" data-i18n="allShifts">All shifts</button>
+        <button class="chip" data-shift="Day" data-i18n="day">Day</button>
+        <button class="chip" data-shift="Afternoon" data-i18n="afternoon">Afternoon</button>
+        <button class="chip" data-shift="Night" data-i18n="night">Night</button>
+        <button class="chip gold" id="prFilter" data-i18n="prOnly">PR pathway only</button>
+      </div>
+      <div id="jobList"></div>
+    </section>
+
+    <!-- ============ PR SCORE ============ -->
+    <section class="tab" id="tab-pr">
+      <h2 class="section-title" data-i18n="prTitle">PR Score</h2>
+      <p class="section-sub" data-i18n="prSub">Estimate your Express Entry CRS score. Honest math, no guarantees.</p>
+      <p class="wisdom" data-wisdom></p>
+
+      <div class="score-hero" id="scoreHero" style="display:none">
+        <div class="score-sub" data-i18n="yourScore">Your estimated CRS score</div>
+        <div class="score-num" id="scoreNum">0</div>
+        <div class="score-sub" id="scoreVerdict"></div>
+        <div class="progress-track"><div class="progress-fill" id="scoreFill"></div></div>
+      </div>
+
+      <div class="card">
+        <h3 class="serif" style="color:var(--teal-950);margin-bottom:.6rem" data-i18n="expTitle">Your work experience</h3>
+        <div id="expList"></div>
+        <div class="form-row">
+          <div class="field"><label data-i18n="expJob">Job title</label><input id="expTitle" placeholder="e.g. Warehouse Supervisor"></div>
+          <div class="field" style="max-width:110px"><label>TEER</label>
+            <select id="expTeer"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label data-i18n="expYears">Years</label><input id="expYears" type="number" min="0" max="20" step="0.5" value="1"></div>
+          <div class="field"><label data-i18n="expWhere">Where</label>
+            <select id="expWhere"><option value="ca" data-i18n="inCanada">In Canada</option><option value="out" data-i18n="outside">Outside Canada</option></select></div>
+        </div>
+        <button class="btn btn-ghost btn-block btn-sm" id="addExpBtn" data-i18n="addExp">+ Add experience</button>
+        <p class="hint" id="expTotals"></p>
+      </div>
+
+      <div class="card">
+        <h3 class="serif" style="color:var(--teal-950);margin-bottom:.6rem" data-i18n="crsTitle">CRS calculator</h3>
+        <div class="form-row">
+          <div class="field"><label data-i18n="age">Age</label><input id="crsAge" type="number" min="16" max="60" value="28"></div>
+          <div class="field"><label data-i18n="marital">Status</label>
+            <select id="crsSpouse"><option value="no" data-i18n="single">Single</option><option value="yes" data-i18n="married">Married / common-law</option></select></div>
+        </div>
+        <div class="field"><label data-i18n="edu">Highest education</label>
+          <select id="crsEdu">
+            <option value="0" data-i18n="edu0">Less than secondary school</option>
+            <option value="1" data-i18n="edu1">Secondary school diploma</option>
+            <option value="2" data-i18n="edu2">1-year post-secondary</option>
+            <option value="3" data-i18n="edu3">2-year post-secondary</option>
+            <option value="4" selected data-i18n="edu4">3-year+ degree / diploma</option>
+            <option value="5" data-i18n="edu5">Two or more credentials (one 3yr+)</option>
+            <option value="6" data-i18n="edu6">Master's degree</option>
+            <option value="7" data-i18n="edu7">PhD</option>
+          </select></div>
+        <div class="field"><label data-i18n="lang1">First language — CLB per ability</label></div>
+        <div class="form-row">
+          <div class="field"><label data-i18n="listening">Listening</label><select class="clb" id="clbL"><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option selected>9</option><option>10</option></select></div>
+          <div class="field"><label data-i18n="speaking">Speaking</label><select class="clb" id="clbS"><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option selected>9</option><option>10</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label data-i18n="reading">Reading</label><select class="clb" id="clbR"><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option selected>9</option><option>10</option></select></div>
+          <div class="field"><label data-i18n="writing">Writing</label><select class="clb" id="clbW"><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option selected>9</option><option>10</option></select></div>
+        </div>
+        <div class="field"><label><input type="checkbox" id="crsLang2" style="width:auto;margin-right:.4rem"><span data-i18n="lang2">Second language CLB 5+ in all 4 abilities</span></label></div>
+        <div id="spouseBox" style="display:none">
+          <div class="field"><label data-i18n="spEdu">Spouse education</label>
+            <select id="crsSpEdu"><option value="0" data-i18n="edu0">Less than secondary school</option><option value="1" data-i18n="edu1">Secondary school diploma</option><option value="4" selected data-i18n="edu4">3-year+ degree / diploma</option><option value="6" data-i18n="edu6">Master's degree</option><option value="7">PhD</option></select></div>
+          <div class="field"><label><input type="checkbox" id="crsSpLang" style="width:auto;margin-right:.4rem"><span data-i18n="spLang">Spouse first language CLB 5+ (all 4)</span></label></div>
+          <div class="field"><label><input type="checkbox" id="crsSpWork" style="width:auto;margin-right:.4rem"><span data-i18n="spWork">Spouse has 1+ year Canadian work</span></label></div>
+        </div>
+        <div class="field"><label data-i18n="addPts">Additional points</label></div>
+        <div class="field"><label><input type="checkbox" id="crsPnp" style="width:auto;margin-right:.4rem"><span data-i18n="pnp">Provincial nomination (+600)</span></label></div>
+        <div class="form-row">
+          <div class="field"><label data-i18n="jobOffer">Valid job offer</label>
+            <select id="crsOffer"><option value="0" data-i18n="none">None</option><option value="200" data-i18n="offer200">Senior management (NOC 00) +200</option><option value="50" data-i18n="offer50">TEER 0–3 skilled offer +50</option></select></div>
+          <div class="field"><label data-i18n="cdnStudy">Study in Canada</label>
+            <select id="crsStudy"><option value="0" data-i18n="none">None</option><option value="15" data-i18n="study15">1–2 year credential +15</option><option value="30" data-i18n="study30">3+ year credential +30</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label><input type="checkbox" id="crsSibling" style="width:auto;margin-right:.4rem"><span data-i18n="sibling">Sibling in Canada (PR/citizen 18+) +15</span></label></div>
+          <div class="field"><label data-i18n="french">French</label>
+            <select id="crsFrench"><option value="0" data-i18n="none">None</option><option value="25" data-i18n="fr25">NCLC 7+ &amp; English CLB 4 +25</option><option value="50" data-i18n="fr50">NCLC 7+ &amp; English CLB 5+ +50</option></select></div>
+        </div>
+        <button class="btn btn-amber btn-block" id="calcBtn" data-i18n="calc">Calculate my score</button>
+        <div id="breakdown" style="margin-top:.8rem"></div>
+        <div class="disclaimer" data-i18n="crsDisclaimer">Estimate only — not legal advice. Rules change; confirm with the official <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/become-candidate/eligibility/comprehensive-ranking-system.html" target="_blank" rel="noopener">IRCC CRS criteria</a> and consider consulting an RCIC.</div>
+      </div>
+    </section>
+
+    <!-- ============ KITS ============ -->
+    <section class="tab" id="tab-kits">
+      <h2 class="section-title" data-i18n="kitsTitle">Kits &amp; 1-on-1</h2>
+      <p class="section-sub" data-i18n="kitsSub">Tools that speed up your job hunt — from templates to expert guidance.</p>
+      <p class="wisdom" data-wisdom></p>
+      <div id="kitList"></div>
+      <h3 class="serif" style="color:var(--teal-950);margin:1.1rem 0 .15rem" data-i18n="agentsTitle">Talk to an IRCC agent</h3>
+      <p class="section-sub" data-i18n="agentsSub">Book a 1-on-1 with an independent immigration consultant.</p>
+      <div id="agentList"></div>
+      <div class="disclaimer" data-i18n="agentsNote">Agents are independent RCICs, not JobsToPR employees. JobsToPR takes a service fee on bookings. Always verify an agent's RCIC licence.</div>
+    </section>
+
+    <!-- ============ PROFILE ============ -->
+    <section class="tab" id="tab-profile">
+      <h2 class="section-title" data-i18n="profileTitle">Profile</h2>
+      <p class="section-sub" data-i18n="profileSub">Your saved jobs, applications, posts and bookings.</p>
+      <div class="card">
+        <h3 class="serif" style="color:var(--teal-950);margin-bottom:.5rem" data-i18n="yourInfo">Your info</h3>
+        <div class="field"><input class="name-input" id="profileName" data-i18n-ph="namePh" placeholder="Your name"></div>
+        <div class="profile-row"><span data-i18n="language">Language</span><span id="profileLang">English</span></div>
+        <div class="profile-row"><span data-i18n="savedCount">Saved jobs</span><span id="savedCount">0</span></div>
+        <div class="profile-row"><span data-i18n="appliedCount">Applications</span><span id="appliedCount">0</span></div>
+        <div class="profile-row"><span data-i18n="postedCount">Jobs you posted</span><span id="postedCount">0</span></div>
+        <div class="profile-row"><span data-i18n="bookedCount">Sessions booked</span><span id="bookedCount">0</span></div>
+        <div class="profile-row"><span data-i18n="crsSaved">Saved CRS score</span><span id="crsSaved">—</span></div>
+      </div>
+      <div class="card"><h3 class="serif" style="color:var(--teal-950);margin-bottom:.4rem" data-i18n="savedJobs">Saved jobs</h3><div id="savedJobsList"><p class="empty-state" data-i18n="noSaved">No saved jobs yet. Tap Save on any job.</p></div></div>
+      <div class="card"><h3 class="serif" style="color:var(--teal-950);margin-bottom:.4rem" data-i18n="myApps">My applications</h3><div id="appsList"><p class="empty-state" data-i18n="noApps">No applications yet.</p></div></div>
+      <div class="card"><h3 class="serif" style="color:var(--teal-950);margin-bottom:.4rem" data-i18n="myPosts">My job posts</h3><div id="postsList"><p class="empty-state" data-i18n="noPosts">You haven't posted a job yet.</p></div></div>
+      <div class="card"><h3 class="serif" style="color:var(--teal-950);margin-bottom:.4rem" data-i18n="myBookings">My bookings</h3><div id="bookingsList"><p class="empty-state" data-i18n="noBookings">No sessions booked yet.</p></div></div>
+      <a class="btn btn-ghost btn-block btn-sm" href="https://jobstopr.me" target="_blank" rel="noopener">jobstopr.me →</a>
+    </section>
+  </main>
+
+  <!-- Bottom tab bar -->
+  <nav class="tabbar">
+    <button class="tab-btn active" data-tab="jobs"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg><span data-i18n="tabJobs">Jobs</span></button>
+    <button class="tab-btn" data-tab="pr"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span data-i18n="tabPR">PR Score</span></button>
+    <button class="tab-btn" data-tab="kits"><svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span data-i18n="tabKits">Kits</span></button>
+    <button class="tab-btn" data-tab="profile"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span data-i18n="tabProfile">Profile</span></button>
+  </nav>
+
+  <!-- Chat FAB + sheet -->
+  <button class="fab" id="chatFab" aria-label="Ask Muse">💬</button>
+  <div class="backdrop" id="backdrop"></div>
+  <div class="sheet" id="chatSheet">
+    <div class="sheet-head"><b data-i18n="askMuse">Ask Muse</b><button class="sheet-close" id="chatClose">✕</button></div>
+    <div class="quick-row" id="quickRow"></div>
+    <div class="chat-log" id="chatLog"></div>
+    <div class="chat-input-row"><input class="chat-input" id="chatInput" data-i18n-ph="chatPh" placeholder="Ask about jobs, CRS, PR..."><button class="chat-send" id="chatSend" aria-label="Send">➤</button></div>
+  </div>
+
+  <!-- Apply modal -->
+  <div class="modal-backdrop" id="applyModal"><div class="modal">
+    <div id="applyForm">
+      <h3 data-i18n="applyTitle">Apply for this job</h3><p class="sub" id="applyJobName"></p>
+      <div class="field"><label data-i18n="fullName">Full name</label><input id="applyName" data-i18n-ph="namePh" placeholder="Your name"></div>
+      <div class="field"><label data-i18n="phone">Phone</label><input id="applyPhone" placeholder="+1 (___) ___-____" inputmode="tel"></div>
+      <div class="field"><label>Email</label><input id="applyEmail" placeholder="you@example.com" inputmode="email"></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="applyCancel" data-i18n="cancel">Cancel</button>
+        <button class="btn btn-primary" id="applySubmit" data-i18n="submitApp">Submit application</button>
+      </div>
+    </div>
+    <div id="applySuccess" style="display:none"><div class="success-box"><div class="success-check">✓</div>
+      <h3 data-i18n="appReceived">Application received!</h3>
+      <p class="sub" data-i18n="appReceivedSub">The employer has your details. We'll notify you about next steps.</p>
+      <button class="btn btn-primary" id="applyDone" data-i18n="done">Done</button>
+    </div></div>
+  </div></div>
+
+  <!-- Post-a-job modal -->
+  <div class="modal-backdrop" id="postModal"><div class="modal">
+    <h3 data-i18n="postJobTitle">Post a job</h3>
+    <p class="sub" data-i18n="postJobSub">Your listing appears in the Jobs tab instantly.</p>
+    <div class="field"><label data-i18n="company">Company</label><input id="pjCompany" placeholder="e.g. Brampton Logistics"></div>
+    <div class="field"><label data-i18n="jobTitleF">Job title</label><input id="pjTitle" placeholder="e.g. Forklift Operator"></div>
+    <div class="form-row">
+      <div class="field"><label data-i18n="pay">Pay</label><input id="pjPay" placeholder="$22/hr"></div>
+      <div class="field"><label data-i18n="location">Location</label><input id="pjLoc" placeholder="Brampton, ON"></div>
+    </div>
+    <div class="form-row">
+      <div class="field"><label data-i18n="shift">Shift</label><select id="pjShift"><option>Day</option><option>Afternoon</option><option>Night</option><option>Rotating</option></select></div>
+      <div class="field"><label data-i18n="contact">Contact</label><input id="pjContact" placeholder="phone or email"></div>
+    </div>
+    <div class="field"><label data-i18n="descF">Short description</label><textarea id="pjDesc" rows="2" placeholder="Duties, requirements..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" id="postCancel" data-i18n="cancel">Cancel</button>
+      <button class="btn btn-amber" id="postSubmit" data-i18n="publish">Publish job</button>
+    </div>
+  </div></div>
+
+  <!-- Book agent modal -->
+  <div class="modal-backdrop" id="bookModal"><div class="modal">
+    <div id="bookForm">
+      <h3 data-i18n="bookTitle">Book a 1-on-1</h3><p class="sub" id="bookAgentName"></p>
+      <div class="field"><label data-i18n="fullName">Full name</label><input id="bookName" data-i18n-ph="namePh" placeholder="Your name"></div>
+      <div class="field"><label data-i18n="phone">Phone</label><input id="bookPhone" placeholder="+1 (___) ___-____" inputmode="tel"></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="bookCancel" data-i18n="cancel">Cancel</button>
+        <button class="btn btn-primary" id="bookSubmit" data-i18n="reqBook">Request booking</button>
+      </div>
+    </div>
+    <div id="bookSuccess" style="display:none"><div class="success-box"><div class="success-check">✓</div>
+      <h3 data-i18n="bookReceived">Booking requested!</h3>
+      <p class="sub" data-i18n="bookReceivedSub">The agent will contact you to confirm your session time.</p>
+      <button class="btn btn-primary" id="bookDone" data-i18n="done">Done</button>
+    </div></div>
+  </div></div>
+  <!-- ===== Premium Kit order modal (WhatsApp flow) ===== -->
+  <div class="modal-backdrop" id="orderModal"><div class="modal">
+    <div id="orderForm">
+      <h3 data-i18n="orderTitle">Order Premium Kit — $49</h3>
+      <p class="sub" data-i18n="orderSub">Fill this in — it opens WhatsApp with your order ready to send. Attach your resume in the chat.</p>
+      <div class="field"><label data-i18n="fullName">Full name</label><input id="orderName" data-i18n-ph="namePh" placeholder="Your name"></div>
+      <div class="field"><label>Email</label><input id="orderEmail" placeholder="you@example.com" inputmode="email"></div>
+      <div class="field"><label data-i18n="phone">Phone</label><input id="orderPhone" placeholder="+1 (___) ___-____" inputmode="tel"></div>
+      <div class="field"><label data-i18n="targetJob">Target job title</label><input id="orderJob" data-i18n-ph="targetJobPh" placeholder="e.g. Warehouse Supervisor"></div>
+      <div class="field"><label data-i18n="targetNoc">Target NOC code (if known)</label><input id="orderNoc" placeholder="e.g. 12013"></div>
+      <div class="field"><label data-i18n="orderNotes">Anything we should know?</label><input id="orderNotes" data-i18n-ph="orderNotesPh" placeholder="Optional"></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" id="orderCancel" data-i18n="cancel">Cancel</button>
+        <button class="btn btn-primary" id="orderSubmit" data-i18n="sendOrder">Send order via WhatsApp</button>
+      </div>
+    </div>
+    <div id="orderSuccess" style="display:none"><div class="success-box"><div class="success-check">✓</div>
+      <h3 data-i18n="orderSent">Order sent!</h3>
+      <p class="sub" data-i18n="orderSentSub">Now attach your resume in the WhatsApp chat. We'll tailor it within 48 hours.</p>
+      <button class="btn btn-primary" id="orderDone" data-i18n="done">Done</button>
+    </div></div>
+  </div></div>
+</div>
+<script>
+/* ================= CONFIG — paste your links here =================
+   WHATSAPP_NUMBER: your WhatsApp number, stored obfuscated (base64) so it
+   is NOT visible in plain text in the page source. To change it: take your
+   number in international format without "+" or spaces (e.g. 14165551234),
+   base64-encode it, and replace the value of _WA below.
+   PREMIUM_FORM_URL: alternatively, a Tally form URL for Premium Kit orders
+   (e.g. "https://tally.so/r/XXXXXX"). Only used if WHATSAPP_NUMBER is empty.
+   PAYMENT_URLS: paste Stripe/Gumroad payment links per kit id when ready. */
+const _WA="MTI4OTgyMzMxNjM="; /* owner's number, decoded at runtime only */
+function waNumber(){try{return atob(_WA)}catch(e){return ""}}
+const CONFIG={
+ WHATSAPP_NUMBER:waNumber(),
+ PREMIUM_FORM_URL:"",
+ PAYMENT_URLS:{mini:"",starter:"",premium:"",call:""}
+};
+/* ================= DATA ================= */
+const JOBS=[
+ {id:1,title:"Warehouse Associate",company:"Amazon YXU2",location:"Brampton, ON",pay:"$20.50/hr",shift:"Night",type:"Full-time",teer:5,pr:false,posted:"2d ago",desc:"Pick, pack and sort in a fast-paced fulfillment centre. No experience needed — paid training."},
+ {id:2,title:"Forklift Operator (Counterbalance)",company:"Prodigy Personnel",location:"Mississauga, ON",pay:"$24.00/hr",shift:"Afternoon",type:"Full-time",teer:4,pr:false,posted:"1d ago",desc:"Licensed counterbalance operator for a busy 3PL warehouse. Valid forklift licence required."},
+ {id:3,title:"Order Picker",company:"GTA Staffing Co.",location:"Vaughan, ON",pay:"$19.85/hr",shift:"Day",type:"Full-time",teer:5,pr:false,posted:"3d ago",desc:"RF scanner order picking. Steel-toe boots required. Weekly pay, overtime available."},
+ {id:4,title:"Shipping & Receiving Lead",company:"Brampton Logistics Inc.",location:"Etobicoke, ON",pay:"$26.00/hr",shift:"Day",type:"Full-time",teer:3,pr:true,posted:"5h ago",desc:"Lead a team of 8 in shipping/receiving. TEER 3 role — supports PR pathways. 2+ years experience."},
+ {id:5,title:"General Labourer",company:"Randstad Canada",location:"Milton, ON",pay:"$21.00/hr",shift:"Rotating",type:"Contract",teer:5,pr:false,posted:"1d ago",desc:"General labour for a manufacturing plant. Immediate start available this week."},
+ {id:6,title:"Machine Operator",company:"Scarborough Foods Ltd.",location:"Scarborough, ON",pay:"$23.50/hr",shift:"Night",type:"Full-time",teer:4,pr:false,posted:"4d ago",desc:"Operate packaging machinery on a food production line. Mechanical aptitude an asset."},
+ {id:7,title:"Warehouse Supervisor",company:"Mississauga 3PL Group",location:"Mississauga, ON",pay:"$30.00/hr",shift:"Day",type:"Full-time",teer:2,pr:true,posted:"2d ago",desc:"Supervise 20+ staff across two shifts. TEER 2 — strong PR pathway role. 3+ years leadership."},
+ {id:8,title:"Delivery Driver (DZ Licence)",company:"GTA Freight Lines",location:"Brampton, ON",pay:"$25.00/hr",shift:"Day",type:"Full-time",teer:4,pr:false,posted:"6d ago",desc:"Local GTA deliveries with straight truck. Valid DZ licence and clean abstract required."}
+];
+const KITS=[
+ {id:"mini",name:"Mini Kit",price:9,featured:false,badge:null,desc:"Quick-start essentials for self-starters.",features:["5 ATS-friendly resume templates","15 warehouse interview Q&A","Instant download"]},
+ {id:"starter",name:"Starter Kit",price:29,featured:true,badge:"MOST POPULAR",desc:"Everything you need to land a PR-eligible job in the GTA.",features:["Everything in Mini Kit","Cover letter templates","Follow-up message scripts","NOC code matcher","30-day application plan"]},
+ {id:"premium",name:"Premium Kit",price:49,featured:false,badge:null,desc:"Starter Kit plus a resume personally tailored to your target NOC.",features:["Everything in Starter Kit","1 resume tailored by us","NOC-specific keyword optimization","48-hour turnaround"]},
+ {id:"call",name:"1-on-1 Strategy",price:150,featured:false,badge:null,desc:"90-minute call with a custom job-to-PR pathway plan.",features:["90-minute session","Punjabi, Hindi or English","Custom 90-day action plan","Follow-up email summary"]}
+];
+const AGENTS=[
+ {id:"a1",name:"Simran Kaur",langs:"Punjabi · English",price:80,rating:"4.9",tag:"RCIC",bio:"8 yrs helping students & workers with OINP and Express Entry."},
+ {id:"a2",name:"Rajesh Mehta",langs:"Hindi · English",price:70,rating:"4.8",tag:"RCIC",bio:"Specialist in CEC draws and PGWP-to-PR transitions."},
+ {id:"a3",name:"Emily Chen",langs:"English · Mandarin",price:90,rating:"5.0",tag:"RCIC",bio:"Focus on skilled trades and employer-supported PR."}
+];
+const QUOTES=[
+ {q:{en:"The best time to plant a tree was 20 years ago. The second best time is now.",pa:"ਦਰੱਖਤ ਲਗਾਉਣ ਦਾ ਸਭ ਤੋਂ ਵਧੀਆ ਸਮਾਂ 20 ਸਾਲ ਪਹਿਲਾਂ ਸੀ। ਦੂਜਾ ਸਭ ਤੋਂ ਵਧੀਆ ਸਮਾਂ ਹੁਣ ਹੈ।",hi:"पेड़ लगाने का सबसे अच्छा समय 20 साल पहले था। दूसरा सबसे अच्छा समय अब है।"},a:"Proverb"},
+ {q:{en:"You don't have to be great to start, but you have to start to be great.",pa:"ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਮਹਾਨ ਹੋਣਾ ਜ਼ਰੂਰੀ ਨਹੀਂ, ਪਰ ਮਹਾਨ ਬਣਨ ਲਈ ਸ਼ੁਰੂ ਕਰਨਾ ਜ਼ਰੂਰੀ ਹੈ।",hi:"शुरू करने के लिए महान होना ज़रूरी नहीं, पर महान बनने के लिए शुरू करना ज़रूरी है।"},a:"Zig Ziglar"},
+ {q:{en:"Success is not final, failure is not fatal: it is the courage to continue that counts.",pa:"ਸਫਲਤਾ ਅੰਤਿਮ ਨਹੀਂ, ਅਸਫਲਤਾ ਘਾਤਕ ਨਹੀਂ — ਜਾਰੀ ਰੱਖਣ ਦੀ ਹਿੰਮਤ ਹੀ ਮਾਇਨੇ ਰੱਖਦੀ ਹੈ।",hi:"सफलता अंतिम नहीं, असफलता घातक नहीं — जारी रखने का साहस ही मायने रखता है।"},a:"Winston Churchill"},
+ {q:{en:"A journey of a thousand miles begins with a single step.",pa:"ਹਜ਼ਾਰ ਮੀਲ ਦਾ ਸਫ਼ਰ ਇੱਕ ਕਦਮ ਨਾਲ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ।",hi:"हज़ार मील की यात्रा एक कदम से शुरू होती है।"},a:"Lao Tzu"},
+ {q:{en:"What lies behind us and what lies before us are tiny matters compared to what lies within us.",pa:"ਸਾਡੇ ਪਿੱਛੇ ਅਤੇ ਅੱਗੇ ਜੋ ਹੈ, ਉਹ ਸਾਡੇ ਅੰਦਰ ਜੋ ਹੈ ਉਸ ਦੇ ਮੁਕਾਬਲੇ ਬਹੁਤ ਛੋਟਾ ਹੈ।",hi:"हमारे पीछे और आगे जो है, वह हमारे भीतर जो है उसके मुकाबले बहुत छोटा है।"},a:"Ralph Waldo Emerson"},
+ {q:{en:"He who has a why to live can bear almost any how.",pa:"ਜਿਸ ਕੋਲ ਜੀਉਣ ਦਾ 'ਕਿਉਂ' ਹੈ, ਉਹ ਲਗਭਗ ਹਰ 'ਕਿਵੇਂ' ਸਹਿ ਸਕਦਾ ਹੈ।",hi:"जिसके पास जीने का 'क्यों' है, वह लगभग हर 'कैसे' सह सकता है।"},a:"Friedrich Nietzsche"},
+ {q:{en:"Difficulties strengthen the mind, as labor does the body.",pa:"ਮੁਸ਼ਕਲਾਂ ਮਨ ਨੂੰ ਮਜ਼ਬੂਤ ਕਰਦੀਆਂ ਹਨ, ਜਿਵੇਂ ਮਿਹਨਤ ਸਰੀਰ ਨੂੰ।",hi:"कठिनाइयाँ मन को मज़बूत करती हैं, जैसे मेहनत शरीर को।"},a:"Seneca"}
+];
+/* Chat brain (rule-based v1) */
+const BRAIN=[
+ {k:["hello","hi","hey","sat sri","namaste","ਸਤਿ","नमस्ते"],a:{en:"Sat Sri Akal! I'm Muse, your JobsToPR assistant. Ask me about jobs, CRS scores, OINP, Express Entry, resumes, or mindset.",pa:"ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ! ਮੈਂ Muse ਹਾਂ। ਨੌਕਰੀਆਂ, CRS ਸਕੋਰ, OINP, Express Entry, ਰੈਜ਼ਿਊਮੇ ਜਾਂ ਮਾਈਂਡਸੈੱਟ ਬਾਰੇ ਪੁੱਛੋ।",hi:"नमस्ते! मैं Muse हूँ। नौकरियों, CRS स्कोर, OINP, Express Entry, रिज़्यूमे या माइंडसेट के बारे में पूछें।"}},
+ {k:["crs","score","points","cutoff","draw"],a:{en:"Try the PR Score tab — enter your age, education, language CLB and work experience for an honest CRS estimate. Recent cutoffs move around, so always check the latest IRCC draws.",pa:"PR Score ਟੈਬ ਅਜ਼ਮਾਓ — ਉਮਰ, ਪੜ੍ਹਾਈ, ਭਾਸ਼ਾ CLB ਅਤੇ ਤਜਰਬਾ ਪਾ ਕੇ CRS ਅੰਦਾਜ਼ਾ ਲਓ।",hi:"PR Score टैब आज़माएँ — उम्र, पढ़ाई, भाषा CLB और अनुभव डालकर CRS अनुमान पाएँ।"}},
+ {k:["oinp","ontario","pnp","provincial"],a:{en:"OINP's Employer Job Offer streams can work for some roles. General warehouse work (TEER 5) rarely qualifies directly — moving into a TEER 3 supervisor or TEER 2 role changes the picture.",pa:"OINP ਦੀਆਂ Employer Job Offer ਸਟ੍ਰੀਮਾਂ ਕੁਝ ਭੂਮਿਕਾਵਾਂ ਲਈ ਕੰਮ ਕਰ ਸਕਦੀਆਂ ਹਨ। TEER 5 ਸਿੱਧਾ ਯੋਗ ਨਹੀਂ ਹੁੰਦਾ — TEER 3/2 ਵਿੱਚ ਜਾਣਾ ਸਭ ਬਦਲ ਦਿੰਦਾ ਹੈ।",hi:"OINP की Employer Job Offer स्ट्रीम कुछ भूमिकाओं के लिए काम कर सकती हैं। TEER 5 सीधे योग्य नहीं होता।"}},
+ {k:["express entry","cec","federal"],a:{en:"Express Entry's Canadian Experience Class needs TEER 0–3 skilled work. Most general warehouse jobs are TEER 5, which doesn't count. Target lead-hand, supervisor or trades roles and keep language scores high.",pa:"Express Entry ਲਈ TEER 0–3 ਦਾ ਤਜਰਬਾ ਚਾਹੀਦਾ ਹੈ। ਜ਼ਿਆਦਾਤਰ ਵੇਅਰਹਾਊਸ ਨੌਕਰੀਆਂ TEER 5 ਹਨ।",hi:"Express Entry के लिए TEER 0–3 का अनुभव चाहिए। ज़्यादातर वेयरहाउस नौकरियां TEER 5 हैं।"}},
+ {k:["pgwp","work permit","study permit"],a:{en:"PGWP lets you work for any employer after graduating from a designated institution — up to 3 years. Use it strategically: target TEER 2/3 roles, not just any job.",pa:"PGWP ਤੁਹਾਨੂੰ ਪੜ੍ਹਾਈ ਤੋਂ ਬਾਅਦ ਕਿਸੇ ਵੀ ਮਾਲਕ ਲਈ ਕੰਮ ਕਰਨ ਦਿੰਦਾ ਹੈ — ਵੱਧ ਤੋਂ ਵੱਧ 3 ਸਾਲ। TEER 2/3 ਨੂੰ ਨਿਸ਼ਾਨਾ ਬਣਾਓ।",hi:"PGWP आपको पढ़ाई के बाद किसी भी नियोक्ता के लिए काम करने देता है — अधिकतम 3 साल।"}},
+ {k:["noc","teer"],a:{en:"NOC codes classify jobs by TEER 0–5. For PR, TEER 0–3 counts. A warehouse supervisor is often TEER 2; a general labourer is TEER 5. Check your actual duties against the NOC.",pa:"NOC ਕੋਡ ਨੌਕਰੀਆਂ ਨੂੰ TEER 0–5 ਨਾਲ ਵਰਗੀਕ੍ਰਿਤ ਕਰਦੇ ਹਨ। PR ਲਈ TEER 0–3 ਗਿਣਿਆ ਜਾਂਦਾ ਹੈ।",hi:"NOC कोड नौकरियों को TEER 0–5 से वर्गीकृत करते हैं। PR के लिए TEER 0–3 गिना जाता है।"}},
+ {k:["resume","cv","cover letter"],a:{en:"Keep it to 1 page, use numbers ('300+ orders/shift'), and match keywords from the posting — many employers use ATS filters. The Starter Kit ($29) has 5 templates built for this.",pa:"1 ਪੰਨਾ ਰੱਖੋ, ਨੰਬਰ ਵਰਤੋ, ਅਤੇ ਪੋਸਟਿੰਗ ਦੇ ਸ਼ਬਦ ਮਿਲਾਓ। Starter Kit ਵਿੱਚ 5 ਟੈਂਪਲੇਟ ਹਨ।",hi:"1 पेज रखें, संख्याएँ इस्तेमाल करें, पोस्टिंग के कीवर्ड मिलाएँ।"}},
+ {k:["interview"],a:{en:"Arrive 15 min early with steel-toes, bring ID and SIN. Prepare 3 stories: a challenge, teamwork, reliability. Slow down, breathe — confidence is a practice, not a trait.",pa:"15 ਮਿੰਟ ਪਹਿਲਾਂ ਪਹੁੰਚੋ, 3 ਕਹਾਣੀਆਂ ਤਿਆਰ ਕਰੋ। ਹੌਲੀ ਬੋਲੋ, ਸਾਹ ਲਓ — ਆਤਮਵਿਸ਼ਵਾਸ ਅਭਿਆਸ ਨਾਲ ਆਉਂਦਾ ਹੈ।",hi:"15 मिनट पहले पहुँचें, 3 कहानियाँ तैयार करें। धीरे बोलें, साँस लें — आत्मविश्वास अभ्यास से आता है।"}},
+ {k:["mindset","stress","motivat","depress","sad","tired"],a:{en:"The journey is hard, and that's normal — not a sign you're failing. Set applying hours, protect your sleep, and talk to someone you trust. Rest is part of the work.",pa:"ਸਫ਼ਰ ਔਖਾ ਹੈ ਅਤੇ ਇਹ ਆਮ ਹੈ — ਇਹ ਅਸਫਲਤਾ ਦੀ ਨਿਸ਼ਾਨੀ ਨਹੀਂ। ਅਪਲਾਈ ਦਾ ਸਮਾਂ ਤੈਅ ਕਰੋ, ਨੀਂਦ ਦਾ ਖਿਆਲ ਰੱਖੋ, ਕਿਸੇ ਭਰੋਸੇਮੰਦ ਨਾਲ ਗੱਲ ਕਰੋ।",hi:"सफ़र कठिन है और यह सामान्य है — यह असफलता का संकेत नहीं। आवेदन का समय तय करें, नींद का ख्याल रखें, किसी भरोसेमंद से बात करें।"}},
+ {k:["agent","rcic","consultant","1-on-1","one on one"],a:{en:"The Kits tab lists independent RCIC agents you can book for a 1-on-1 — check their languages, prices and ratings there.",pa:"Kits ਟੈਬ ਵਿੱਚ RCIC ਏਜੰਟਾਂ ਦੀ ਸੂਚੀ ਹੈ — ਭਾਸ਼ਾ, ਕੀਮਤ ਅਤੇ ਰੇਟਿੰਗ ਦੇਖੋ।",hi:"Kits टैब में RCIC एजेंटों की सूची है।"}},
+ {k:["pay","salary","wage","per hour"],a:{en:"Typical GTA warehouse pay: general labour $19–22/hr, forklift $23–26/hr, leads $25–28/hr, supervisors $28–32/hr. Nights often add $1–2/hr.",pa:"GTA ਤਨਖਾਹ: ਮਜ਼ਦੂਰ $19–22, ਫੋਰਕਲਿਫਟ $23–26, ਸੁਪਰਵਾਈਜ਼ਰ $28–32/ਘੰਟਾ।",hi:"GTA वेतन: मज़दूर $19–22, फोर्कलिफ्ट $23–26, सुपरवाइज़र $28–32/घंटा।"}},
+ {k:["job","hiring","vacancy","work"],a:{en:"Check the Jobs tab — current GTA openings with pay, shift and TEER. The amber PR PATHWAY tag marks TEER 2–3 roles. Employers can post too!",pa:"Jobs ਟੈਬ ਦੇਖੋ — ਤਨਖਾਹ, ਸ਼ਿਫਟ ਅਤੇ TEER ਨਾਲ ਮੌਜੂਦਾ ਨੌਕਰੀਆਂ।",hi:"Jobs टैब देखें — मौजूदा नौकरियां।"}}
+];
+const QUICK=["CRS score?","OINP for warehouse?","Interview tips","Talk to an agent"];
+/* ================= I18N ================= */
+const T={
+en:{headerTag:"GTA jobs that lead to permanent residency",tabJobs:"Jobs",tabPR:"PR Score",tabKits:"Kits",tabProfile:"Profile",
+jobsTitle:"Find Jobs",jobsSub:"GTA warehouse, forklift & trades openings. Amber tag = PR-relevant role.",postJob:"+ Post a Job (Employers)",postJobHint:"Hiring? List your opening here — free during launch.",searchPh:"Search jobs, companies, cities...",allShifts:"All shifts",day:"Day",afternoon:"Afternoon",night:"Night",prOnly:"PR pathway only",apply:"Apply",applied:"Applied ✓",save:"Save",savedBtn:"Saved",prTag:"PR PATHWAY",empTag:"EMPLOYER POST",
+prTitle:"PR Score",prSub:"Estimate your Express Entry CRS score. Honest math, no guarantees.",yourScore:"Your estimated CRS score",expTitle:"Your work experience",expJob:"Job title",expYears:"Years",expWhere:"Where",inCanada:"In Canada",outside:"Outside Canada",addExp:"+ Add experience",crsTitle:"CRS calculator",age:"Age",marital:"Status",single:"Single",married:"Married / common-law",edu:"Highest education",lang1:"First language — CLB per ability",listening:"Listening",speaking:"Speaking",reading:"Reading",writing:"Writing",lang2:"Second language CLB 5+ in all 4 abilities",spEdu:"Spouse education",spLang:"Spouse first language CLB 5+ (all 4)",spWork:"Spouse has 1+ year Canadian work",addPts:"Additional points",pnp:"Provincial nomination (+600)",jobOffer:"Valid job offer",none:"None",offer200:"Senior management (NOC 00) +200",offer50:"TEER 0–3 skilled offer +50",cdnStudy:"Study in Canada",study15:"1–2 year credential +15",study30:"3+ year credential +30",sibling:"Sibling in Canada (PR/citizen 18+) +15",french:"French",fr25:"NCLC 7+ & English CLB 4 +25",fr50:"NCLC 7+ & English CLB 5+ +50",calc:"Calculate my score",crsDisclaimer:'Estimate only — not legal advice. Rules change; confirm with the official <a href="https://www.canada.ca/en/immigration-refugees-citizenship/services/immigrate-canada/express-entry/become-candidate/eligibility/comprehensive-ranking-system.html" target="_blank" rel="noopener">IRCC CRS criteria</a> and consider consulting an RCIC.',
+kitsTitle:"Kits & 1-on-1",kitsSub:"Tools that speed up your job hunt — from templates to expert guidance.",agentsTitle:"Talk to an IRCC agent",agentsSub:"Book a 1-on-1 with an independent immigration consultant.",agentsNote:"Agents are independent RCICs, not JobsToPR employees. JobsToPR takes a service fee on bookings. Always verify an agent's RCIC licence.",getKit:"Get",bookNow:"Book",
+profileTitle:"Profile",profileSub:"Your saved jobs, applications, posts and bookings.",yourInfo:"Your info",namePh:"Your name",language:"Language",savedCount:"Saved jobs",appliedCount:"Applications",postedCount:"Jobs you posted",bookedCount:"Sessions booked",crsSaved:"Saved CRS score",savedJobs:"Saved jobs",noSaved:"Nothing saved yet — your future starts with one tap.",myApps:"My applications",noApps:"No applications yet — every journey begins with the first one.",myPosts:"My job posts",noPosts:"No posts yet — when you're hiring, this is where it starts.",myBookings:"My bookings",noBookings:"No sessions booked yet — expert guidance is one tap away.",
+askMuse:"Ask Muse",chatPh:"Ask about jobs, CRS, PR...",applyTitle:"Apply for this job",fullName:"Full name",phone:"Phone",cancel:"Cancel",submitApp:"Submit application",appReceived:"Well done — application sent!",appReceivedSub:"Taking this step matters. The employer has your details — we'll notify you about next steps.",done:"Done",noJobs:"No jobs match your filters.",postJobTitle:"Post a job",postJobSub:"Your listing appears in the Jobs tab instantly.",company:"Company",jobTitleF:"Job title",pay:"Pay",location:"Location",shift:"Shift",contact:"Contact",descF:"Short description",publish:"Publish job",bookTitle:"Book a 1-on-1",reqBook:"Request booking",bookReceived:"Booking requested!",bookReceivedSub:"The agent will contact you to confirm your session time.",orderTitle:"Order Premium Kit — $49",orderSub:"Fill this in — it opens WhatsApp with your order ready to send. Attach your resume in the chat.",targetJob:"Target job title",targetJobPh:"e.g. Warehouse Supervisor",targetNoc:"Target NOC code (if known)",orderNotes:"Anything we should know?",orderNotesPh:"Optional",sendOrder:"Send order via WhatsApp",orderSent:"Order sent!",orderSentSub:"Now attach your resume in the WhatsApp chat. We'll tailor it within 48 hours.",perSession:"/session",langName:"English",trust1:"✓ Free during launch",trust2:"✓ No account needed",trust3:"✓ Your data stays on your phone",
+prImpact:"See 1-year PR impact",impactTitle:"1 year in this role — PR outlook",
+impactTeerOk:"Good news: TEER {n} counts as skilled work — 1 year here earns Canadian work-experience points.",
+impactTeerBad:"Honest note: TEER {n} work does not count as skilled Canadian work experience for Express Entry. The pay can fund your IELTS/French prep — and moving up to lead or supervisor (TEER 3/2) changes everything.",
+impactWork:"Canadian work (1 yr)",impactLang:"Your IELTS bands",impactFr:"French level (NCLC)",frNone:"None",fr56:"CLB 5–6",fr7:"CLB 7+",
+impactTr:"Skill transferability (possible*)",impactTrNote:"assumes post-secondary education — confirm in the PR Score tab",
+impactTotal:"Estimated CRS boost",impactVerdict:"This path could add ~{n} CRS points.",
+fullScore:"Calculate my full score →",impactHint:"Rough estimate — fine-tune everything in the PR Score tab."},
+pa:{headerTag:"GTA ਨੌਕਰੀਆਂ ਜੋ ਪੱਕੀ ਰਿਹਾਇਸ਼ ਵੱਲ ਲੈ ਜਾਂਦੀਆਂ ਹਨ",tabJobs:"ਨੌਕਰੀਆਂ",tabPR:"PR ਸਕੋਰ",tabKits:"ਕਿੱਟਾਂ",tabProfile:"ਪ੍ਰੋਫ਼ਾਈਲ",
+jobsTitle:"ਨੌਕਰੀਆਂ ਲੱਭੋ",jobsSub:"GTA ਵੇਅਰਹਾਊਸ, ਫੋਰਕਲਿਫਟ ਅਤੇ ਟ੍ਰੇਡਜ਼। ਅੰਬਰ ਟੈਗ = PR-ਯੋਗ ਭੂਮਿਕਾ।",postJob:"+ ਨੌਕਰੀ ਪੋਸਟ ਕਰੋ (ਮਾਲਕ)",postJobHint:"ਭਰਤੀ ਕਰ ਰਹੇ ਹੋ? ਆਪਣੀ ਨੌਕਰੀ ਇੱਥੇ ਸੂਚੀਬੱਧ ਕਰੋ — ਸ਼ੁਰੂਆਤ ਵਿੱਚ ਮੁਫ਼ਤ।",searchPh:"ਨੌਕਰੀਆਂ, ਕੰਪਨੀਆਂ, ਸ਼ਹਿਰ ਖੋਜੋ...",allShifts:"ਸਾਰੀਆਂ ਸ਼ਿਫਟਾਂ",day:"ਦਿਨ",afternoon:"ਦੁਪਹਿਰ",night:"ਰਾਤ",prOnly:"ਸਿਰਫ਼ PR ਰਸਤਾ",apply:"ਅਪਲਾਈ ਕਰੋ",applied:"ਅਪਲਾਈ ਹੋ ਗਿਆ ✓",save:"ਸੇਵ ਕਰੋ",savedBtn:"ਸੇਵ ਕੀਤਾ",prTag:"PR PATHWAY",empTag:"ਮਾਲਕ ਪੋਸਟ",
+prTitle:"PR ਸਕੋਰ",prSub:"ਆਪਣੇ Express Entry CRS ਸਕੋਰ ਦਾ ਅੰਦਾਜ਼ਾ ਲਗਾਓ। ਇਮਾਨਦਾਰ ਗਣਨਾ।",yourScore:"ਤੁਹਾਡਾ ਅਨੁਮਾਨਿਤ CRS ਸਕੋਰ",expTitle:"ਤੁਹਾਡਾ ਕੰਮ ਦਾ ਤਜਰਬਾ",expJob:"ਨੌਕਰੀ ਦਾ ਨਾਮ",expYears:"ਸਾਲ",expWhere:"ਕਿੱਥੇ",inCanada:"ਕੈਨੇਡਾ ਵਿੱਚ",outside:"ਕੈਨੇਡਾ ਤੋਂ ਬਾਹਰ",addExp:"+ ਤਜਰਬਾ ਸ਼ਾਮਲ ਕਰੋ",crsTitle:"CRS ਕੈਲਕੁਲੇਟਰ",age:"ਉਮਰ",marital:"ਸਥਿਤੀ",single:"ਇਕੱਲਾ",married:"ਵਿਆਹਿਆ / ਕਾਮਨ-ਲਾਅ",edu:"ਉੱਚ ਸਿੱਖਿਆ",lang1:"ਪਹਿਲੀ ਭਾਸ਼ਾ — CLB",listening:"ਸੁਣਨਾ",speaking:"ਬੋਲਣਾ",reading:"ਪੜ੍ਹਨਾ",writing:"ਲਿਖਣਾ",lang2:"ਦੂਜੀ ਭਾਸ਼ਾ CLB 5+",spEdu:"ਜੀਵਨ ਸਾਥੀ ਦੀ ਸਿੱਖਿਆ",spLang:"ਜੀਵਨ ਸਾਥੀ ਦੀ ਭਾਸ਼ਾ CLB 5+",spWork:"ਜੀਵਨ ਸਾਥੀ ਦਾ 1+ ਸਾਲ ਕੈਨੇਡਾ ਕੰਮ",addPts:"ਵਾਧੂ ਅੰਕ",pnp:"ਸੂਬਾਈ ਨਾਮਜ਼ਦਗੀ (+600)",jobOffer:"ਜਾਇਜ਼ ਨੌਕਰੀ ਦੀ ਪੇਸ਼ਕਸ਼",none:"ਕੋਈ ਨਹੀਂ",offer200:"ਸੀਨੀਅਰ ਪ੍ਰਬੰਧਨ +200",offer50:"TEER 0–3 ਪੇਸ਼ਕਸ਼ +50",cdnStudy:"ਕੈਨੇਡਾ ਵਿੱਚ ਪੜ੍ਹਾਈ",study15:"1–2 ਸਾਲ +15",study30:"3+ ਸਾਲ +30",sibling:"ਕੈਨੇਡਾ ਵਿੱਚ ਭੈਣ-ਭਰਾ +15",french:"ਫ਼ਰੈਂਚ",fr25:"NCLC 7+ +25",fr50:"NCLC 7+ +50",calc:"ਮੇਰਾ ਸਕੋਰ ਗਿਣੋ",crsDisclaimer:"ਸਿਰਫ਼ ਅੰਦਾਜ਼ਾ — ਕਾਨੂੰਨੀ ਸਲਾਹ ਨਹੀਂ। ਅਧਿਕਾਰਤ IRCC ਮਾਪਦੰਡ ਦੇਖੋ ਅਤੇ RCIC ਨਾਲ ਸਲਾਹ ਕਰੋ।",
+kitsTitle:"ਕਿੱਟਾਂ ਅਤੇ 1-on-1",kitsSub:"ਤੁਹਾਡੀ ਨੌਕਰੀ ਦੀ ਭਾਲ ਤੇਜ਼ ਕਰਨ ਵਾਲੇ ਟੂਲ।",agentsTitle:"IRCC ਏਜੰਟ ਨਾਲ ਗੱਲ ਕਰੋ",agentsSub:"ਸੁਤੰਤਰ ਇਮੀਗ੍ਰੇਸ਼ਨ ਸਲਾਹਕਾਰ ਨਾਲ 1-on-1 ਬੁੱਕ ਕਰੋ।",agentsNote:"ਏਜੰਟ ਸੁਤੰਤਰ RCIC ਹਨ। ਬੁਕਿੰਗ 'ਤੇ JobsToPR ਸੇਵਾ ਫ਼ੀਸ ਲੈਂਦਾ ਹੈ।",getKit:"ਲਓ",bookNow:"ਬੁੱਕ ਕਰੋ",
+profileTitle:"ਪ੍ਰੋਫ਼ਾਈਲ",profileSub:"ਤੁਹਾਡੀਆਂ ਸੇਵ ਕੀਤੀਆਂ ਨੌਕਰੀਆਂ, ਅਰਜ਼ੀਆਂ ਅਤੇ ਬੁਕਿੰਗਾਂ।",yourInfo:"ਤੁਹਾਡੀ ਜਾਣਕਾਰੀ",namePh:"ਤੁਹਾਡਾ ਨਾਮ",language:"ਭਾਸ਼ਾ",savedCount:"ਸੇਵ ਕੀਤੀਆਂ ਨੌਕਰੀਆਂ",appliedCount:"ਅਰਜ਼ੀਆਂ",postedCount:"ਪੋਸਟ ਕੀਤੀਆਂ ਨੌਕਰੀਆਂ",bookedCount:"ਬੁੱਕ ਕੀਤੇ ਸੈਸ਼ਨ",crsSaved:"ਸੇਵ ਕੀਤਾ CRS ਸਕੋਰ",savedJobs:"ਸੇਵ ਕੀਤੀਆਂ ਨੌਕਰੀਆਂ",noSaved:"ਅਜੇ ਕੁਝ ਸੇਵ ਨਹੀਂ ਕੀਤਾ — ਤੁਹਾਡਾ ਭਵਿੱਖ ਇੱਕ ਟੈਪ ਨਾਲ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ।",myApps:"ਮੇਰੀਆਂ ਅਰਜ਼ੀਆਂ",noApps:"ਅਜੇ ਕੋਈ ਅਰਜ਼ੀ ਨਹੀਂ — ਹਰ ਸਫ਼ਰ ਪਹਿਲੇ ਕਦਮ ਨਾਲ ਸ਼ੁਰੂ ਹੁੰਦਾ ਹੈ।",myPosts:"ਮੇਰੀਆਂ ਪੋਸਟਾਂ",noPosts:"ਅਜੇ ਕੋਈ ਪੋਸਟ ਨਹੀਂ — ਭਰਤੀ ਵੇਲੇ ਇੱਥੋਂ ਸ਼ੁਰੂ ਕਰੋ।",myBookings:"ਮੇਰੀਆਂ ਬੁਕਿੰਗਾਂ",noBookings:"ਅਜੇ ਕੋਈ ਸੈਸ਼ਨ ਬੁੱਕ ਨਹੀਂ ਕੀਤਾ — ਮਾਹਰ ਸਲਾਹ ਇੱਕ ਟੈਪ ਦੂਰ ਹੈ।",
+askMuse:"Muse ਨੂੰ ਪੁੱਛੋ",chatPh:"ਨੌਕਰੀਆਂ, CRS, PR ਬਾਰੇ ਪੁੱਛੋ...",applyTitle:"ਇਸ ਨੌਕਰੀ ਲਈ ਅਪਲਾਈ ਕਰੋ",fullName:"ਪੂਰਾ ਨਾਮ",phone:"ਫ਼ੋਨ",cancel:"ਰੱਦ ਕਰੋ",submitApp:"ਅਰਜ਼ੀ ਭੇਜੋ",appReceived:"ਸ਼ਾਬਾਸ਼ — ਅਰਜ਼ੀ ਭੇਜ ਦਿੱਤੀ!",appReceivedSub:"ਇਹ ਕਦਮ ਚੁੱਕਣਾ ਮਾਇਨੇ ਰੱਖਦਾ ਹੈ। ਮਾਲਕ ਕੋਲ ਤੁਹਾਡੇ ਵੇਰਵੇ ਹਨ।",done:"ਹੋ ਗਿਆ",noJobs:"ਤੁਹਾਡੇ ਫਿਲਟਰਾਂ ਨਾਲ ਕੋਈ ਨੌਕਰੀ ਨਹੀਂ ਮਿਲੀ।",postJobTitle:"ਨੌਕਰੀ ਪੋਸਟ ਕਰੋ",postJobSub:"ਤੁਹਾਡੀ ਸੂਚੀ ਤੁਰੰਤ ਦਿਖਾਈ ਦੇਵੇਗੀ।",company:"ਕੰਪਨੀ",jobTitleF:"ਨੌਕਰੀ ਦਾ ਨਾਮ",pay:"ਤਨਖਾਹ",location:"ਜਗ੍ਹਾ",shift:"ਸ਼ਿਫਟ",contact:"ਸੰਪਰਕ",descF:"ਸੰਖੇਪ ਵੇਰਵਾ",publish:"ਨੌਕਰੀ ਪ੍ਰਕਾਸ਼ਿਤ ਕਰੋ",bookTitle:"1-on-1 ਬੁੱਕ ਕਰੋ",reqBook:"ਬੁਕਿੰਗ ਦੀ ਬੇਨਤੀ ਕਰੋ",bookReceived:"ਬੁਕਿੰਗ ਦੀ ਬੇਨਤੀ ਮਿਲ ਗਈ!",bookReceivedSub:"ਏਜੰਟ ਸਮਾਂ ਪੱਕਾ ਕਰਨ ਲਈ ਸੰਪਰਕ ਕਰੇਗਾ।",orderTitle:"Premium Kit ਆਰਡਰ ਕਰੋ — $49",orderSub:"ਇਹ ਭਰੋ — ਤੁਹਾਡਾ ਆਰਡਰ ਤਿਆਰ ਕਰਕੇ WhatsApp ਖੁੱਲ੍ਹੇਗਾ। ਚੈਟ ਵਿੱਚ ਆਪਣਾ ਰੈਜ਼ਿਊਮੇ ਲਗਾਓ।",targetJob:"ਟੀਚਾ ਨੌਕਰੀ ਦਾ ਨਾਮ",targetJobPh:"ਜਿਵੇਂ Warehouse Supervisor",targetNoc:"ਟੀਚਾ NOC ਕੋਡ (ਜੇ ਪਤਾ ਹੋਵੇ)",orderNotes:"ਕੁਝ ਹੋਰ ਦੱਸਣਾ?",orderNotesPh:"ਵਿਕਲਪਿਕ",sendOrder:"WhatsApp ਰਾਹੀਂ ਆਰਡਰ ਭੇਜੋ",orderSent:"ਆਰਡਰ ਭੇਜ ਦਿੱਤਾ!",orderSentSub:"ਹੁਣ WhatsApp ਚੈਟ ਵਿੱਚ ਆਪਣਾ ਰੈਜ਼ਿਊਮੇ ਲਗਾਓ। ਅਸੀਂ 48 ਘੰਟਿਆਂ ਵਿੱਚ ਤਿਆਰ ਕਰਾਂਗੇ।",perSession:"/ਸੈਸ਼ਨ",langName:"ਪੰਜਾਬੀ",trust1:"✓ ਸ਼ੁਰੂਆਤ ਵਿੱਚ ਮੁਫ਼ਤ",trust2:"✓ ਕੋਈ ਖਾਤਾ ਲੋੜੀਂਦਾ ਨਹੀਂ",trust3:"✓ ਤੁਹਾਡਾ ਡਾਟਾ ਤੁਹਾਡੇ ਫ਼ੋਨ 'ਤੇ ਰਹਿੰਦਾ ਹੈ",
+prImpact:"1 ਸਾਲ ਦਾ PR ਅਸਰ ਦੇਖੋ",impactTitle:"ਇਸ ਭੂਮਿਕਾ ਵਿੱਚ 1 ਸਾਲ — PR ਨਜ਼ਰੀਆ",
+impactTeerOk:"ਚੰਗੀ ਖ਼ਬਰ: TEER {n} ਹੁਨਰਮੰਦ ਕੰਮ ਵਜੋਂ ਗਿਣਿਆ ਜਾਂਦਾ ਹੈ — ਇੱਥੇ 1 ਸਾਲ ਕੈਨੇਡਾ ਤਜਰਬੇ ਦੇ ਅੰਕ ਦਿੰਦਾ ਹੈ।",
+impactTeerBad:"ਇਮਾਨਦਾਰ ਨੋਟ: TEER {n} ਦਾ ਕੰਮ Express Entry ਲਈ ਹੁਨਰਮੰਦ ਕੈਨੇਡਾ ਤਜਰਬੇ ਵਜੋਂ ਨਹੀਂ ਗਿਣਿਆ ਜਾਂਦਾ। ਤਨਖਾਹ IELTS/ਫ਼ਰੈਂਚ ਦੀ ਤਿਆਰੀ ਵਿੱਚ ਮਦਦ ਕਰ ਸਕਦੀ ਹੈ — ਅਤੇ ਲੀਡ/ਸੁਪਰਵਾਈਜ਼ਰ (TEER 3/2) ਬਣਨਾ ਸਭ ਬਦਲ ਦਿੰਦਾ ਹੈ।",
+impactWork:"ਕੈਨੇਡਾ ਕੰਮ (1 ਸਾਲ)",impactLang:"ਤੁਹਾਡੇ IELTS ਬੈਂਡ",impactFr:"ਫ਼ਰੈਂਚ ਪੱਧਰ (NCLC)",frNone:"ਕੋਈ ਨਹੀਂ",fr56:"CLB 5–6",fr7:"CLB 7+",
+impactTr:"ਹੁਨਰ ਤਬਾਦਲਾ (ਸੰਭਵ*)",impactTrNote:"ਪੋਸਟ-ਸੈਕੰਡਰੀ ਸਿੱਖਿਆ ਮੰਨ ਕੇ — PR Score ਟੈਬ ਵਿੱਚ ਪੱਕਾ ਕਰੋ",
+impactTotal:"ਅਨੁਮਾਨਿਤ CRS ਵਾਧਾ",impactVerdict:"ਇਹ ਰਸਤਾ ਲਗਭਗ {n} CRS ਅੰਕ ਵਧਾ ਸਕਦਾ ਹੈ।",
+fullScore:"ਮੇਰਾ ਪੂਰਾ ਸਕੋਰ ਗਿਣੋ →",impactHint:"ਮੋਟਾ ਅੰਦਾਜ਼ਾ — PR Score ਟੈਬ ਵਿੱਚ ਸਭ ਸਹੀ ਕਰੋ।"},
+hi:{headerTag:"GTA नौकरियां जो स्थायी निवास की ओर ले जाती हैं",tabJobs:"नौकरियां",tabPR:"PR स्कोर",tabKits:"किट",tabProfile:"प्रोफ़ाइल",
+jobsTitle:"नौकरियां खोजें",jobsSub:"GTA वेयरहाउस, फोर्कलिफ्ट और ट्रेड। अंबर टैग = PR-योग्य भूमिका।",postJob:"+ नौकरी पोस्ट करें (नियोक्ता)",postJobHint:"भर्ती कर रहे हैं? अपनी नौकरी यहाँ सूचीबद्ध करें — शुरुआत में मुफ़्त।",searchPh:"नौकरियां, कंपनियां, शहर खोजें...",allShifts:"सभी शिफ्ट",day:"दिन",afternoon:"दोपहर",night:"रात",prOnly:"सिर्फ PR रास्ता",apply:"आवेदन करें",applied:"आवेदन हो गया ✓",save:"सेव करें",savedBtn:"सेव किया",prTag:"PR PATHWAY",empTag:"नियोक्ता पोस्ट",
+prTitle:"PR स्कोर",prSub:"अपने Express Entry CRS स्कोर का अनुमान लगाएँ। ईमानदार गणना।",yourScore:"आपका अनुमानित CRS स्कोर",expTitle:"आपका कार्य अनुभव",expJob:"नौकरी का नाम",expYears:"वर्ष",expWhere:"कहाँ",inCanada:"कनाडा में",outside:"कनाडा के बाहर",addExp:"+ अनुभव जोड़ें",crsTitle:"CRS कैलकुलेटर",age:"उम्र",marital:"स्थिति",single:"अकेला",married:"विवाहित / कॉमन-लॉ",edu:"उच्च शिक्षा",lang1:"पहली भाषा — CLB",listening:"सुनना",speaking:"बोलना",reading:"पढ़ना",writing:"लिखना",lang2:"दूसरी भाषा CLB 5+",spEdu:"जीवनसाथी की शिक्षा",spLang:"जीवनसाथी की भाषा CLB 5+",spWork:"जीवनसाथी का 1+ वर्ष कनाडा कार्य",addPts:"अतिरिक्त अंक",pnp:"प्रांतीय नामांकन (+600)",jobOffer:"वैध नौकरी प्रस्ताव",none:"कोई नहीं",offer200:"वरिष्ठ प्रबंधन +200",offer50:"TEER 0–3 प्रस्ताव +50",cdnStudy:"कनाडा में पढ़ाई",study15:"1–2 वर्ष +15",study30:"3+ वर्ष +30",sibling:"कनाडा में भाई-बहन +15",french:"फ़्रेंच",fr25:"NCLC 7+ +25",fr50:"NCLC 7+ +50",calc:"मेरा स्कोर निकालें",crsDisclaimer:"सिर्फ अनुमान — कानूनी सलाह नहीं। आधिकारिक IRCC मानदंड देखें और RCIC से सलाह लें।",
+kitsTitle:"किट और 1-on-1",kitsSub:"आपकी नौकरी की खोज तेज़ करने वाले टूल।",agentsTitle:"IRCC एजेंट से बात करें",agentsSub:"स्वतंत्र इमिग्रेशन सलाहकार के साथ 1-on-1 बुक करें।",agentsNote:"एजेंट स्वतंत्र RCIC हैं। बुकिंग पर JobsToPR सेवा शुल्क लेता है।",getKit:"लें",bookNow:"बुक करें",
+profileTitle:"प्रोफ़ाइल",profileSub:"आपकी सेव की गई नौकरियां, आवेदन और बुकिंग।",yourInfo:"आपकी जानकारी",namePh:"आपका नाम",language:"भाषा",savedCount:"सेव की गई नौकरियां",appliedCount:"आवेदन",postedCount:"पोस्ट की गई नौकरियां",bookedCount:"बुक किए गए सेशन",crsSaved:"सेव किया CRS स्कोर",savedJobs:"सेव की गई नौकरियां",noSaved:"अभी कुछ सेव नहीं किया — आपका भविष्य एक टैप से शुरू होता है।",myApps:"मेरे आवेदन",noApps:"अभी कोई आवेदन नहीं — हर सफ़र पहले कदम से शुरू होता है।",myPosts:"मेरी पोस्ट",noPosts:"अभी कोई पोस्ट नहीं — भर्ती के समय यहीं से शुरू करें।",myBookings:"मेरी बुकिंग",noBookings:"अभी कोई सेशन बुक नहीं किया — विशेषज्ञ सलाह एक टैप दूर है।",
+askMuse:"Muse से पूछें",chatPh:"नौकरियों, CRS, PR के बारे में पूछें...",applyTitle:"इस नौकरी के लिए आवेदन करें",fullName:"पूरा नाम",phone:"फ़ोन",cancel:"रद्द करें",submitApp:"आवेदन भेजें",appReceived:"शाबाश — आवेदन भेज दिया!",appReceivedSub:"यह कदम उठाना मायने रखता है। नियोक्ता के पास आपका विवरण है।",done:"हो गया",noJobs:"आपके फ़िल्टर से कोई नौकरी नहीं मिली।",postJobTitle:"नौकरी पोस्ट करें",postJobSub:"आपकी सूची तुरंत दिखाई देगी।",company:"कंपनी",jobTitleF:"नौकरी का नाम",pay:"वेतन",location:"जगह",shift:"शिफ्ट",contact:"संपर्क",descF:"संक्षिप्त विवरण",publish:"नौकरी प्रकाशित करें",bookTitle:"1-on-1 बुक करें",reqBook:"बुकिंग का अनुरोध करें",bookReceived:"बुकिंग अनुरोध मिल गया!",bookReceivedSub:"एजेंट समय पक्का करने के लिए संपर्क करेगा।",orderTitle:"Premium Kit ऑर्डर करें — $49",orderSub:"इसे भरें — आपका ऑर्डर तैयार करके WhatsApp खुलेगा। चैट में अपना रिज़्यूमे लगाएं।",targetJob:"लक्ष्य नौकरी का नाम",targetJobPh:"जैसे Warehouse Supervisor",targetNoc:"लक्ष्य NOC कोड (यदि पता हो)",orderNotes:"कुछ और बताना?",orderNotesPh:"वैकल्पिक",sendOrder:"WhatsApp से ऑर्डर भेजें",orderSent:"ऑर्डर भेज दिया!",orderSentSub:"अब WhatsApp चैट में अपना रिज़्यूमे लगाएं। हम 48 घंटों में तैयार करेंगे।",perSession:"/सेशन",langName:"हिंदी",trust1:"✓ शुरुआत में मुफ़्त",trust2:"✓ कोई खाता ज़रूरी नहीं",trust3:"✓ आपका डेटा आपके फ़ोन पर रहता है",
+prImpact:"1 साल का PR असर देखें",impactTitle:"इस भूमिका में 1 साल — PR दृष्टिकोण",
+impactTeerOk:"अच्छी खबर: TEER {n} कुशल कार्य गिना जाता है — यहाँ 1 साल कनाडाई अनुभव अंक देता है।",
+impactTeerBad:"ईमानदार नोट: TEER {n} का काम Express Entry के लिए कुशल कनाडाई अनुभव नहीं गिना जाता। वेतन IELTS/फ़्रेंच की तैयारी में मदद कर सकता है — और लीड/सुपरवाइज़र (TEER 3/2) बनना सब बदल देता है।",
+impactWork:"कनाडा कार्य (1 वर्ष)",impactLang:"आपके IELTS बैंड",impactFr:"फ़्रेंच स्तर (NCLC)",frNone:"कोई नहीं",fr56:"CLB 5–6",fr7:"CLB 7+",
+impactTr:"कौशल हस्तांतरण (संभव*)",impactTrNote:"पोस्ट-सेकेंडरी शिक्षा मानकर — PR Score टैब में पक्का करें",
+impactTotal:"अनुमानित CRS बढ़त",impactVerdict:"यह रास्ता लगभग {n} CRS अंक बढ़ा सकता है।",
+fullScore:"मेरा पूरा स्कोर निकालें →",impactHint:"मोटा अनुमान — PR Score टैब में सब ठीक करें"}
+};
+/* ================= STATE ================= */
+const LS='jtp2';
+let S={lang:'en',saved:[],applied:[],posts:[],bookings:[],exp:[],name:'',crs:null};
+try{Object.assign(S,JSON.parse(localStorage.getItem(LS)||'{}'))}catch(e){}
+function save(){localStorage.setItem(LS,JSON.stringify(S))}
+const $=id=>document.getElementById(id);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* i18n extras */
+T.en.cdnWork="Canadian work (years)";T.pa.cdnWork="ਕੈਨੇਡਾ ਕੰਮ (ਸਾਲ)";T.hi.cdnWork="कनाडा कार्य (वर्ष)";
+T.en.forWork="Foreign work (years)";T.pa.forWork="ਵਿਦੇਸ਼ੀ ਕੰਮ (ਸਾਲ)";T.hi.forWork="विदेशी कार्य (वर्ष)";
+T.en.vStrong="Strong — well above typical cutoffs.";T.pa.vStrong="ਮਜ਼ਬੂਤ — ਆਮ ਕਟੌਫ਼ ਤੋਂ ਵੱਧ।";T.hi.vStrong="मज़बूत — सामान्य कटऑफ़ से ऊपर।";
+T.en.vMid="Competitive — near recent cutoff ranges.";T.pa.vMid="ਮੁਕਾਬਲੇਯੋਗ — ਹਾਲੀਆ ਕਟੌਫ਼ ਦੇ ਨੇੜੇ।";T.hi.vMid="प्रतिस्पर्धी — हालिया कटऑफ़ के पास।";
+T.en.vLow="Below typical cutoffs — consider PNP, better language scores, or more experience.";T.pa.vLow="ਆਮ ਕਟੌਫ਼ ਤੋਂ ਘੱਟ — PNP ਜਾਂ ਬਿਹਤਰ ਭਾਸ਼ਾ ਸਕੋਰ ਬਾਰੇ ਸੋਚੋ।";T.hi.vLow="सामान्य कटऑफ़ से नीचे — PNP या बेहतर भाषा स्कोर पर विचार करें।";
+T.en.cutNote="Recent Express Entry cutoffs have roughly ranged 490–540 (approximate — check IRCC for latest draws).";
+T.pa.cutNote="ਹਾਲੀਆ Express Entry ਕਟੌਫ਼ ਲਗਭਗ 490–540 ਰਹੇ ਹਨ (ਅੰਦਾਜ਼ਾ — ਤਾਜ਼ਾ ਜਾਣਕਾਰੀ ਲਈ IRCC ਦੇਖੋ)।";
+T.hi.cutNote="हालिया Express Entry कटऑफ़ लगभग 490–540 रहे हैं (अनुमान — ताज़ा जानकारी के लिए IRCC देखें)।";
+T.en.corePts="Core (age, education, language, work)";T.pa.corePts="ਮੁੱਖ (ਉਮਰ, ਸਿੱਖਿਆ, ਭਾਸ਼ਾ, ਕੰਮ)";T.hi.corePts="मुख्य (उम्र, शिक्षा, भाषा, कार्य)";
+T.en.spPts="Spouse factors";T.pa.spPts="ਜੀਵਨ ਸਾਥੀ";T.hi.spPts="जीवनसाथी";
+T.en.trPts="Skill transferability";T.pa.trPts="ਹੁਨਰ ਤਬਾਦਲਾ";T.hi.trPts="कौशल हस्तांतरण";
+T.en.adPts="Additional points";T.pa.adPts="ਵਾਧੂ ਅੰਕ";T.hi.adPts="अतिरिक्त अंक";
+T.en.total="Total";T.pa.total="ਕੁੱਲ";T.hi.total="कुल";
+function t(k){return (T[S.lang]&&T[S.lang][k])||T.en[k]||k}
+function applyI18n(){
+ document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n)});
+ document.querySelectorAll('[data-i18n-ph]').forEach(el=>{el.placeholder=t(el.dataset.i18nPh)});
+ $('profileLang').textContent=t('langName');
+}
+/* ================= TABS ================= */
+document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');$('tab-'+b.dataset.tab).classList.add('active');
+ window.scrollTo(0,0);document.querySelector('main').scrollTop=0;
+}));
+document.querySelectorAll('.lang-pill').forEach(p=>p.addEventListener('click',()=>{
+ document.querySelectorAll('.lang-pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');
+ S.lang=p.dataset.lang;save();applyI18n();renderAll();
+}));
+/* ================= JOBS ================= */
+let q='',shiftF='all',prOnly=false;
+function allJobs(){return JOBS.concat(S.posts)}
+function renderJobs(){
+ const list=allJobs().filter(j=>{
+  const s=(j.title+' '+j.company+' '+j.location).toLowerCase();
+  return (!q||s.includes(q))&&(!prOnly||j.pr)&&(shiftF==='all'||j.shift===shiftF);
+ });
+ $('jobList').innerHTML=list.length?list.map(j=>`
+  <div class="card job">
+   <div class="job-top"><div class="job-title">${esc(j.title)}</div></div>
+   <div class="job-meta">${esc(j.company)} · ${esc(j.location)} · ${esc(j.posted||'')}</div>
+   <div class="job-tags"><span class="tag pay">${esc(j.pay)}</span><span class="tag">${esc(j.shift)}</span><span class="tag">TEER ${j.teer}</span>${j.pr?`<span class="tag pr">${t('prTag')}</span>`:''}${j.employer?`<span class="tag employer">${t('empTag')}</span>`:''}</div>
+   <div class="job-desc">${esc(j.desc||'')}</div>
+   <div class="job-actions">
+    <button class="btn ${S.saved.includes(j.id)?'btn-ghost':'btn-outline'} btn-sm" onclick="toggleSave(${JSON.stringify(j.id)})">${S.saved.includes(j.id)?t('savedBtn'):t('save')}</button>
+    <button class="btn ${S.applied.includes(j.id)?'btn-ghost':'btn-primary'} btn-sm" ${S.applied.includes(j.id)?'disabled':''} onclick="openApply(${JSON.stringify(j.id)})">${S.applied.includes(j.id)?t('applied'):t('apply')}</button>
+   </div>
+   <button class="impact-toggle" onclick="toggleImpact('${j.id}')">📊 ${t('prImpact')}</button>
+   <div class="impact" id="impact-${j.id}" style="display:${impOpen(j.id)?'block':'none'}">${impOpen(j.id)?impactHTML(j):''}</div>
+  </div>`).join(''):`<p class="empty-state">${t('noJobs')}</p>`;
+}
+$('jobSearch').addEventListener('input',e=>{q=e.target.value.toLowerCase();renderJobs()});
+document.querySelectorAll('[data-shift]').forEach(c=>c.addEventListener('click',()=>{
+ document.querySelectorAll('[data-shift]').forEach(x=>x.classList.remove('active'));c.classList.add('active');
+ shiftF=c.dataset.shift;renderJobs();
+}));
+$('prFilter').addEventListener('click',()=>{prOnly=!prOnly;$('prFilter').classList.toggle('active',prOnly);renderJobs()});
+/* ============ PR IMPACT — per-job 1-year outlook ============
+   Shows what 1 year in a job + chosen IELTS/French could add to CRS.
+   Honest about TEER 4-5: no Express Entry work points. */
+const IMPACT={};
+function impState(id){const k=String(id);if(!IMPACT[k])IMPACT[k]={open:false,l:'6.0',r:'6.0',w:'6.0',s:'6.0',fr:'none'};return IMPACT[k]}
+function impOpen(id){return impState(id).open}
+function ieltsToClb(ab,b){b=+b;
+ if(ab==='L'){if(b>=8.5)return 10;if(b>=8.0)return 9;if(b>=7.5)return 8;if(b>=6.0)return 7;if(b>=5.5)return 6;if(b>=5.0)return 5;return 4}
+ if(ab==='R'){if(b>=8.0)return 10;if(b>=7.0)return 9;if(b>=6.5)return 8;if(b>=6.0)return 7;if(b>=5.0)return 6;if(b>=4.0)return 5;return 4}
+ if(ab==='W'){if(b>=7.5)return 10;if(b>=7.0)return 9;if(b>=6.5)return 8;if(b>=6.0)return 7;if(b>=5.5)return 6;if(b>=5.0)return 5;return 4}
+ if(b>=7.5)return 10;if(b>=7.0)return 9;if(b>=6.5)return 8;if(b>=6.0)return 7;if(b>=5.5)return 6;if(b>=5.0)return 5;return 4}
+const BANDS=['4.0','4.5','5.0','5.5','6.0','6.5','7.0','7.5','8.0','8.5','9.0'];
+function impactCalc(j,id){
+ const st=impState(id);
+ const cL=ieltsToClb('L',st.l),cR=ieltsToClb('R',st.r),cW=ieltsToClb('W',st.w),cS=ieltsToClb('S',st.s);
+ const ok=j.teer<=3;
+ const work=ok?cdnPts(1,false):0;
+ const lang=[cL,cR,cW,cS].reduce((a,c)=>a+clbPts(c,false),0);
+ const all7=[cL,cR,cW,cS].every(c=>c>=7);
+ const tr=all7?25:0;
+ let fr=0;
+ if(st.fr==='7'){const m=Math.min(cL,cR,cW,cS);fr=m>=5?50:(m>=4?25:0)}
+ return{cL,cR,cW,cS,ok,work,lang,tr,fr,all7,total:work+lang+tr+fr};
+}
+function impactResHTML(j,id){
+ const c=impactCalc(j,id);
+ return `
+  <div class="break-row"><span>${t('impactWork')}</span><b>+${c.work}</b></div>
+  <div class="break-row"><span>${t('impactLang')}</span><b>+${c.lang}</b></div>
+  <div class="break-row"><span>${t('impactTr')}</span><b>+${c.tr}</b></div>
+  <div class="break-row"><span>${t('impactFr')}</span><b>+${c.fr}</b></div>
+  <div class="impact-total"><span>${t('impactTotal')}</span><span class="num">~${c.total}</span></div>
+  ${c.tr?`<p class="hint">*${t('impactTrNote')}</p>`:''}
+  <p class="hint" style="margin-top:.4rem">${t('impactVerdict').replace('{n}',c.total)}</p>`;
+}
+function impactHTML(j){
+ const id=String(j.id),st=impState(id),c=impactCalc(j,id);
+ const opts=ab=>BANDS.map(b=>`<option value="${b}"${st[ab]===b?' selected':''}>${b}</option>`).join('');
+ const frBtn=(v,lbl)=>`<button class="fr-chip${st.fr===v?' active':''}" data-fr="${v}" onclick="setFr('${id}','${v}')">${lbl}</button>`;
+ return `
+  <h4>📊 ${t('impactTitle')}</h4>
+  <div class="impact-note${c.ok?'':' warn'}">${c.ok?t('impactTeerOk').replace('{n}',j.teer):t('impactTeerBad').replace('{n}',j.teer)}</div>
+  <div class="field"><label>${t('impactLang')}</label></div>
+  <div class="ielts-grid">
+   <div><div class="hint">${t('listening')}</div><select onchange="setBand('${id}','l',this.value)">${opts('l')}</select></div>
+   <div><div class="hint">${t('speaking')}</div><select onchange="setBand('${id}','s',this.value)">${opts('s')}</select></div>
+   <div><div class="hint">${t('reading')}</div><select onchange="setBand('${id}','r',this.value)">${opts('r')}</select></div>
+   <div><div class="hint">${t('writing')}</div><select onchange="setBand('${id}','w',this.value)">${opts('w')}</select></div>
+  </div>
+  <div class="field"><label>${t('impactFr')}</label></div>
+  <div class="fr-chips">${frBtn('none',t('frNone'))}${frBtn('56',t('fr56'))}${frBtn('7',t('fr7'))}</div>
+  <div id="impactRes-${id}">${impactResHTML(j,id)}</div>
+  <button class="btn btn-amber btn-block btn-sm" style="margin-top:.6rem" onclick="goFullScore('${id}')">${t('fullScore')}</button>
+  <p class="hint" style="margin-top:.4rem">${t('impactHint')}</p>`;
+}
+window.toggleImpact=id=>{const st=impState(id);st.open=!st.open;renderJobs()};
+window.setBand=(id,ab,v)=>{impState(id)[ab]=v;const j=allJobs().find(x=>String(x.id)===String(id));const r=$('impactRes-'+id);if(j&&r)r.innerHTML=impactResHTML(j,String(id))};
+window.setFr=(id,v)=>{impState(id).fr=v;const p=$('impact-'+id);if(p)p.querySelectorAll('.fr-chip').forEach(c=>c.classList.toggle('active',c.dataset.fr===v));const j=allJobs().find(x=>String(x.id)===String(id));const r=$('impactRes-'+id);if(j&&r)r.innerHTML=impactResHTML(j,String(id))};
+window.goFullScore=id=>{
+ const j=allJobs().find(x=>String(x.id)===String(id)),st=impState(id),c=impactCalc(j||{teer:5},id);
+ if(j&&j.teer<=3&&$('crsCdn'))$('crsCdn').value=1;
+ const m={l:'clbL',r:'clbR',w:'clbW',s:'clbS'};
+ ['l','r','w','s'].forEach(k=>{const sel=$(m[k]);if(sel)sel.value=c['c'+k.toUpperCase()]});
+ if($('crsFrench'))$('crsFrench').value=String(c.fr);
+ document.querySelector('.tab-btn[data-tab="pr"]').click();
+};
+window.toggleSave=id=>{S.saved=S.saved.includes(id)?S.saved.filter(x=>x!==id):[...S.saved,id];save();renderJobs();renderProfile()};
+/* Apply modal */
+let applyId=null;
+window.openApply=id=>{applyId=id;const j=allJobs().find(x=>x.id===id);$('applyJobName').textContent=j?j.title+' · '+j.company:'';$('applyForm').style.display='block';$('applySuccess').style.display='none';openM('applyModal')};
+function openM(id){$(id).classList.add('open')}$('applyCancel').onclick=()=>$('applyModal').classList.remove('open');
+$('applySubmit').onclick=()=>{if(!$('applyName').value.trim()){$('applyName').focus();return}
+ S.applied.push(applyId);save();$('applyForm').style.display='none';$('applySuccess').style.display='block';renderJobs();renderProfile()};
+$('applyDone').onclick=()=>$('applyModal').classList.remove('open');
+/* Post a job */
+$('postJobBtn').onclick=()=>openM('postModal');
+$('postCancel').onclick=()=>$('postModal').classList.remove('open');
+$('postSubmit').onclick=()=>{
+ const title=$('pjTitle').value.trim(),company=$('pjCompany').value.trim();
+ if(!title||!company){(!title?$('pjTitle'):$('pjCompany')).focus();return}
+ S.posts.unshift({id:'p'+Date.now(),title,company,pay:$('pjPay').value.trim()||'—',location:$('pjLoc').value.trim()||'GTA, ON',shift:$('pjShift').value,contact:$('pjContact').value.trim(),desc:$('pjDesc').value.trim(),teer:5,pr:false,employer:true,posted:'just now'});
+ ['pjTitle','pjCompany','pjPay','pjLoc','pjContact','pjDesc'].forEach(i=>$(i).value='');
+ save();$('postModal').classList.remove('open');renderJobs();renderProfile();
+};
+/* ================= PR SCORE ================= */
+/* inject work-year inputs into calculator */
+(function(){const d=document.createElement('div');d.innerHTML=`<div class="form-row"><div class="field"><label data-i18n="cdnWork"></label><input id="crsCdn" type="number" min="0" max="10" step="0.5" value="0"></div><div class="field"><label data-i18n="forWork"></label><input id="crsFor" type="number" min="0" max="10" step="0.5" value="0"></div></div>`;$('spouseBox').parentNode.insertBefore(d,$('spouseBox'));})();
+$('crsSpouse').addEventListener('change',e=>{$('spouseBox').style.display=e.target.value==='yes'?'block':'none'});
+function renderExp(){
+ $('expList').innerHTML=S.exp.length?S.exp.map((e,i)=>`<div class="exp-item"><span><b>${esc(e.title)}</b> · TEER ${e.teer} · ${e.years}y · ${e.where==='ca'?t('inCanada'):t('outside')}</span><button class="exp-del" onclick="delExp(${i})">✕</button></div>`).join(''):`<p class="empty-state">—</p>`;
+ const cdn=S.exp.filter(e=>e.where==='ca').reduce((a,e)=>a+ +e.years,0);
+ const fr=S.exp.filter(e=>e.where==='out').reduce((a,e)=>a+ +e.years,0);
+ $('expTotals').textContent=`${t('cdnWork')}: ${cdn}y · ${t('forWork')}: ${fr}y`;
+ if($('crsCdn')){$('crsCdn').value=cdn;$('crsFor').value=fr}
+}
+window.delExp=i=>{S.exp.splice(i,1);save();renderExp()};
+$('addExpBtn').onclick=()=>{
+ const title=$('expTitle').value.trim()||'—';
+ S.exp.push({title,teer:+$('expTeer').value,years:+$('expYears').value||0,where:$('expWhere').value});
+ $('expTitle').value='';save();renderExp();
+};
+/* CRS math (simplified, conservative) */
+function clbPts(c,sp){if(c<=4)return 0;if(c>=10)return sp?32:34;return (sp?{5:6,6:8,7:16,8:22,9:29}:{5:6,6:8,7:17,8:23,9:31})[c]}
+function agePts(a,sp){if(a<18||a>45)return 0;if(a<=35)return sp?100:110;const d=a-35;const s=sp?[95,90,84,78,72,66,61,55,50,45]:[105,99,94,88,83,77,72,67,62,55];return s[Math.min(d,10)-1]}
+function eduPts(e,sp){return (sp?[0,28,84,91,112,119,126,140]:[0,30,90,98,120,128,135,150])[e]}
+function cdnPts(y,sp){y=Math.min(5,Math.floor(y));return (sp?[0,35,46,56,63,70]:[0,40,53,64,72,80])[y]}
+$('calcBtn').onclick=()=>{
+ const sp=$('crsSpouse').value==='yes';
+ const age=+$('crsAge').value||0,edu=+$('crsEdu').value;
+ const clbs=[$('clbL').value,$('clbS').value,$('clbR').value,$('clbW').value].map(Number);
+ const cdn=+$('crsCdn').value||0,fr=+$('crsFor').value||0;
+ const lang1=clbs.reduce((a,c)=>a+clbPts(c,sp),0);
+ const lang2=$('crsLang2').checked?22:0;
+ const core=agePts(age,sp)+eduPts(edu,sp)+lang1+lang2+cdnPts(cdn,sp);
+ let spp=0;
+ if(sp){const se={0:0,1:2,4:8,6:10,7:10}[+$('crsSpEdu').value]||0;spp=se+($('crsSpLang').checked?5:0)+($('crsSpWork').checked?10:0)}
+ const all7=clbs.every(c=>c>=7),all9=clbs.every(c=>c>=9);
+ let tr=0;
+ if(all7&&edu>=3)tr+=25;else if(all9&&edu>=4)tr+=50;
+ if(fr>=3){if(all9)tr+=50;else if(all7)tr+=25}
+ if(cdn>=1&&fr>=3)tr+= (cdn>=3?50:25);
+ tr=Math.min(100,tr);
+ const add=($('crsPnp').checked?600:0)+ +$('crsOffer').value+ +$('crsStudy').value+($('crsSibling').checked?15:0)+ +$('crsFrench').value;
+ const total=core+spp+tr+add;
+ S.crs=total;save();
+ $('scoreHero').style.display='block';$('scoreNum').textContent=total;
+ $('scoreFill').style.width=Math.min(100,Math.round(total/600*100))+'%';
+ const v=total>=540?t('vStrong'):total>=490?t('vMid'):t('vLow');
+ $('scoreVerdict').textContent=v;
+ const vc=total>=540?'good':total>=490?'mid':'low';
+ $('breakdown').innerHTML=`
+  <div class="break-row"><span>${t('corePts')}</span><b>${core}</b></div>
+  <div class="break-row"><span>${t('spPts')}</span><b>${spp}</b></div>
+  <div class="break-row"><span>${t('trPts')}</span><b>${tr}</b></div>
+  <div class="break-row"><span>${t('adPts')}</span><b>${add}</b></div>
+  <div class="break-row"><span><b>${t('total')}</b></span><b>${total}</b></div>
+  <div class="verdict ${vc}">${v}<br><span style="font-size:.72rem">${t('cutNote')}</span></div>`;
+ $('scoreHero').scrollIntoView({behavior:'smooth',block:'center'});
+ renderProfile();
+};
+/* ================= KITS + AGENTS ================= */
+function kitAction(id){
+ const pay=CONFIG.PAYMENT_URLS[id];
+ if(pay){window.open(pay,'_blank');return}
+ if(id==="premium"){
+  if(CONFIG.WHATSAPP_NUMBER){openOrder();return}
+  if(CONFIG.PREMIUM_FORM_URL){window.open(CONFIG.PREMIUM_FORM_URL,'_blank');return}
+ }
+ alert('Online payments coming soon');
+}
+function renderKits(){
+ $('kitList').innerHTML=KITS.map(k=>`<div class="card kit${k.featured?' featured':''}">${k.badge?`<div class="kit-badge">${k.badge}</div>`:''}
+  <div style="display:flex;justify-content:space-between;align-items:center"><b>${k.name}</b><span class="kit-price">$${k.price}</span></div>
+  <p class="section-sub" style="margin:.3rem 0">${k.desc}</p><ul>${k.features.map(f=>`<li>${f}</li>`).join('')}</ul>
+  <button class="btn ${k.featured?'btn-amber':'btn-outline'} btn-block btn-sm" onclick="kitAction('${k.id}')">${t('getKit')} — $${k.price}</button></div>`).join('');
+ $('agentList').innerHTML=AGENTS.map(a=>`<div class="card"><div class="agent">
+  <div class="avatar">${a.name.split(' ').map(w=>w[0]).join('')}</div>
+  <div class="agent-info"><div class="agent-name">${a.name} <span class="tag">${a.tag}</span></div>
+  <div class="agent-sub">${a.langs} · <span class="stars">★ ${a.rating}</span></div>
+  <div class="agent-sub">${a.bio}</div></div></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.6rem">
+   <b>$${a.price}<span style="font-weight:400;font-size:.75rem">${t('perSession')}</span></b>
+   <button class="btn btn-primary btn-sm" onclick="openBook('${a.id}')">${t('bookNow')}</button></div></div>`).join('');
+}
+let bookId=null;
+window.openBook=id=>{bookId=id;const a=AGENTS.find(x=>x.id===id);$('bookAgentName').textContent=a.name+' — $'+a.price+t('perSession');$('bookForm').style.display='block';$('bookSuccess').style.display='none';openM('bookModal')};
+$('bookCancel').onclick=()=>$('bookModal').classList.remove('open');
+$('bookSubmit').onclick=()=>{if(!$('bookName').value.trim()){$('bookName').focus();return}
+ const a=AGENTS.find(x=>x.id===bookId);S.bookings.unshift({agent:a.name,price:a.price,when:new Date().toLocaleDateString()});save();
+ $('bookForm').style.display='none';$('bookSuccess').style.display='block';renderProfile()};
+$('bookDone').onclick=()=>$('bookModal').classList.remove('open');
+/* ================= PREMIUM KIT ORDER (WhatsApp flow) ================= */
+function openOrder(){$('orderForm').style.display='block';$('orderSuccess').style.display='none';openM('orderModal')}
+$('orderCancel').onclick=()=>$('orderModal').classList.remove('open');
+$('orderSubmit').onclick=()=>{
+ const name=$('orderName').value.trim(),phone=$('orderPhone').value.trim();
+ if(!name){$('orderName').focus();return}
+ const msg="New Premium Kit order ($49)%0A"
+  +"Name: "+encodeURIComponent(name)+"%0A"
+  +"Email: "+encodeURIComponent($('orderEmail').value.trim())+"%0A"
+  +"Phone: "+encodeURIComponent(phone)+"%0A"
+  +"Target job: "+encodeURIComponent($('orderJob').value.trim())+"%0A"
+  +"NOC: "+encodeURIComponent($('orderNoc').value.trim()||"-")+"%0A"
+  +"Notes: "+encodeURIComponent($('orderNotes').value.trim()||"-")+"%0A"
+  +"%0A(Resume to follow as attachment)";
+ window.open("https://wa.me/"+CONFIG.WHATSAPP_NUMBER+"?text="+msg,'_blank');
+ $('orderForm').style.display='none';$('orderSuccess').style.display='block';
+};
+$('orderDone').onclick=()=>$('orderModal').classList.remove('open');
+/* ================= PROFILE ================= */
+function renderProfile(){
+ $('profileName').value=S.name||'';
+ $('savedCount').textContent=S.saved.length;$('appliedCount').textContent=S.applied.length;
+ $('postedCount').textContent=S.posts.length;$('bookedCount').textContent=S.bookings.length;
+ $('crsSaved').textContent=S.crs==null?'—':S.crs;
+ const jn=id=>{const j=allJobs().find(x=>String(x.id)===String(id));return j?j.title:'—'};
+ $('savedJobsList').innerHTML=S.saved.length?S.saved.map(id=>`<div class="exp-item"><span>${esc(jn(id))}</span><button class="exp-del" onclick="toggleSave(${JSON.stringify(id)})">✕</button></div>`).join(''):`<p class="empty-state">${t('noSaved')}</p>`;
+ $('appsList').innerHTML=S.applied.length?S.applied.map(id=>`<div class="exp-item"><span>${esc(jn(id))}</span></div>`).join(''):`<p class="empty-state">${t('noApps')}</p>`;
+ $('postsList').innerHTML=S.posts.length?S.posts.map(p=>`<div class="exp-item"><span><b>${esc(p.title)}</b> · ${esc(p.company)}</span><button class="exp-del" onclick="delPost('${p.id}')">✕</button></div>`).join(''):`<p class="empty-state">${t('noPosts')}</p>`;
+ $('bookingsList').innerHTML=S.bookings.length?S.bookings.map(b=>`<div class="exp-item"><span><b>${esc(b.agent)}</b> · $${b.price} · ${esc(b.when)}</span></div>`).join(''):`<p class="empty-state">${t('noBookings')}</p>`;
+}
+window.delPost=id=>{S.posts=S.posts.filter(p=>p.id!==id);save();renderJobs();renderProfile()};
+$('profileName').addEventListener('change',e=>{S.name=e.target.value;save()});
+/* ================= CHAT ================= */
+function openChat(){$('chatSheet').classList.add('open');$('backdrop').classList.add('open')}
+function closeChat(){$('chatSheet').classList.remove('open');$('backdrop').classList.remove('open')}
+$('chatFab').onclick=openChat;$('chatClose').onclick=closeChat;$('backdrop').onclick=closeChat;
+function addMsg(txt,who){const d=document.createElement('div');d.className='msg '+who;d.textContent=txt;$('chatLog').appendChild(d);$('chatLog').scrollTop=1e6}
+function brain(q0){
+ const ql=q0.toLowerCase();
+ for(const b of BRAIN){if(b.k.some(k=>ql.includes(k)))return b.a[S.lang]||b.a.en}
+ return {en:"Good question — try the PR Score tab for CRS estimates or the Jobs tab for openings. Small steps every day move you forward. For legal advice, please consult an RCIC.",pa:"ਚੰਗਾ ਸਵਾਲ — CRS ਲਈ PR Score ਟੈਬ, ਨੌਕਰੀਆਂ ਲਈ Jobs ਟੈਬ ਦੇਖੋ। ਰੋਜ਼ ਦੇ ਛੋਟੇ ਕਦਮ ਤੁਹਾਨੂੰ ਅੱਗੇ ਲੈ ਜਾਂਦੇ ਹਨ। ਕਾਨੂੰਨੀ ਸਲਾਹ ਲਈ RCIC ਨਾਲ ਸੰਪਰਕ ਕਰੋ।",hi:"अच्छा सवाल — CRS के लिए PR Score टैब, नौकरियों के लिए Jobs टैब देखें। रोज़ के छोटे कदम आपको आगे ले जाते हैं।"}[S.lang];
+}
+function sendChat(){
+ const v=$('chatInput').value.trim();if(!v)return;
+ addMsg(v,'user');$('chatInput').value='';
+ const tp=document.createElement('div');tp.className='msg bot';tp.textContent='…';$('chatLog').appendChild(tp);
+ setTimeout(()=>{tp.textContent=brain(v);$('chatLog').scrollTop=1e6},600);
+}
+$('chatSend').onclick=sendChat;
+$('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendChat()});
+/* Wisdom woven into design — rotating daily quote, trilingual */
+function renderWisdom(){
+ const day=Math.floor(Date.now()/864e5),w=QUOTES[day%QUOTES.length];
+ document.querySelectorAll('[data-wisdom]').forEach(el=>{el.textContent='\u201C'+(w.q[S.lang]||w.q.en)+'\u201D \u2014 '+w.a});
+}
+/* ================= INIT ================= */
+function renderAll(){renderJobs();renderExp();renderKits();renderProfile();renderWisdom();
+ $('quickRow').innerHTML=QUICK.map(qq=>`<button class="chip" onclick="document.getElementById('chatInput').value='${qq}';sendChat()">${qq}</button>`).join('');
+ if(!$('chatLog').children.length)addMsg(brain('hello'),'bot');
+}
+document.querySelectorAll('.lang-pill').forEach(p=>p.classList.toggle('active',p.dataset.lang===S.lang));
+applyI18n();renderAll();
+</script>
+</body>
+</html>
