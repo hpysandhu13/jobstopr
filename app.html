@@ -468,17 +468,13 @@ main{flex:1;overflow-y:auto;padding:1rem 1rem calc(var(--tabbar-h) + env(safe-ar
 <script src="jobs.js"></script>
 <script>
 /* ================= CONFIG — paste your links here =================
-   WHATSAPP_NUMBER: your WhatsApp number, stored obfuscated (base64) so it
-   is NOT visible in plain text in the page source. To change it: take your
-   number in international format without "+" or spaces (e.g. 14165551234),
-   base64-encode it, and replace the value of _WA below.
    PREMIUM_FORM_URL: alternatively, a Tally form URL for Premium Kit orders
-   (e.g. "https://tally.so/r/XXXXXX"). Only used if WHATSAPP_NUMBER is empty.
-   PAYMENT_URLS: paste Stripe/Gumroad payment links per kit id when ready. */
-const _WA="MTI4OTgyMzMxNjM="; /* owner's number, decoded at runtime only */
-function waNumber(){try{return atob(_WA)}catch(e){return ""}}
+   (e.g. "https://tally.so/r/XXXXXX").
+   PAYMENT_URLS: paste Stripe/Gumroad payment links per kit id when ready.
+   NOTE (Oct 10, 2026): the old WhatsApp-number config was removed — orders
+   go through the in-site form (FormSubmit) and the number is not referenced
+   anywhere in the UI. */
 const CONFIG={
- WHATSAPP_NUMBER:waNumber(),
  PREMIUM_FORM_URL:"",
  PAYMENT_URLS:{mini:"",starter:"",premium:"",call:""}
 };
